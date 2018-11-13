@@ -11,7 +11,6 @@ class Api::UsersController < ApplicationController
   end
 
   def destroy
-    logout
     User.destroy(params[:id])
   end
 

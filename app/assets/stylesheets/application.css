@@ -305,3 +305,51 @@ text-align: center;
 .log-in-link:hover {
   color: #1ED760;
 }
+
+.link-subtle {
+  color: #b3b3b3;
+  text-decoration: none;
+  display: flex;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.navBar {
+  background-color: rgba(0,0,0,.8);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 24px 24px 5px;
+  position: fixed;
+}
+
+.navBar-header-logo-text {
+  color: #FFF;
+  padding-top: 12px;
+  font-size: 20px;
+}
+
+.navBar-item {
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: .015em;
+  padding: 3px 0;
+}
+
+.navBar-header {
+  display: flex;
+  padding-bottom: 15px;
+}
+
+.navBar-header img {
+  width: 40px;
+  height: 40px;
+  margin-right: 7px;
+}
+
+.nav-text {
+  margin-left: 12px;
+  padding-top: 2px;
+  font-weight: 700;
+  font-size: 15.5px;
+}

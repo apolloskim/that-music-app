@@ -43,5 +43,8 @@
   "bugs": {
     "url": "https://github.com/apolloskim/that-music-app/issues"
   },
-  "homepage": "https://github.com/apolloskim/that-music-app#readme"
+  "homepage": "https://github.com/apolloskim/that-music-app#readme",
+  "devDependencies": {
+    "babel-plugin-react-html-attrs": "^2.1.0"
+  }
 }

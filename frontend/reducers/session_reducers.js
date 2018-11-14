@@ -14,7 +14,7 @@ const sessionReducers = (state = defaultState, action) => {
       return merge({}, state, {currentUserId: action.user.id});
     case LOGOUT_CURRENT_USER:
       let newState = merge({}, state);
-      newState[currentUserId] = null;
+      newState.currentUserId = null;
       return newState;
     default:
       return state;

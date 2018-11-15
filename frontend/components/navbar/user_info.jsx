@@ -6,7 +6,6 @@ const UserInfo = (props) => {
   const logged_or_not = (
     <div>
       <h1 className="session-name">{props.currentUser.username}</h1>
-      <button onClick={props.logout}>logout</button>
     </div>
   );
 

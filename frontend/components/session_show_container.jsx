@@ -7,7 +7,8 @@ import SessionShow from './session_show';
 const msp = state => {
   let currentUserId = state.session.currentUserId;
   return {
-    currentUser: state.entities.users[currentUserId]
+    currentUser: state.entities.users[currentUserId],
+    loggedIn: Boolean(currentUserId)
   };
 };
 

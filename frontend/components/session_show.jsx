@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './navbar/navbar';
 
 const SessionShow = (props) => {
+
   return (
     <div className="session-show-container">
       <Navbar />

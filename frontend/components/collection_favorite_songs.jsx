@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from './navbar/navbar';
 import CollectionPlaylistsHeader from './collection_playlists_header';
 
-export default class CollectionPlaylists extends React.Component {
+export default class CollectionFavoriteSongs extends React.Component {
 
   constructor(props) {
     super(props);
@@ -10,7 +10,7 @@ export default class CollectionPlaylists extends React.Component {
 
   render() {
     return (
-      <div className="collection-playlists-container">
+      <div className="collection-favorite-songs-container">
         <Navbar />
         <CollectionPlaylistsHeader />
       </div>

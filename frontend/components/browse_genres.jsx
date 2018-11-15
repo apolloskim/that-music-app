@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
 
-class BrowsePlaylists extends React.Component {
+class BrowseGenres extends React.Component {
 
   constructor(props) {
     super(props);
@@ -10,7 +10,7 @@ class BrowsePlaylists extends React.Component {
 
   render() {
     return (
-      <div className="browse-featured-container">
+      <div className="browse-genres-container">
         <Navbar />
         <BrowseNavHeader />
       </div>
@@ -18,4 +18,4 @@ class BrowsePlaylists extends React.Component {
   }
 }
 
-export default BrowsePlaylists;
+export default BrowseGenres;

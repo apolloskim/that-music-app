@@ -385,6 +385,7 @@ text-align: center;
 
 .link-subtle:hover {
   color: white;
+  -webkit-transition:color 0.1s ease-in;
 }
 
 .navBar {
@@ -438,8 +439,38 @@ text-align: center;
   height: 1000px;
 }
 
+.browse-genres-container {
+  background-image: linear-gradient(rgb(39, 37, 39), rgb(8, 7, 8) 85%);
+  width: 100%;
+  height: 1000px;
+}
+
+.browse-newreleases-container {
+  background-image: linear-gradient(rgb(52, 45, 78), rgb(6, 6, 10) 85%);
+  width: 100%;
+  height: 1000px;
+}
+
 .collection-playlists-container {
   background-image: linear-gradient(rgb(18, 18, 18), rgb(8, 8, 8) 85%);
+  width: 100%;
+  height: 1000px;
+}
+
+.collection-favorite-songs-container {
+  background-image: linear-gradient(rgb(43, 65, 110), rgb(4, 6, 11) 85%);
+  width: 100%;
+  height: 1000px;
+}
+
+.collection-albums-container {
+  background-image: linear-gradient(rgb(104, 49, 56), rgb(10, 5, 6) 85%);
+  width: 100%;
+  height: 1000px;
+}
+
+.collection-artists-container {
+  background-image: linear-gradient(rgb(52, 52, 52), rgb(8, 8, 8) 85%);
   width: 100%;
   height: 1000px;
 }
@@ -509,4 +540,50 @@ text-align: center;
   letter-spacing: -.005em;
   margin: 24px 0;
   font-weight: 600;
+}
+
+.active-feature-nav-header-container {
+  width: 100%;
+  padding: 17px 70px;
+}
+
+.active-feature-nav-header-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  list-style: none;
+  margin: 10px;
+}
+
+.active-feature-nav-header-list li {
+  padding: 7px 30px;
+}
+
+.feature-nav-header-link {
+  color: #b3b3b3;
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  text-decoration: none;
+}
+
+.feature-nav-header-link:hover {
+  color: #FFF;
+  -webkit-transition:color 0.1s ease-in;
+}
+
+.active {
+  color: white;
+  /* border-bottom: 2px solid #1db954;
+  padding-bottom: 5px; */
+}
+
+.active::after {
+  content: "";
+  display:block;
+  margin: 0 auto;
+  width: 30px;
+  padding-top: 4px;
+  border-bottom: 2px solid #1db954;
 }

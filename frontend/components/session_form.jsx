@@ -37,6 +37,7 @@ class SessionForm extends React.Component {
 
   render() {
     let formInvite;
+    let demoLogin;
     if (this.props.formType === "log in") {
       formInvite = (
         <div>
@@ -47,6 +48,10 @@ class SessionForm extends React.Component {
           </div>
         </div>
       );
+
+      demoLogin = (
+        <h2 id="demoLogin-text">Log in with your username</h2>
+      );
     } else {
       formInvite = (
         <p className="login-invite">
@@ -54,19 +59,33 @@ class SessionForm extends React.Component {
           <Link to='/login' className="log-in-link">Log In</Link>
         </p>
       );
+
+      demoLogin = (
+        <h2 id="demoLogin-text">Sign up with your username</h2>
+      );
     }
 
     return(
       <div className="session-container">
-          <Link exact='true' to='/' className="link-session-logo">
-            <div className="session-logo">
-                <img className="session-picture-logo" src={window.spotifyBlack} />
-                <div className="form-logo">
-                  That Music App
-              </div>
+        <Link exact='true' to='/' className="link-session-logo">
+          <div className="session-logo">
+              <img className="session-picture-logo" src={window.spotifyBlack} />
+              <div className="form-logo">
+                That Music App
             </div>
-          </Link>
+          </div>
+        </Link>
+
+
         <form className="session-form" onSubmit={this.handleSubmit}>
+
+          <section className="demo-login-container">
+            <button className="demo-login-button">log in as a demo user</button>
+            <strong className="or">or</strong>
+          </section>
+
+          {demoLogin}
+
           <ul>
             <li className={`form-list ${this.props.errors.length > 0 ? 'has-errors' : ""}`}>
               <input type="text"

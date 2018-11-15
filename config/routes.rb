@@ -7,5 +7,5 @@ Rails.application.routes.draw do
     resources :users, only: [:create, :destroy]
     resource :session, only: [:create, :destroy]
   end
-
+  resources :songs, only: [:show]
 end

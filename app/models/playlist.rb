@@ -24,4 +24,5 @@ class Playlist < ApplicationRecord
   has_many :songs,
   through: :playlistsongs,
   source: :song
+
 end

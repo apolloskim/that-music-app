@@ -1,6 +1,7 @@
-<h1> <%= @song.title %> </h1>
-
-<audio controls>
-  <source src="<%= url_for(@song.song_file) %>" type="audio/mpeg"/>
-</audio>
-<img src="<%= url_for(@song.image) %>" />
+<div style="display: flex; flex-direction: column; align-items: center; padding: 70px 70px 70px 70px; ">
+  <h1 style="padding: 20px 20px; font-family: helvetica; font-size: 18px; letter-spacing: .5px; "> <%= @song.title %> </h1>
+  <img src="<%= @song.image.attached? ? url_for(@song.image) : '' %>" style="height: 200px; width: 200px; padding: 30px;" />
+  <audio controls>
+    <source src="<%= url_for(@song.song_file) %>" type="audio/mpeg"/>
+  </audio>
+<div>

@@ -16,8 +16,7 @@ class Album < ApplicationRecord
 
   has_many :songs
 
-  belongs_to :artist,
-  foreign_key: :artist_id,
-  class_name: :User
+  belongs_to :artist
+  has_one_attached :image
 
 end

@@ -4,7 +4,7 @@ import {HashRouter, Route} from 'react-router-dom';
 import App from './App';
 import SignupFormContainer from './signup_form_container';
 import LoginFormContainer from './login_form_container';
-import BrowsePlaylists from './browse_featured';
+import BrowseFeaturedContainer from './browse_featured_container';
 import BrowseGenres from './browse_genres';
 import BrowseNewReleases from './browse_newreleases';
 import CollectionPlaylists from './collection_playlists';
@@ -24,7 +24,7 @@ const Root = ({store}) => {
           <AuthRoute exact path="/" component={App} />
           <AuthRoute exact path='/signup' component={SignupFormContainer} />
           <AuthRoute exact path='/login' component={LoginFormContainer} />
-          <ProtectedRoute exact path='/browse/featured' component={BrowsePlaylists} />
+          <ProtectedRoute exact path='/browse/featured' component={BrowseFeaturedContainer} />
           <ProtectedRoute exact path='/browse/genres' component={BrowseGenres} />
           <ProtectedRoute exact path='/browse/newreleases' component={BrowseNewReleases} />
           <ProtectedRoute exact path='/collection/playlists' component={CollectionPlaylists} />

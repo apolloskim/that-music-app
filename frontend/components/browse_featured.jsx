@@ -8,11 +8,27 @@ class BrowsePlaylists extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.props.fetchPlaylists();
+  }
+
   render() {
+    let renderPlaylists;
+    if (this.props.playlists) {
+      renderPlaylists = (
+        Object.values(this.props.playlists).map( ( playlist, idx ) => {
+          return <li key={idx}><img src={playlist.imageUrl} /></li>;
+        }
+      ));
+    };
+
     return (
       <div className="browse-featured-container">
         <Navbar />
         <BrowseNavHeader />
+        <ul>
+          {renderPlaylists}
+        </ul>
       </div>
     );
   }

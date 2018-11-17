@@ -6,8 +6,7 @@ class Api::PlaylistsController < ApplicationController
 
   def show
     @playlist = Playlist.find(params[:id])
-    @playlist_song_ids = @playlist.songs.includes(:id).map { |song| song.id }
-    @follower_ids = @playlist.followers.includes(:id).map { |follower| follower.id }
+    @playlist_song_ids = @playlist.songs.map { |song| song.id }
   end
 
   def update

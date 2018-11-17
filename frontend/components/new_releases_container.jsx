@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchPlaylists } from '../actions/playlist_actions';
-import BrowsePlaylists from './browse_featured';
+import NewReleases from './new_releases';
 
 const mapStateToProps = state => {
   return {
@@ -15,4 +15,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BrowsePlaylists);
+export default connect(mapStateToProps, mapDispatchToProps)(NewReleases);

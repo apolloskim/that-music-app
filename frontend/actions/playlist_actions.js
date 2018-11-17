@@ -9,7 +9,7 @@ export const fetchPlaylists = () => dispatch => {
 };
 
 export const fetchPlaylist = id => dispatch => {
-  return PlaylistApiUtil.fetchPlaylist(id).then( playlist => dipatch(receivePlaylist(playlist)))
+  return PlaylistApiUtil.fetchPlaylist(id).then( playlist => dispatch(receivePlaylist(playlist)))
 };
 
 
@@ -34,10 +34,11 @@ export const receivePlaylists = (playlists) => {
   };
 };
 
-export const receivePlaylist = (playlist) => {
+export const receivePlaylist = ({playlist, songs}) => {
   return {
     type: RECEIVE_PLAYLIST,
-    playlist
+    playlist,
+    songs
   };
 };
 

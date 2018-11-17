@@ -24,11 +24,11 @@ p_7.image.attach(io: File.open("/Users/apollos/Downloads/Rap Caviar - Cover.jpg"
 p_8.image.attach(io: File.open("/Users/apollos/Downloads/Rap Caviar - Cover.jpg"), filename: "Rap Caviar - Cover.jpg")
 p_9.image.attach(io: File.open("/Users/apollos/Downloads/Rap Caviar - Cover.jpg"), filename: "Rap Caviar - Cover.jpg")
 
-p_2.create!
-p_3.create!
-p_4.create!
-p_5.create!
-p_6.create!
-p_7.create!
-p_8.create!
-p_9.create!
+p_2.save!
+p_3.save!
+p_4.save!
+p_5.save!
+p_6.save!
+p_7.save!
+p_8.save!
+p_9.save!

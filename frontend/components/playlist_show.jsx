@@ -30,9 +30,40 @@ export default class PlaylistShow extends React.Component {
           <div className="playlist-content-spacing" >
             <section className="content-playlist">
               <div className="cover-art-show">
-                <img className="playlist-cover-img" src={this.props.playlist ? this.props.playlist.imageUrl : ""} />
+                <div>
+                  <div className="track-list-header" >
+                    <div className="track-list-img-title">
+                      <div className="wrapper">
+                        <img className="playlist-cover-img" src={this.props.playlist ? this.props.playlist.imageUrl : ""} />
+                      </div>
+                      <div className="playlist-title-wrapper">
+                        <div className="playlist-title">
+                          <span>{this.props.playlist ? this.props.playlist.title : ""}</span>
+                        </div>
+                      </div>
+                      <div className="spotify-small-text">
+                        <span>spotify</span>
+                      </div>
+                    </div>
+                    <div className="track-list-header-play-button-top">
+                      <button className="track-list-header-play-button">PLAY</button>
+                    </div>
+                    <div className="track-list-header-body">
+                      <p className="track-list-count">{`${this.props.playlist ? this.props.playlist.songCount : ""} songs`}</p>
+                      <div className="track-list-header-body-children">
+                        <div className="track-list-header-body-extra-buttons">
+                          <button className="track-list-header-body-extra-buttons-body">
+                            <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
+                          </button>
+                          <button className="track-list-header-body-extra-buttons-body">
+                            <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              // {renderSongs}
             </section>
           </div>
         </div>

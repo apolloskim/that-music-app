@@ -1,4 +1,4 @@
-import {RECEIVE_PLAYLIST_ERRORS, RECEIVE_PLAYLISTS, RECEIVE_PLAYLIST} from '../actions/session_actions';
+import {RECEIVE_PLAYLIST_ERRORS, RECEIVE_PLAYLISTS, RECEIVE_PLAYLIST} from '../actions/playlist_actions';
 import {merge} from 'lodash';
 
 const playlistErrorsReducer = (state = [], action) => {

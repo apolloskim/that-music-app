@@ -3,6 +3,7 @@ json.playlist do
   json.title @playlist.title
   json.creator_id @playlist.creator_id
   json.playlistSongIds @playlist_song_ids
+  json.songCount @playlist_song_ids.size
   json.imageUrl url_for(@playlist.image)
 end
 

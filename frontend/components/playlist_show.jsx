@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
 import {Link} from 'react-router-dom';
+import Playbar from './playbar';
 
 export default class PlaylistShow extends React.Component {
   constructor(props) {
@@ -83,7 +84,9 @@ export default class PlaylistShow extends React.Component {
             </div>
             {this.state.idxMouseOver === idx ? renderMore : ""}
             <div className="track-list-duration">
-              
+              <div className="track-list-duration-margin-top">
+                <span>2:45</span>
+              </div>
             </div>
           </li>
         );
@@ -91,57 +94,60 @@ export default class PlaylistShow extends React.Component {
     }
 
     return (
-      <div className="playlist-show-container">
-        <Navbar />
-        <div className="playlist-show-main-content" >
-          <div className="playlist-content-spacing" >
-            <section className="content-playlist">
-              <div className="cover-art-show">
-                <div>
-                  <div className="track-list-header" >
-                    <div className="track-list-img-title">
-                      <div className="wrapper">
-                        <img className="playlist-cover-img" src={this.props.playlist ? this.props.playlist.imageUrl : ""} />
-                      </div>
-                      <div className="playlist-title-wrapper">
-                        <div className="playlist-title">
-                          <span>{this.props.playlist ? this.props.playlist.title : ""}</span>
+      <>
+        <div className="playlist-show-container">
+          <Navbar />
+          <div className="playlist-show-main-content" >
+            <div className="playlist-content-spacing" >
+              <section className="content-playlist">
+                <div className="cover-art-show">
+                  <div>
+                    <div className="track-list-header" >
+                      <div className="track-list-img-title">
+                        <div className="wrapper">
+                          <img className="playlist-cover-img" src={this.props.playlist ? this.props.playlist.imageUrl : ""} />
+                        </div>
+                        <div className="playlist-title-wrapper">
+                          <div className="playlist-title">
+                            <span>{this.props.playlist ? this.props.playlist.title : ""}</span>
+                          </div>
+                        </div>
+                        <div className="spotify-small-text">
+                          <span>spotify</span>
                         </div>
                       </div>
-                      <div className="spotify-small-text">
-                        <span>spotify</span>
+                      <div className="track-list-header-play-button-top">
+                        <button className="track-list-header-play-button">PLAY</button>
                       </div>
-                    </div>
-                    <div className="track-list-header-play-button-top">
-                      <button className="track-list-header-play-button">PLAY</button>
-                    </div>
-                    <div className="track-list-header-body">
-                      <p className="track-list-count">{`${this.props.playlist ? this.props.playlist.songCount : ""} songs`}</p>
-                      <div className="track-list-header-body-children">
-                        <div className="track-list-header-body-extra-buttons">
-                          <button className="track-list-header-body-extra-buttons-body">
-                            <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
-                          </button>
-                          <button className="track-list-header-body-extra-buttons-body">
-                            <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
-                          </button>
+                      <div className="track-list-header-body">
+                        <p className="track-list-count">{`${this.props.playlist ? this.props.playlist.songCount : ""} songs`}</p>
+                        <div className="track-list-header-body-children">
+                          <div className="track-list-header-body-extra-buttons">
+                            <button className="track-list-header-body-heart-buttons-body">
+                              <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
+                            </button>
+                            <button className="track-list-header-body-three-dots-buttons-body">
+                              <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="playlist-song-lists">
-                <section className="track-list-container">
-                  <ol className="track-list">
-                    {renderSongs}
-                  </ol>
-                </section>
-              </div>
-            </section>
+                <div className="playlist-song-lists">
+                  <section className="track-list-container">
+                    <ol className="track-list">
+                      {renderSongs}
+                    </ol>
+                  </section>
+                </div>
+              </section>
+            </div>
           </div>
         </div>
-      </div>
+        <Playbar />
+      </>
     );
   }
 }

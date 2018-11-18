@@ -1,24 +1,91 @@
 import React from 'react';
 import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
+import {Link} from 'react-router-dom';
 
 export default class PlaylistShow extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {mouseOver: false, idxMouseOver: null};
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchPlaylist(this.props.playlistId);
   }
 
+  handleMouseEnter(idx) {
+    return () => {
+      this.setState({mouseOver: true, idxMouseOver: idx});
+    }
+  }
+
+  handleMouseLeave() {
+    this.setState({mouseOver: false, idxMouseOver: null});
+  }
+
   render() {
+    const renderNote = (
+      <div className="music-note-icon-padding">
+        <div className="music-note-icon-center">
+          <div className="music-note-icon-margin">
+            <img className="music-note-icon" src={window.musicNoteIcon} />
+          </div>
+        </div>
+      </div>
+    );
+
+    let renderMore;
+    let renderPlay;
+    if(this.state.mouseOver) {
+      renderMore = (
+        <div className="track-list-more">
+          <div className="track-list-more-margin-top">
+            <button className="track-list-more-button">
+              <img className="track-list-row-body-dots-icon" src={window.threeDotsIcon}/>
+            </button>
+          </div>
+        </div>
+      );
+
+      renderPlay = (
+        <div className="music-note-icon-padding">
+          <div className="music-note-icon-center">
+            <div className="music-note-icon-margin">
+              <img className="music-note-icon" src={window.musicPlayIcon} />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+
     let renderSongs;
     if (this.props.songs) {
       renderSongs = Object.values(this.props.songs).map( (song, idx) => {
         return (
-          <div key={idx}>
-            <h1>{ song.title }</h1>
-          </div>
+          <li key={idx} className="track-list-row" onMouseEnter={this.handleMouseEnter(idx)} onMouseLeave={this.handleMouseLeave.bind(this)}>
+            {this.state.idxMouseOver === idx ? renderPlay : renderNote}
+            <div className="track-list-column">
+              <div className="track-list-column-margin">
+                <div className="track-list-name">{song.title}</div>
+                <div className="track-list-name-second-line">
+                  <span className="explicit-label">explicit</span>
+                  <span>
+                    <Link className="track-list-link" to="">{song.artist}</Link>
+                  </span>
+                  <span className="track-list-row-dot">•</span>
+                  <span>
+                    <Link className="track-list-link" to="">{song.album}</Link>
+                  </span>
+                </div>
+              </div>
+            </div>
+            {this.state.idxMouseOver === idx ? renderMore : ""}
+            <div className="track-list-duration">
+              
+            </div>
+          </li>
         );
       });
     }
@@ -63,6 +130,13 @@ export default class PlaylistShow extends React.Component {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="playlist-song-lists">
+                <section className="track-list-container">
+                  <ol className="track-list">
+                    {renderSongs}
+                  </ol>
+                </section>
               </div>
             </section>
           </div>

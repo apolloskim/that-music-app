@@ -12,7 +12,8 @@ json.songs do
     json.set! song.id do
       json.id song.id
       json.title song.title
-      json.albumId song.album_id
+      json.album song.album.title
+      json.artist song.artist.name
       json.songUrl url_for(song.song_file)
     end
   end

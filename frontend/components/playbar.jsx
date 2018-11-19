@@ -11,28 +11,67 @@ export default class Playbar extends React.Component {
       mousePlayOver: false,
       mouseNextOver: false,
       mouseRepeatOver: false,
-      mouseQueueOver: false
+      mouseQueueOver: false,
+      playing: props.playing,
+      pause: props.pause
     }
     this.handleMouseOver = this.handleMouseOver.bind(this);
-    // this.audio = new Audio(this.props.currentSong ? this.props.currentSong.songUrl : "");
+    this.audio = document.createElement('audio');
+    this.handleClick = this.handleClick.bind(this);
+    this.audio.src = this.props.currentSong.song.songUrl;
   }
 
   handleMouseOver(field) {
     return () => this.setState({[field]: !this.state[field]});
   }
 
+  handleClick() {
+    if(this.state.pause) {
+      this.audio.play();
+      this.onPlaying();
+    } else if (this.state.playing) {
+      this.audio.pause();
+      this.onPause();
+    }
+  }
+
+  onPlaying() {
+    this.setState({playing: true, pause: false});
+  }
+
+  onPause() {
+    this.setState({playing: false, pause: true});
+  }
+
+  // playAudio() {
+  //   if(pause) {
+  //     this.audio.play();
+  //     this.onPlaying();
+  //   }
+  // }
+  //
+  // pauseAudio() {
+  //   if(playing) {
+  //     this.audio.pause();
+  //     this.onPause();
+  //   }
+  // }
+
   componentDidUpdate() {
 
   }
 
   render() {
+    // debugger
     let albumCover;
-    albumCover = this.props.currentSong.song ? this.props.currentSong.song.imageUrl : " "
+    albumCover = this.props.currentSong.song ? this.props.currentSong.song.imageUrl : " ";
     let songTitle;
-    songTitle = this.props.currentSong.song ? this.props.currentSong.song.title : " "
+    songTitle = this.props.currentSong.song ? this.props.currentSong.song.title : " ";
     let songArtist;
-    songArtist = this.props.currentSong.song ? this.props.currentSong.song.artist : " "
+    songArtist = this.props.currentSong.song ? this.props.currentSong.song.artist : " ";
 
+    let playbutton;
+    this.state.playing ?
     // debugger
     return (
       <div className="player-controls">
@@ -67,7 +106,7 @@ export default class Playbar extends React.Component {
                   <button className="player-controls-previous-next-button" onMouseEnter={this.handleMouseOver("mousePreviousOver")} onMouseLeave={this.handleMouseOver("mousePreviousOver")}>
                     <img src={this.state.mousePreviousOver ? window.previousIcon : window.previousGrayIcon} />
                   </button>
-                  <button className="player-controls-play-button" onMouseEnter={this.handleMouseOver("mousePlayOver")} onMouseLeave={this.handleMouseOver("mousePlayOver")}>
+                  <button className="player-controls-play-button" onClick={this.handleClick} onMouseEnter={this.handleMouseOver("mousePlayOver")} onMouseLeave={this.handleMouseOver("mousePlayOver")}>
                     <img src={this.state.mousePlayOver ? window.playIcon : window.playGrayIcon} />
                   </button>
                   <button className="player-controls-previous-next-button" onMouseEnter={this.handleMouseOver("mouseNextOver")} onMouseLeave={this.handleMouseOver("mouseNextOver")}>

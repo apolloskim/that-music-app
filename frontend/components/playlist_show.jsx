@@ -11,7 +11,7 @@ export default class PlaylistShow extends React.Component {
       mouseOver: false,
       idxMouseOver: null,
       playing: false,
-      playingSong: null
+      pause: true
     };
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -159,7 +159,7 @@ export default class PlaylistShow extends React.Component {
             </div>
           </div>
         </div>
-        <PlaybarContainer playing={this.state.playing}/>
+        <PlaybarContainer playing={this.state.playing} pause={this.state.pause}/>
       </>
     );
   }

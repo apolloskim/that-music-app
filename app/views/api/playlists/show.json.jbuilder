@@ -14,7 +14,6 @@ json.songs do
       json.title song.title
       json.album song.album.title
       json.artist song.artist.name
-      json.songUrl url_for(song.song_file)
     end
-  end 
+  end
 end

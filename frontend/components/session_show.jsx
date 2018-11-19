@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from './navbar/navbar';
+import PlaybarContainer from './playbar-container';
 
 const SessionShow = (props) => {
 
@@ -16,6 +17,7 @@ const SessionShow = (props) => {
         <div className="session-show-username">{props.currentUser.username}</div>
         <button className="logout-button" onClick={props.logout}>log out</button>
       </div>
+      <PlaybarContainer/>
     </div>
   );
 };

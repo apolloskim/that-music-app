@@ -1,6 +1,6 @@
-
-export const fetchCurrentSong = (id) => {
+  
+export const fetchCurrentSong = (userId, id) => {
   return $.ajax({
-    url: `/api/songs/${id}`
+    url: `/api/users/${userId}/songs/${id}`
   });
 };

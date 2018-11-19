@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
+import PlaybarContainer from './playbar-container';
 
 class BrowseGenres extends React.Component {
 
@@ -13,6 +14,7 @@ class BrowseGenres extends React.Component {
       <div className="browse-genres-container">
         <Navbar />
         <BrowseNavHeader />
+        <PlaybarContainer/>
       </div>
     );
   }

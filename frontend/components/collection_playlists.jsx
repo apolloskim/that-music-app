@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './navbar/navbar';
 import CollectionPlaylistsHeader from './collection_playlists_header';
+import PlaybarContainer from './playbar-container';
 
 export default class CollectionPlaylists extends React.Component {
 
@@ -13,6 +14,7 @@ export default class CollectionPlaylists extends React.Component {
       <div className="collection-playlists-container">
         <Navbar />
         <CollectionPlaylistsHeader />
+        <PlaybarContainer/>
       </div>
     );
   }

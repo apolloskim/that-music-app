@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from './navbar/navbar';
+import PlaybarContainer from './playbar-container';
 
 class Search extends React.Component {
 
@@ -11,6 +12,8 @@ class Search extends React.Component {
     return (
       <div className="search-container">
         <Navbar />
+
+        <PlaybarContainer/>
       </div>
     );
   }

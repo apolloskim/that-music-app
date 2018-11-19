@@ -1,6 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Playbar from './playbar';
+import {receiveCurrentSong} from '../actions/song_actions';
+
+const mapStateToProps = (state, ownProps)=> {
+  return {
+    playing: ownProps.playing,
+    currentSong: state.currentSong
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -9,4 +17,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-export default connect(null, mapDispatchToProps)(Playbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Playbar);

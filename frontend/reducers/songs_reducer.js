@@ -1,4 +1,5 @@
-import { RECEIVE_PLAYLIST } from '../actions/playlist_actions';
+import { RECEIVE_PLAYLIST} from '../actions/playlist_actions';
+import {merge} from 'lodash';
 
 const songsReducer = (state = {}, action) => {
   switch(action.type) {

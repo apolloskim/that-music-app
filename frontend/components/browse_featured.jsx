@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
 import NewReleasesContainer from './new_releases_container';
-import Playbar from './playbar';
+import PlaybarContainer from './playbar-container';
 import {Link} from 'react-router-dom';
 
 class BrowsePlaylists extends React.Component {
@@ -18,7 +18,7 @@ class BrowsePlaylists extends React.Component {
         <Navbar />
         <BrowseNavHeader />
         <NewReleasesContainer />
-        <Playbar />
+        <PlaybarContainer/>
       </div>
     );
   }

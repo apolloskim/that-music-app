@@ -2,13 +2,19 @@ import React from 'react';
 import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
 import {Link} from 'react-router-dom';
-import Playbar from './playbar';
+import PlaybarContainer from './playbar-container';
 
 export default class PlaylistShow extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {mouseOver: false, idxMouseOver: null};
+    this.state = {
+      mouseOver: false,
+      idxMouseOver: null,
+      playing: false,
+      playingSong: null
+    };
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -23,6 +29,13 @@ export default class PlaylistShow extends React.Component {
 
   handleMouseLeave() {
     this.setState({mouseOver: false, idxMouseOver: null});
+  }
+
+  handleClick(song) {
+    return () => {
+      this.setState({ playing: !this.state.playing, playingSong: song });
+      this.props.fetchCurrentSong(this.props.currentUserId, song.id);
+    };
   }
 
   render() {
@@ -65,7 +78,7 @@ export default class PlaylistShow extends React.Component {
     if (this.props.songs) {
       renderSongs = Object.values(this.props.songs).map( (song, idx) => {
         return (
-          <li key={idx} className="track-list-row" onMouseEnter={this.handleMouseEnter(idx)} onMouseLeave={this.handleMouseLeave.bind(this)}>
+          <li key={idx} className="track-list-row" onClick={this.handleClick(song)} onMouseEnter={this.handleMouseEnter(idx)} onMouseLeave={this.handleMouseLeave.bind(this)}>
             {this.state.idxMouseOver === idx ? renderPlay : renderNote}
             <div className="track-list-column">
               <div className="track-list-column-margin">
@@ -113,7 +126,7 @@ export default class PlaylistShow extends React.Component {
                           </div>
                         </div>
                         <div className="spotify-small-text">
-                          <span>spotify</span>
+                          <span>that music app</span>
                         </div>
                       </div>
                       <div className="track-list-header-play-button-top">
@@ -146,7 +159,7 @@ export default class PlaylistShow extends React.Component {
             </div>
           </div>
         </div>
-        <Playbar />
+        <PlaybarContainer playing={this.state.playing}/>
       </>
     );
   }

@@ -10,17 +10,30 @@ export default class Playbar extends React.Component {
       mousePreviousOver: false,
       mousePlayOver: false,
       mouseNextOver: false,
-      mouseRepeatOver: false
+      mouseRepeatOver: false,
+      mouseQueueOver: false
     }
     this.handleMouseOver = this.handleMouseOver.bind(this);
+    // this.audio = new Audio(this.props.currentSong ? this.props.currentSong.songUrl : "");
   }
 
   handleMouseOver(field) {
     return () => this.setState({[field]: !this.state[field]});
   }
 
-  render() {
+  componentDidUpdate() {
 
+  }
+
+  render() {
+    let albumCover;
+    albumCover = this.props.currentSong.song ? this.props.currentSong.song.imageUrl : " "
+    let songTitle;
+    songTitle = this.props.currentSong.song ? this.props.currentSong.song.title : " "
+    let songArtist;
+    songArtist = this.props.currentSong.song ? this.props.currentSong.song.artist : " "
+
+    // debugger
     return (
       <div className="player-controls">
         <footer className="play-bar-container">
@@ -29,15 +42,15 @@ export default class Playbar extends React.Component {
               <div className="current-song-info">
                 <span className="current-song-album-cover">
                   <Link to="song">
-                    <img src={window.travisScott}/>
+                    <img src={albumCover}/>
                   </Link>
                 </span>
                 <div className="current-song-title">
                   <div className="current-song-title-top-line">
-                    <Link to="song">SONG TITLE</Link>
+                    <Link to="song">{songTitle}</Link>
                   </div>
                   <div className="current-song-title-bottom-line">
-                    <Link to="artist">ARTIST</Link>
+                    <Link to="artist">{songArtist}</Link>
                   </div>
                 </div>
                 <button className="current-song-heart-icon" onMouseEnter={this.handleMouseOver("mouseHeartOver")} onMouseLeave={this.handleMouseOver("mouseHeartOver")}>
@@ -77,8 +90,8 @@ export default class Playbar extends React.Component {
             </div>
             <div className="play-bar-right">
                 <div className="extra-controls">
-                  <button className="queue-button">
-                    <img src={window.playlistGrayIcon} />
+                  <button className="queue-button" onMouseEnter={this.handleMouseOver("mouseQueueOver")} onMouseLeave={this.handleMouseOver("mouseQueueOver")}>
+                    <img src={this.state.mouseQueueOver ? window.playlistIcon : window.playlistGrayIcon} />
                   </button>
                   <div className="volume-bar">
                     <button className="volume-button">

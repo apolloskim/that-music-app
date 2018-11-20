@@ -47,10 +47,12 @@ export default class Playbar extends React.Component {
     this.setState({playing: false, pause: true});
   }
 
+  //
+  // componentWIllUnmount() {
+  //   debugger
+  //   this.setState({playing: this.props.playing, pause: this.props.pause});
+  // }
 
-  componentDidUpdate() {
-    this.setState({playing: this.props.playing, pause: this.props.pause});
-  }
 
   render() {
     // debugger

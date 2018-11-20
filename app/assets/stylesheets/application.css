@@ -30,7 +30,7 @@
   }
 
 .app-container{
-  background-image: linear-gradient(#C6FFDD, #FBD786, #f7797d, rgb(10, 5, 6) 85%);
+  background-image: linear-gradient(#f7797d, #FBD786, #C6FFDD, rgb(10, 5, 6) 85%);
   background-repeat: no-repeat;
   width: auto;
   height: 1523px;

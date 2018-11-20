@@ -2,6 +2,7 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import {HashRouter, Route} from 'react-router-dom';
 import App from './App';
+import Splash from './splash_page';
 import SignupFormContainer from './signup_form_container';
 import LoginFormContainer from './login_form_container';
 import BrowsePlaylists from './browse_featured';
@@ -23,7 +24,7 @@ const Root = ({store}) => {
     <Provider store={store}>
       <HashRouter>
         <div>
-          <AuthRoute exact path="/" component={App} />
+          <AuthRoute exact path="/" component={Splash} />
           <AuthRoute exact path='/signup' component={SignupFormContainer} />
           <AuthRoute exact path='/login' component={LoginFormContainer} />
           <ProtectedRoute exact path='/browse/featured' component={BrowsePlaylists} />

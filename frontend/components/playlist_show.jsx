@@ -33,8 +33,9 @@ export default class PlaylistShow extends React.Component {
 
   handleClick(song) {
     return () => {
-      this.setState({ playing: !this.state.playing, playingSong: song });
+      this.setState({ playing: !this.state.playing, pause: !this.state.pause });
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
+      this.props.receivePlay(this.state.playing, this.state.pause);
     };
   }
 
@@ -159,7 +160,7 @@ export default class PlaylistShow extends React.Component {
             </div>
           </div>
         </div>
-        <PlaybarContainer playing={this.state.playing} pause={this.state.pause}/>
+        <PlaybarContainer/>
       </>
     );
   }

@@ -1,18 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Playbar from './playbar';
-import {receiveCurrentSong} from '../actions/song_actions';
+import {receiveCurrentSong, receivePlay} from '../actions/song_actions';
 
 const mapStateToProps = (state, ownProps)=> {
   return {
-    playing: ownProps.playing,
+    playing: state.playStatus.playing,
+    pause: state.playStatus.pause,
     currentSong: state.currentSong
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    receiveCurrentSong : song => dispatch(receiveCurrentSong(song))
+    receiveCurrentSong: song => dispatch(receiveCurrentSong(song)),
+    receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause))
   };
 };
 

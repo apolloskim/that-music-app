@@ -14,7 +14,7 @@ class BrowseNewReleases extends React.Component {
       <div className="browse-newreleases-container">
         <Navbar />
         <BrowseNavHeader />
-        <PlaybarContainer/>
+        <PlaybarContainer />
       </div>
     );
   }

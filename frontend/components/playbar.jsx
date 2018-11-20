@@ -19,6 +19,8 @@ export default class Playbar extends React.Component {
     this.audio = document.createElement('audio');
     this.handleClick = this.handleClick.bind(this);
     this.audio.src = this.props.currentSong.song.songUrl;
+    this.playIcon;
+    this.playGrayIcon;
   }
 
   handleMouseOver(field) {
@@ -29,9 +31,11 @@ export default class Playbar extends React.Component {
     if(this.state.pause) {
       this.audio.play();
       this.onPlaying();
+      this.props.receivePlay(true, false);
     } else if (this.state.playing) {
       this.audio.pause();
       this.onPause();
+      this.props.receivePlay(false, true);
     }
   }
 
@@ -43,22 +47,9 @@ export default class Playbar extends React.Component {
     this.setState({playing: false, pause: true});
   }
 
-  // playAudio() {
-  //   if(pause) {
-  //     this.audio.play();
-  //     this.onPlaying();
-  //   }
-  // }
-  //
-  // pauseAudio() {
-  //   if(playing) {
-  //     this.audio.pause();
-  //     this.onPause();
-  //   }
-  // }
 
   componentDidUpdate() {
-
+    this.setState({playing: this.props.playing, pause: this.props.pause});
   }
 
   render() {
@@ -70,8 +61,14 @@ export default class Playbar extends React.Component {
     let songArtist;
     songArtist = this.props.currentSong.song ? this.props.currentSong.song.artist : " ";
 
-    let playbutton;
-    this.state.playing ?
+    if (this.props.playing) {
+      this.playIcon = window.pauseIcon;
+      this.playGrayIcon = window.pauseGrayIcon;
+    } else if (this.props.pause) {
+      this.playIcon = window.playIcon;
+      this.playGrayIcon = window.playGrayIcon;
+    }
+
     // debugger
     return (
       <div className="player-controls">
@@ -107,7 +104,7 @@ export default class Playbar extends React.Component {
                     <img src={this.state.mousePreviousOver ? window.previousIcon : window.previousGrayIcon} />
                   </button>
                   <button className="player-controls-play-button" onClick={this.handleClick} onMouseEnter={this.handleMouseOver("mousePlayOver")} onMouseLeave={this.handleMouseOver("mousePlayOver")}>
-                    <img src={this.state.mousePlayOver ? window.playIcon : window.playGrayIcon} />
+                    <img src={this.state.mousePlayOver ? this.playIcon : this.playGrayIcon} />
                   </button>
                   <button className="player-controls-previous-next-button" onMouseEnter={this.handleMouseOver("mouseNextOver")} onMouseLeave={this.handleMouseOver("mouseNextOver")}>
                     <img src={this.state.mouseNextOver ? window.nextIcon : window.nextGrayIcon} />

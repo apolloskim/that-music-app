@@ -6,8 +6,10 @@ const currentSongsReducer = (state = {}, action) => {
   // debugger
   switch(action.type) {
     case RECEIVE_CURRENT_SONG:
+    return action.song;
     case RECEIVE_CURRENT_USER:
-      return action.song;
+    // debugger
+    return action.currentSong;
     case LOGOUT_CURRENT_USER:
       return {};
     default:

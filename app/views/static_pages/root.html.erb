@@ -1,7 +1,10 @@
 <% if logged_in? %>
   <script type="text/javascript">
-    window.currentUser = <%= render("api/users/user.json.jbuilder", user: current_user).html_safe %>
+    // debugger
+    window.currentUser = <%= render("api/users/user.json.jbuilder", user: current_user, currentSong: current_song(current_user)).html_safe %>
     window.currentSong = <%= render("api/songs/song.json.jbuilder", song: current_song(current_user)).html_safe %>
+    window.audio = document.getElementById('root-audio');
+    window.audio.src = "<%= url_for(current_song(current_user).song_file) %>"
   </script>
 <% end %>
 
@@ -33,8 +36,11 @@
   window.maxVolumeIcon = "<%= image_url('noun_max volume_White_1113091.png') %>"
   window.maxVolumeGrayIcon = "<%= image_url('noun_max volume_Gray_1113091.png') %>"
   window.travisScott = "<%= image_url('travis_scott_icon_image.jpeg') %>"
+
+  window.closeIcon = "<%= image_url('noun_Cross_1902991_FFFFFF.png') %>"
+
 </script>
 
 <main id="root">
-  <audio id="root-audio"></audio>
+
 </main>

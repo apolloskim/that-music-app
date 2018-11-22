@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
 import PlaybarContainer from './playbar-container';
+import AlbumIndexContainer from './album_index_container';
 
 class BrowseNewReleases extends React.Component {
 
@@ -14,6 +15,7 @@ class BrowseNewReleases extends React.Component {
       <div className="browse-newreleases-container">
         <Navbar />
         <BrowseNavHeader />
+        <AlbumIndexContainer />
         <PlaybarContainer />
       </div>
     );

@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PlaylistShow from './playlist_show';
-import {fetchPlaylist} from '../actions/playlist_actions';
+import AlbumShow from './album_show';
+import {fetchAlbum} from '../actions/album_actions';
 import {fetchCurrentSong, receivePlay} from '../actions/song_actions';
 
 const mapStateToProps = (state, {match}) => {
-  const playlistId = match.params.playlistId;
   // debugger
+  const albumId = match.params.albumId;
   return {
     songs: state.entities.songs,
-    playlist: state.entities.playlists[playlistId],
-    playlistId,
+    album: state.entities.albums[albumId],
+    albumId,
     currentUserId: state.session.currentUserId,
     currentSong: state.currentSong
   };
@@ -18,10 +18,10 @@ const mapStateToProps = (state, {match}) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchPlaylist: id => dispatch(fetchPlaylist(id)),
+    fetchAlbum: id => dispatch(fetchAlbum(id)),
     fetchCurrentSong: (currentUserId, id) => dispatch(fetchCurrentSong(currentUserId, id)),
     receivePlay: (playing, pause) => dispatch(receivePlay)
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlaylistShow);
+export default connect(mapStateToProps, mapDispatchToProps)(AlbumShow);

@@ -9,6 +9,7 @@ import BrowsePlaylists from './browse_featured';
 import BrowseGenres from './browse_genres';
 import BrowseNewReleases from './browse_newreleases';
 import PlaylistShowContainer from './playlist_show_container';
+import AlbumShowContainer from './album_show_container';
 import CollectionPlaylists from './collection_playlists';
 import CollectionFavoriteSongs from './collection_favorite_songs';
 import CollectionAlbums from './collection_albums';
@@ -37,6 +38,7 @@ const Root = ({store}) => {
           <ProtectedRoute exact path='/search' component={Search} />
           <ProtectedRoute exact path='/settings/account' component={SessionShowContainer} />
           <ProtectedRoute exact path={`/playlist/:playlistId`} component={PlaylistShowContainer} />
+          <ProtectedRoute exact path={`/album/:albumId`} component={AlbumShowContainer} />
         </div>
       </HashRouter>
     </Provider>

@@ -7,7 +7,7 @@ import { merge } from 'lodash'
 const configureStore = (preloadedState = {}) => {
   // debugger
   let newpreloadedState;
-  // if (!preloadedState.currentSong) {
+  // if (preloadedState.currentSong) {
     newpreloadedState = merge({}, preloadedState, {currentSong: rootReducer.currentSong});
   // } else {
   //   newpreloadedState = merge({}, preloadedState);

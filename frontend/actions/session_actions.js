@@ -6,7 +6,7 @@ export const RECEIVE_SESSION_ERRORS = 'RECEIVE_SESSION_ERRORS';
 export const REMOVE_SESSION_ERRORS = 'REMOVE_SESSION_ERRORS';
 
 export const login = user => dispatch => {
-  return SessionApiUtil.login(user).then((user, currentSong )=> dispatch(receiveCurrentUser(user, currentSong)),
+  return SessionApiUtil.login(user).then((user)=> dispatch(receiveCurrentUser(user)),
 err => (dispatch(receiveErrors(err.responseJSON))) );
 };
 
@@ -38,9 +38,11 @@ export const removeErrors = () => {
   };
 };
 
-export const receiveCurrentUser = (user, currentSong )=> {
+export const receiveCurrentUser = (user)=> {
+  // debugger
   return {
     type: RECEIVE_CURRENT_USER,
-    user
+    user,
+    currentSong: user.currentSong
   };
 };

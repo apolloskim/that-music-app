@@ -19,7 +19,7 @@ export default class PlaylistShow extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchPlaylist(this.props.playlistId);
+    this.props.fetchAlbum(this.props.albumId);
   }
 
   handleMouseEnter(idx) {
@@ -90,6 +90,7 @@ export default class PlaylistShow extends React.Component {
 
 
     let renderSongs;
+    // debugger
     if (this.props.songs) {
       renderSongs = Object.values(this.props.songs).map( (song, idx) => {
         return (
@@ -100,13 +101,7 @@ export default class PlaylistShow extends React.Component {
                 <div className="track-list-name">{song.title}</div>
                 <div className="track-list-name-second-line">
                   <span className="explicit-label">explicit</span>
-                  <span>
-                    <Link className="track-list-link" to="">{song.artist}</Link>
-                  </span>
-                  <span className="track-list-row-dot">•</span>
-                  <span>
-                    <Link className="track-list-link" to="">{song.album}</Link>
-                  </span>
+
                 </div>
               </div>
             </div>
@@ -122,8 +117,8 @@ export default class PlaylistShow extends React.Component {
     }
 
     return (
-      <>
-        <div className="playlist-show-container">
+      <div className="album-show-root">
+        <div className="album-show-container">
           <Navbar />
           <div className="playlist-show-main-content" >
             <div className="playlist-content-spacing" >
@@ -133,11 +128,11 @@ export default class PlaylistShow extends React.Component {
                     <div className="track-list-header" >
                       <div className="track-list-img-title">
                         <div className="wrapper">
-                          <img className="playlist-cover-img" src={this.props.playlist ? this.props.playlist.imageUrl : ""} />
+                          <img className="playlist-cover-img" src={this.props.album ? this.props.album.imageUrl : ""} />
                         </div>
                         <div className="playlist-title-wrapper">
-                          <div className="playlist-title">
-                            <span>{this.props.playlist ? this.props.playlist.title : ""}</span>
+                          <div className="album-title">
+                            <span>{this.props.album ? this.props.album.title : ""}</span>
                           </div>
                         </div>
                         <div className="spotify-small-text">
@@ -148,7 +143,7 @@ export default class PlaylistShow extends React.Component {
                         <button className="track-list-header-play-button">PLAY</button>
                       </div>
                       <div className="track-list-header-body">
-                        <p className="track-list-count">{`${this.props.playlist ? this.props.playlist.songCount : ""} songs`}</p>
+                        <p className="track-list-count">{`${this.props.album ? this.props.album.songCount : ""} songs`}</p>
                         <div className="track-list-header-body-children">
                           <div className="track-list-header-body-extra-buttons">
                             <button className="track-list-header-body-heart-buttons-body">
@@ -175,7 +170,7 @@ export default class PlaylistShow extends React.Component {
           </div>
         </div>
         <PlaybarContainer/>
-      </>
+      </div>
     );
   }
 }

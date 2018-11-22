@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom';
 const BrowseNavHeader = () => {
 
   return (
-    <nav className="active-feature-nav-header-container">
+    <nav className="browse-nav-header-container">
       <ul className="active-feature-nav-header-list">
         <li>
           <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/browse/featured'>featured</NavLink>

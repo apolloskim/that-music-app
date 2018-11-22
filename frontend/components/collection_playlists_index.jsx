@@ -3,15 +3,17 @@ import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
 import {Link} from 'react-router-dom';
 import {ProtectedRoute} from '../util/route_util';
+import {connect} from 'react-redux';
 
-class NewReleases extends React.Component {
+
+class CollectionPlaylistsIndex extends React.Component {
 
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
-    this.props.fetchPlaylists();
+    this.props.fetchPlaylist(this.props.currentUserId);
   }
 
   render() {
@@ -35,9 +37,6 @@ class NewReleases extends React.Component {
       <div className="browse-featured-content-container">
         <section className="browse-featured-content-spacing">
           <div className="browse-featured-content-wrapper">
-            <div className="browse-featured-header">
-              <h1 className="browse-featured-header-new-releases">New releases</h1>
-            </div>
             <div className="browse-featured-playlist-lists">
               {renderPlaylists}
             </div>
@@ -49,4 +48,17 @@ class NewReleases extends React.Component {
   }
 }
 
-export default NewReleases;
+const mapStateToProps = state => {
+  return {
+    currentUserId: state.session.currentUserId,
+    playlists: state.entities.playlists
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchPlaylist: id => dispatch(fetchPlaylist(id))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionPlaylistsIndex);

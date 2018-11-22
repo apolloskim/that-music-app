@@ -20,7 +20,9 @@ class Api::PlaylistsController < ApplicationController
 
   def create
     @playlist = Playlist.new(playlist_params)
+
     if @playlist.save
+      @playlist_song_ids = @playlist.songs.map { |song| song.id }
       render :show
     else
       render json: @playlist.errors.full_messages, status: 401
@@ -36,7 +38,7 @@ class Api::PlaylistsController < ApplicationController
   private
 
   def playlist_params
-    params.require(:playlist).permit(:title, :creator_id)
+    params.require(:playlist).permit(:title, :creator_id, :image)
   end
 
 end

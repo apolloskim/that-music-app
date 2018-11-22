@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {login, logout} from './actions/session_actions';
 import configureStore from './store/store';
 import Root from './components/root';
-import {fetchPlaylist} from "./actions/playlist_actions";
+import {fetchPlaylist, createPlaylist} from "./actions/playlist_actions";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const root = document.getElementById('root');
+  window.createPlaylist = createPlaylist;
   window.fetchPlaylist = fetchPlaylist;
   window.store = store;
   window.login = login;

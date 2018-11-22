@@ -6,12 +6,14 @@ const NavbarNav = (props) => {
 
   return (
     <div className="navBar-expand">
-      <div className="navBar-header">
-        <img src={window.spotifyWhite} />
-        <div className="navBar-header-logo-text">
-          That music app
+      <Link to="/browse/featured" className="navBar-header-link">
+        <div className="navBar-header">
+          <img src={window.spotifyWhite} />
+          <div className="navBar-header-logo-text">
+            That music app
+          </div>
         </div>
-      </div>
+      </Link>
       <ul>
         <li className="navBar-group">
           <div className="navBar-item link-subtle">

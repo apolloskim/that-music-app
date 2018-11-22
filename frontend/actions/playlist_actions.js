@@ -15,12 +15,12 @@ export const fetchPlaylist = id => dispatch => {
 
 export const createPlaylist = playlist => dispatch => {
   return PlaylistApiUtil.createPlaylist(playlist).then( playlist => dispatch(receivePlaylist(playlist)),
-err => dispatch(receiveErrors(err)));
+err => dispatch(receivePlaylistErrors(err.responseJSON)));
 };
 
 export const updatePlaylist = playlist => dispatch => {
   return PlaylistApiUtil.updatePlaylist(playlist).then( playlist => dispatch(receivePlaylist(playlist)),
-err => dispatch(receiveErrors(err)));
+err => dispatch(receivePlaylistErrors(err.responseJSON)));
 };
 
 export const deletePlaylist = id => dispatch => {

@@ -12,15 +12,21 @@ export default class Playbar extends React.Component {
       mouseNextOver: false,
       mouseRepeatOver: false,
       mouseQueueOver: false,
+      mouseProgressBarOver: false,
+      mouseVolumeBarOver: false,
       playing: props.playing,
-      pause: props.pause
+      pause: props.pause,
+      currentTime: null,
+      duration: null
     }
     this.handleMouseOver = this.handleMouseOver.bind(this);
-    this.audio = document.createElement('audio');
+    // this.audio = document.getElementById('root-audio');
     this.handleClick = this.handleClick.bind(this);
-    this.audio.src = this.props.currentSong.song.songUrl;
+    // debugger
     this.playIcon;
     this.playGrayIcon;
+    this.mouseMove = this.mouseMove.bind(this);
+    this.volumeMouseMove = this.volumeMouseMove.bind(this);
   }
 
   handleMouseOver(field) {
@@ -29,11 +35,11 @@ export default class Playbar extends React.Component {
 
   handleClick() {
     if(this.state.pause) {
-      this.audio.play();
+      window.audio.play();
       this.onPlaying();
       this.props.receivePlay(true, false);
     } else if (this.state.playing) {
-      this.audio.pause();
+      window.audio.pause();
       this.onPause();
       this.props.receivePlay(false, true);
     }
@@ -47,21 +53,59 @@ export default class Playbar extends React.Component {
     this.setState({playing: false, pause: true});
   }
 
-  //
-  // componentWIllUnmount() {
-  //   debugger
-  //   this.setState({playing: this.props.playing, pause: this.props.pause});
-  // }
+  positionHandle(position) {
+    let handleLeft = position - 0;
+    if (handleLeft >= 0 && handleLeft <= this.timeline.offsetWidth) {
+      this.status.style.width = (handleLeft * 100 / this.timeline.offsetWidth) + "%";
+    }
+    if (handleLeft < 0) {
+      this.slider.style.width = "0px";
+    }
 
+  }
+
+  volumePositionHandle(position) {
+    let handleLeft = position - 0;
+    if (handleLeft >= 0 && handleLeft <= this.volumeControl.offsetWidth) {
+      this.volumeStatus.style.width = (handleLeft * 100 / this.volumeControl.offsetWidth) + "%";
+    }
+    if (handleLeft < 0) {
+      this.slider.style.width = "0px";
+    }
+
+  }
+
+  mouseMove(e) {
+    let position = e.pageX - this.timeline.offsetLeft;
+    this.positionHandle(position);
+    window.audio.currentTime = ((position) / this.timeline.offsetWidth) * window.audio.duration;
+  }
+
+  volumeMouseMove(e) {
+    // debugger
+    let volumePosition = e.pageX - this.volumeControl.offsetLeft;
+    this.volumePositionHandle(volumePosition);
+    window.audio.volume = ((volumePosition) / this.volumeControl.offsetWidth);
+  }
+
+  componentDidMount() {
+    window.audio.addEventListener("timeupdate", () => {
+      let ratio = window.audio.currentTime / window.audio.duration;
+      let position = this.timeline.offsetWidth * ratio;
+      let currentSecond = Math.round(window.audio.currentTime % 60).toString().length < 2 ? '0' + Math.round(window.audio.currentTime % 60).toString() : Math.round(window.audio.currentTime % 60).toString();
+      let currentMinute = Math.round(window.audio.currentTime / 60);
+      let durationSecond = Math.round(window.audio.duration % 60).toString().length < 2 ? '0' + Math.round(window.audio.duration % 60).toString() : Math.round(window.audio.duration % 60).toString();
+      let durationMinute = Math.round(window.audio.duration / 60);
+
+      this.setState({currentTime: `${currentMinute}:${currentSecond === '60' ? '00' : currentSecond}`, duration: `${durationMinute}:${durationSecond}`});
+      this.positionHandle(position);
+    });
+  }
 
   render() {
-    // debugger
-    let albumCover;
-    albumCover = this.props.currentSong.song ? this.props.currentSong.song.imageUrl : " ";
-    let songTitle;
-    songTitle = this.props.currentSong.song ? this.props.currentSong.song.title : " ";
-    let songArtist;
-    songArtist = this.props.currentSong.song ? this.props.currentSong.song.artist : " ";
+    let albumCover = this.props.currentSong.song ? this.props.currentSong.song.albumCover : " ";
+    let songTitle = this.props.currentSong.song ? this.props.currentSong.song.title : " ";
+    let songArtist = this.props.currentSong.song ? this.props.currentSong.song.artist : " ";
 
     if (this.props.playing) {
       this.playIcon = window.pauseIcon;
@@ -70,6 +114,41 @@ export default class Playbar extends React.Component {
       this.playIcon = window.playIcon;
       this.playGrayIcon = window.playGrayIcon;
     }
+
+    let progressBarDuration;
+    if (this.state.mouseProgressBarOver) {
+      progressBarDuration = (
+        <div className="middle-align" ref={timeline => this.timeline = timeline}>
+          <div className="play-bar-progress-status-green" ref={status => this.status = status}></div>
+          <div className="play-bar-progress-slider" ref={slider => this.slider = slider}></div>
+        </div>
+      );
+    } else if (!this.state.mouseProgressBarOver) {
+      progressBarDuration = (
+        <div className="middle-align" ref={timeline => this.timeline = timeline}>
+          <div className="play-bar-progress-status" ref={status => this.status = status}></div>
+        </div>
+      );
+    }
+
+
+    let volumeBar;
+    if (this.state.mouseVolumeBarOver) {
+      volumeBar = (
+        <div className="volume-progress-bar-background" ref={volumeControl => this.volumeControl = volumeControl}>
+          <div className="volume-progress-bar-green" ref={volumeStatus => this.volumeStatus = volumeStatus}></div>
+          <div className="volume-bar-slider" ref={volumeSlider => this.volumeSlider = volumeSlider}></div>
+        </div>
+      );
+    } else if (!this.state.mouseVolumeBarOver) {
+      volumeBar = (
+        <div className="volume-progress-bar-background" ref={volumeControl => this.volumeControl = volumeControl}>
+          <div className="volume-progress-bar" ref={volumeStatus => this.volumeStatus = volumeStatus}></div>
+        </div>
+      );
+    }
+
+
 
     // debugger
     return (
@@ -116,13 +195,11 @@ export default class Playbar extends React.Component {
                   </button>
                 </div>
                 <div className="player-controls-playbar">
-                  <div className="player-controls-playbar-progress-time">0:00</div>
-                  <div className="progress-bar">
-                    <div className="middle-align">
-                      <div className="play-bar-progress-status"></div>
-                    </div>
+                  <div className="player-controls-playbar-progress-time">{this.state.currentTime ? this.state.currentTime : "0:00"}</div>
+                  <div className="progress-bar" onClick={this.mouseMove} onMouseEnter={this.handleMouseOver("mouseProgressBarOver")} onMouseLeave={this.handleMouseOver("mouseProgressBarOver")}>
+                    {progressBarDuration}
                   </div>
-                  <div className="play-controls-playbar-duration">2:45</div>
+                  <div className="play-controls-playbar-duration">{this.state.duration ? this.state.duration : '2:45'}</div>
                 </div>
               </div>
             </div>
@@ -135,10 +212,8 @@ export default class Playbar extends React.Component {
                     <button className="volume-button">
                       <img src={window.maxVolumeGrayIcon} />
                     </button>
-                    <div className="volume-progress-bar-container">
-                      <div className="volume-progress-bar-background">
-                        <div className="volume-progress-bar"></div>
-                      </div>
+                    <div className="volume-progress-bar-container" onClick={this.volumeMouseMove} onMouseEnter={this.handleMouseOver("mouseVolumeBarOver")} onMouseLeave={this.handleMouseOver("mouseVolumeBarOver")}>
+                      {volumeBar}
                     </div>
                   </div>
                 </div>

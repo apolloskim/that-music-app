@@ -14,7 +14,7 @@ import CollectionPlaylists from './collection_playlists';
 import CollectionFavoriteSongs from './collection_favorite_songs';
 import CollectionAlbums from './collection_albums';
 import CollectionArtists from './collection_artists';
-import Search from './search';
+import SearchContainer from './search';
 import SessionShowContainer from './session_show_container';
 import {AuthRoute} from '../util/route_util';
 import {ProtectedRoute} from '../util/route_util';
@@ -35,7 +35,7 @@ const Root = ({store}) => {
           <ProtectedRoute exact path='/collection/tracks' component={CollectionFavoriteSongs} />
           <ProtectedRoute exact path='/collection/albums' component={CollectionAlbums} />
           <ProtectedRoute exact path='/collection/artists' component={CollectionArtists} />
-          <ProtectedRoute exact path='/search' component={Search} />
+          <ProtectedRoute exact path='/search' component={SearchContainer} />
           <ProtectedRoute exact path='/settings/account' component={SessionShowContainer} />
           <ProtectedRoute exact path={`/playlist/:playlistId`} component={PlaylistShowContainer} />
           <ProtectedRoute exact path={`/album/:albumId`} component={AlbumShowContainer} />

@@ -39,10 +39,10 @@ export const removeErrors = () => {
 };
 
 export const receiveCurrentUser = (user)=> {
-  // debugger
   return {
     type: RECEIVE_CURRENT_USER,
     user,
-    currentSong: user.currentSong
+    currentSong: user.currentSong,
+    playlists: user.playlists
   };
 };

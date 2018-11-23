@@ -14,6 +14,8 @@ json.songs do
       json.title song.title
       json.album song.album.title
       json.artist song.artist.name
+      json.duration song.duration
+      json.explicit song.explicit
     end
   end
 end

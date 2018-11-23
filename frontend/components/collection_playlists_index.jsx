@@ -13,7 +13,6 @@ class CollectionPlaylistsIndex extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchPlaylist(this.props.currentUserId);
   }
 
   render() {
@@ -51,7 +50,7 @@ class CollectionPlaylistsIndex extends React.Component {
 const mapStateToProps = state => {
   return {
     currentUserId: state.session.currentUserId,
-    playlists: state.entities.playlists
+    playlists: state.currentPlaylists
   };
 };
 

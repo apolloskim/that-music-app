@@ -7,4 +7,8 @@ class SongsController < ApplicationController
     render :show
   end
 
+  def search
+    @search_results = Song.all.map { |song| song.title.downcase }.select { |word| word.match(/#{params[:str]}/)}
+    render :index
+  end
 end

@@ -9,6 +9,7 @@
 artist_1 = Artist.new(name: "Drake")
 artist_2 = Artist.new(name: "Travis Scott")
 artist_3 = Artist.new(name: "BTS")
+artist_4 = Artist.new(name: "Ariana Grande")
 
 artist_1.images.attach(io: File.open("/Users/apollos/Downloads/Drake-scorpion-image.jpg"), filename: "Drake-scorpion-image.jpg")
 artist_2.images.attach(io: File.open("/Users/apollos/Downloads/travis-scott-spotify-image-1.jpeg"), filename: "travis-scott-spotify-image-1.jpeg")

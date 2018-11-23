@@ -3,13 +3,11 @@ import { LOGOUT_CURRENT_USER, RECEIVE_CURRENT_USER } from '../actions/session_ac
 
 const currentSongsReducer = (state = {}, action) => {
   Object.freeze(state);
-  // debugger
   switch(action.type) {
     case RECEIVE_CURRENT_SONG:
     return action.song;
     case RECEIVE_CURRENT_USER:
-    // debugger
-    return action.currentSong;
+      return action.currentSong;
     case LOGOUT_CURRENT_USER:
       return {};
     default:

@@ -34,6 +34,11 @@ class SessionForm extends React.Component {
     );
   }
 
+  submitDemoForm(e) {
+    e.preventDefault();
+    this.props.submitForm({username: "pikachu", password: "pokemon"});
+  }
+
 
   render() {
     let formInvite;
@@ -80,7 +85,7 @@ class SessionForm extends React.Component {
         <form className="session-form" onSubmit={this.handleSubmit}>
 
           <section className="demo-login-container">
-            <button className="demo-login-button">log in as a demo user</button>
+            <button className="demo-login-button" onClick={this.submitDemoForm.bind(this)}>log in as a demo user</button>
             <strong className="or">or</strong>
           </section>
 

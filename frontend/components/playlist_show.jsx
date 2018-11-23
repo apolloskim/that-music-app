@@ -3,6 +3,7 @@ import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
 import {Link} from 'react-router-dom';
 import PlaybarContainer from './playbar-container';
+import DropDownContainer from './dropdown';
 
 export default class PlaylistShow extends React.Component {
   constructor(props) {
@@ -10,16 +11,19 @@ export default class PlaylistShow extends React.Component {
     this.state = {
       mouseOver: false,
       idxMouseOver: null,
-      playing: false,
-      pause: true,
+      playing: this.props.playing,
+      pause: this.props.pause,
       formerSong: this.props.currentSong.song
     };
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.closeDropdown = this.closeDropdown.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchPlaylist(this.props.playlistId);
+    this.props.fetchCurrentPlaylists(this.props.currentUserId);
   }
 
   handleMouseEnter(idx) {
@@ -33,11 +37,14 @@ export default class PlaylistShow extends React.Component {
   }
 
   handleClick(song) {
-    // debugger
-    return () => {
-      this.setState({ playing: !this.state.playing, pause: !this.state.pause, formerSong: this.props.currentSong.song });
-      this.props.fetchCurrentSong(this.props.currentUserId, song.id);
-      this.props.receivePlay(this.state.playing, this.state.pause);
+      let that = this;
+    return (e) => {
+      that.setState({ playing: !that.props.playing, pause: !that.props.pause});
+      that.props.fetchCurrentSong(that.props.currentUserId, song.id);
+      that.props.receivePlay(true, false);
+      if (that.props.songQueue.length !== Object.values(that.props.songs).length) {
+        that.props.receiveSongQueue(Object.values(that.props.songs).map(song => song.id));
+      }
     };
   }
 
@@ -45,12 +52,25 @@ export default class PlaylistShow extends React.Component {
     if(this.props.currentSong.song !== this.state.formerSong) {
       this.setState({formerSong: this.props.currentSong.song});
       window.audio.src = this.props.currentSong.song.songUrl;
-      if(!this.state.playing) {
-        window.audio.play();
-        this.setState({ playing: true, pause: false});
-
-      }
+      window.audio.play();
     }
+
+  }
+
+  handleButtonClick(id) {
+    return (e) => {
+      e.stopPropagation();
+      if (!this.props.dropdownPressed) {
+        this.props.receiveDropdownControl(true);
+        document.addEventListener("click", this.closeDropdown);
+      }
+      this.props.receiveClickedSongId(id);
+    }
+  }
+
+  closeDropdown() {
+    this.props.receiveDropdownControl(false);
+    document.removeEventListener("click", this.closeDropdown);
   }
 
   render() {
@@ -64,18 +84,34 @@ export default class PlaylistShow extends React.Component {
       </div>
     );
 
-    let renderMore;
-    let renderPlay;
-    if(this.state.mouseOver) {
-      renderMore = (
-        <div className="track-list-more">
-          <div className="track-list-more-margin-top">
-            <button className="track-list-more-button">
-              <img className="track-list-row-body-dots-icon" src={window.threeDotsIcon}/>
-            </button>
+    const renderNoteNeon = (
+      <div className="music-note-icon-padding">
+        <div className="music-note-icon-center">
+          <div className="music-note-icon-margin">
+            <img className="music-note-icon" src={window.musicNoteNeonIcon} />
           </div>
         </div>
-      );
+      </div>
+    );
+
+    let renderMore;
+    let renderPlay;
+    let renderPlayNeon;
+
+    if(this.state.mouseOver) {
+      renderMore = (id) => {
+        return(
+          <div className="track-list-more">
+            <div className="track-list-more-margin-top">
+              <button className="track-list-more-button" onClick={this.handleButtonClick(id)}>
+                <img className="track-list-row-body-dots-icon" src={window.threeDotsIcon}/>
+              </button>
+            </div>
+            <DropDownContainer ref={dropdown => this.dropdown = dropdown}/>
+          </div>
+        );
+      }
+
 
       renderPlay = (
         <div className="music-note-icon-padding">
@@ -86,33 +122,59 @@ export default class PlaylistShow extends React.Component {
           </div>
         </div>
       );
+
+      renderPlayNeon = (
+        <div className="music-note-icon-padding">
+          <div className="music-note-icon-center">
+            <div className="music-note-icon-margin">
+              <img className="music-note-icon" src={window.musicPlayNeonIcon} />
+            </div>
+          </div>
+        </div>
+      );
     }
 
 
     let renderSongs;
     if (this.props.songs) {
       renderSongs = Object.values(this.props.songs).map( (song, idx) => {
+
+        let explicit;
+        if (song.explicit) {
+          explicit = (
+            <div className="track-list-name-second-line">
+              <span className="explicit-label">explicit</span>
+            </div>
+          );
+        }
+
         return (
-          <li key={idx} className="track-list-row" onClick={this.handleClick(song)} onMouseEnter={this.handleMouseEnter(idx)} onMouseLeave={this.handleMouseLeave.bind(this)}>
-            {this.state.idxMouseOver === idx ? renderPlay : renderNote}
+          <li key={idx}
+            ref={songRow => this.songRow = songRow}
+            className="track-list-row"
+            onClick={this.handleClick(song)}
+            onMouseEnter={this.handleMouseEnter(idx)}
+            onMouseLeave={this.handleMouseLeave.bind(this)}>
+
+            {this.state.idxMouseOver === idx
+              ? (song.id === this.props.currentSong.song.id
+                ? renderPlayNeon : renderPlay)
+                : (song.id === this.props.currentSong.song.id
+                  ? renderNoteNeon
+                  : renderNote)}
             <div className="track-list-column">
               <div className="track-list-column-margin">
-                <div className="track-list-name">{song.title}</div>
-                <div className="track-list-name-second-line">
-                  <span className="explicit-label">explicit</span>
-                  <span>
-                    <Link className="track-list-link" to="">{song.artist}</Link>
-                  </span>
-                  <span className="track-list-row-dot">•</span>
-                  <span>
-                    <Link className="track-list-link" to="">{song.album}</Link>
-                  </span>
-                </div>
+                <div className={song.id === this.props.currentSong.song.id
+                    ? "track-list-name-neon"
+                    : "track-list-name"}>{song.title}</div>
+                {explicit}
               </div>
             </div>
-            {this.state.idxMouseOver === idx ? renderMore : ""}
+            {this.state.idxMouseOver === idx ? renderMore(song.id) : ""}
             <div className="track-list-duration">
-              <div className="track-list-duration-margin-top">
+              <div className={song.id === this.props.currentSong.song.id
+                  ? "track-list-duration-margin-top-neon"
+                  : "track-list-duration-margin-top"}>
                 <span>{song.duration}</span>
               </div>
             </div>
@@ -122,7 +184,7 @@ export default class PlaylistShow extends React.Component {
     }
 
     return (
-      <>
+      <div className="album-show-root">
         <div className="playlist-show-container">
           <Navbar />
           <div className="playlist-show-main-content" >
@@ -136,7 +198,7 @@ export default class PlaylistShow extends React.Component {
                           <img className="playlist-cover-img" src={this.props.playlist ? this.props.playlist.imageUrl : ""} />
                         </div>
                         <div className="playlist-title-wrapper">
-                          <div className="playlist-title">
+                          <div className="album-title">
                             <span>{this.props.playlist ? this.props.playlist.title : ""}</span>
                           </div>
                         </div>
@@ -145,7 +207,7 @@ export default class PlaylistShow extends React.Component {
                         </div>
                       </div>
                       <div className="track-list-header-play-button-top">
-                        <button className="track-list-header-play-button">PLAY</button>
+                        <button onClick={this.handleClick(Object.values(this.props.songs)[0])} className="track-list-header-play-button">PLAY</button>
                       </div>
                       <div className="track-list-header-body">
                         <p className="track-list-count">{`${this.props.playlist ? this.props.playlist.songCount : ""} songs`}</p>
@@ -175,7 +237,7 @@ export default class PlaylistShow extends React.Component {
           </div>
         </div>
         <PlaybarContainer/>
-      </>
+      </div>
     );
   }
 }

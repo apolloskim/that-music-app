@@ -1,6 +1,5 @@
 <% if logged_in? %>
   <script type="text/javascript">
-    // debugger
     window.currentUser = <%= render("api/users/user.json.jbuilder", user: current_user, currentSong: current_song(current_user)).html_safe %>
     window.currentSong = <%= render("api/songs/song.json.jbuilder", song: current_song(current_user)).html_safe %>
     window.audio = document.getElementById('root-audio');
@@ -17,7 +16,10 @@
   window.heartGrayIcon = "<%= image_url('noun_Love_Gray_2030510.png') %>"
   window.threeDotsIcon = "<%= image_url('noun_three dots_384290.png') %>"
   window.musicNoteIcon = "<%= image_url('noun_Music Note_750757.png') %>"
+  window.musicNoteNeonIcon = "<%= image_url('noun_Music Note_Neon_750757.png') %>"
   window.musicPlayIcon = "<%= image_url('noun_play button_438928.png') %>"
+  window.musicPlayNeonIcon = "<%= image_url('noun_play button_Neon_438928.png') %>"
+
 
   window.shuffleIcon = "<%= image_url('noun_Shuffle_White_390589.png') %>"
   window.shuffleGrayIcon = "<%= image_url('noun_Shuffle_Gray390589.png') %>"

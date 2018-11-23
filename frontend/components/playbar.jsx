@@ -14,19 +14,19 @@ export default class Playbar extends React.Component {
       mouseQueueOver: false,
       mouseProgressBarOver: false,
       mouseVolumeBarOver: false,
-      playing: props.playing,
-      pause: props.pause,
+      playing: this.props.playing,
+      pause: this.props.pause,
       currentTime: null,
       duration: null
     }
     this.handleMouseOver = this.handleMouseOver.bind(this);
     // this.audio = document.getElementById('root-audio');
     this.handleClick = this.handleClick.bind(this);
-    // debugger
-    this.playIcon;
-    this.playGrayIcon;
+    this.playIcon = window.playIcon;
+    this.playGrayIcon = window.playGrayIcon;
     this.mouseMove = this.mouseMove.bind(this);
     this.volumeMouseMove = this.volumeMouseMove.bind(this);
+    this.playNextSong = this.playNextSong.bind(this);
   }
 
   handleMouseOver(field) {
@@ -34,11 +34,11 @@ export default class Playbar extends React.Component {
   }
 
   handleClick() {
-    if(this.state.pause) {
+    if(this.props.pause) {
       window.audio.play();
       this.onPlaying();
       this.props.receivePlay(true, false);
-    } else if (this.state.playing) {
+    } else if (this.props.playing) {
       window.audio.pause();
       this.onPause();
       this.props.receivePlay(false, true);
@@ -82,13 +82,18 @@ export default class Playbar extends React.Component {
   }
 
   volumeMouseMove(e) {
-    // debugger
+
     let volumePosition = e.pageX - this.volumeControl.offsetLeft;
     this.volumePositionHandle(volumePosition);
     window.audio.volume = ((volumePosition) / this.volumeControl.offsetWidth);
   }
 
+
   componentDidMount() {
+    if (!window.audio) {
+      window.audio = document.getElementById('root-audio');
+      window.audio.src = this.props.currentSong.song.songUrl;
+    }
     window.audio.addEventListener("timeupdate", () => {
       let ratio = window.audio.currentTime / window.audio.duration;
       let position = this.timeline.offsetWidth * ratio;
@@ -99,14 +104,62 @@ export default class Playbar extends React.Component {
 
       this.setState({currentTime: `${currentMinute}:${currentSecond === '60' ? '00' : currentSecond}`, duration: `${durationMinute}:${durationSecond}`});
       this.positionHandle(position);
+      this.playNextSong();
     });
   }
+
+  playNextSong() {
+    let nextSongIdx;
+    if (window.audio.currentTime === window.audio.duration) {
+      window.audio.currentTime = "";
+      nextSongIdx = this.props.songQueue.indexOf(this.props.currentSong.song.id) + 1;
+      if (nextSongIdx < this.props.songQueue.length) {
+        this.props.fetchCurrentSong(this.props.currentUserId, this.props.songQueue[nextSongIdx]);
+        window.audio.src = this.props.currentSong.song.songUrl;
+        window.audio.play();
+        this.props.receivePlay(true, false);
+      }
+    }
+  }
+
+  skipToPrevSong() {
+    let prevSongIdx;
+    // debugger
+    prevSongIdx = this.props.songQueue.indexOf(this.props.currentSong.song.id) - 1;
+    if (prevSongIdx < 0) {
+      this.props.fetchCurrentSong(this.props.currentUserId, this.props.songQueue[this.props.songQueue.length + prevSongIdx]);
+      window.audio.src = this.props.currentSong.song.songUrl;
+      window.audio.play();
+      this.props.receivePlay(true, false);
+    } else if (prevSongIdx >= 0 && prevSongIdx < this.props.songQueue.length) {
+      this.props.fetchCurrentSong(this.props.currentUserId, this.props.songQueue[prevSongIdx]);
+      window.audio.src = this.props.currentSong.song.songUrl;
+      window.audio.play();
+      this.props.receivePlay(true, false);
+    }
+  }
+
+  skipToNextSong() {
+    let nextSongIdx;
+    nextSongIdx = this.props.songQueue.indexOf(this.props.currentSong.song.id) + 1;
+    if (nextSongIdx > this.props.songQueue.length - 1) {
+      this.props.fetchCurrentSong(this.props.currentUserId, this.props.songQueue[nextSongIdx - this.props.songQueue.length]);
+      window.audio.src = this.props.currentSong.song.songUrl;
+      window.audio.play();
+      this.props.receivePlay(true, false);
+    } else if (nextSongIdx > 0 && nextSongIdx < this.props.songQueue.length) {
+      this.props.fetchCurrentSong(this.props.currentUserId, this.props.songQueue[nextSongIdx]);
+      window.audio.src = this.props.currentSong.song.songUrl;
+      window.audio.play();
+      this.props.receivePlay(true, false);
+    }
+  }
+
 
   render() {
     let albumCover = this.props.currentSong.song ? this.props.currentSong.song.albumCover : " ";
     let songTitle = this.props.currentSong.song ? this.props.currentSong.song.title : " ";
     let songArtist = this.props.currentSong.song ? this.props.currentSong.song.artist : " ";
-
     if (this.props.playing) {
       this.playIcon = window.pauseIcon;
       this.playGrayIcon = window.pauseGrayIcon;
@@ -150,7 +203,7 @@ export default class Playbar extends React.Component {
 
 
 
-    // debugger
+
     return (
       <div className="player-controls">
         <footer className="play-bar-container">
@@ -181,13 +234,13 @@ export default class Playbar extends React.Component {
                   <button className="player-controls-shuffle-button" onMouseEnter={this.handleMouseOver("mouseShuffleOver")} onMouseLeave={this.handleMouseOver("mouseShuffleOver")}>
                     <img src={this.state.mouseShuffleOver ? window.shuffleIcon : window.shuffleGrayIcon} />
                   </button>
-                  <button className="player-controls-previous-next-button" onMouseEnter={this.handleMouseOver("mousePreviousOver")} onMouseLeave={this.handleMouseOver("mousePreviousOver")}>
+                  <button className="player-controls-previous-next-button" onClick={this.skipToPrevSong.bind(this)} onMouseEnter={this.handleMouseOver("mousePreviousOver")} onMouseLeave={this.handleMouseOver("mousePreviousOver")}>
                     <img src={this.state.mousePreviousOver ? window.previousIcon : window.previousGrayIcon} />
                   </button>
                   <button className="player-controls-play-button" onClick={this.handleClick} onMouseEnter={this.handleMouseOver("mousePlayOver")} onMouseLeave={this.handleMouseOver("mousePlayOver")}>
                     <img src={this.state.mousePlayOver ? this.playIcon : this.playGrayIcon} />
                   </button>
-                  <button className="player-controls-previous-next-button" onMouseEnter={this.handleMouseOver("mouseNextOver")} onMouseLeave={this.handleMouseOver("mouseNextOver")}>
+                  <button className="player-controls-previous-next-button" onClick={this.skipToNextSong.bind(this)} onMouseEnter={this.handleMouseOver("mouseNextOver")} onMouseLeave={this.handleMouseOver("mouseNextOver")}>
                     <img src={this.state.mouseNextOver ? window.nextIcon : window.nextGrayIcon} />
                   </button>
                   <button className="player-controls-repeat-button" onMouseEnter={this.handleMouseOver("mouseRepeatOver")} onMouseLeave={this.handleMouseOver("mouseRepeatOver")}>

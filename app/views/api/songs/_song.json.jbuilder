@@ -5,4 +5,5 @@ json.song do
   json.artist song.artist.name
   json.albumCover url_for(song.album.image)
   json.songUrl url_for(song.song_file)
+  json.explicit song.explicit
 end

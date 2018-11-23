@@ -1,0 +1,13 @@
+import { RECEIVE_CLICKED_SONG_ID } from '../actions/song_actions';
+
+const clickedSongIdReducer = (state = null, action) => {
+  Object.freeze(state);
+  switch(action.type) {
+    case RECEIVE_CLICKED_SONG_ID:
+      return action.id;
+    default:
+      return state;
+  }
+}
+
+export default clickedSongIdReducer;

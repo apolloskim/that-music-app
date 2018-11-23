@@ -7,4 +7,9 @@ class Api::SongsController < ApplicationController
     render :show
   end
 
+  def index
+    @search_results = params[:str] === "" ? [] : Song.all.select { |song| song.title.downcase.match(/#{params[:str]}/)}
+    render :index
+  end
+
 end

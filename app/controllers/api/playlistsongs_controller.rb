@@ -1,6 +1,7 @@
 class Api::PlaylistsongsController < ApplicationController
 
   def create
+
     @playlistsong = Playlistsong.new(playlistsong_params)
     if @playlistsong.save
       render json: ["Track was added to your playlist"]

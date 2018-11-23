@@ -53,8 +53,6 @@ Rails.application.configure do
   # when problems arise.
   config.log_level = :debug
 
-  config.assets.debug = true
-  config.assets.resolve_with = %i[manifest]
 
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]

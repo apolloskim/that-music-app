@@ -7,10 +7,15 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 
+require 'net/http'
+
+
 Artist.destroy_all
 Album.destroy_all
 Song.destroy_all
 User.destroy_all
+Playlist.destory_all
+Playlistsong.destory_all
 
 user_1 = User.new(username: "pikachu", password: "pokemon")
 
@@ -18,6 +23,8 @@ user_1 = User.new(username: "pikachu", password: "pokemon")
 artist_1 = Artist.new(name: "Drake")
 artist_2 = Artist.new(name: "Travis Scott")
 artist_3 = Artist.new(name: "BTS")
+
+
 
 artist_1.images.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Drake-scorpion-image.jpg"), filename: "Drake-scorpion-image.jpg")
 artist_2.images.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/travis-scott-spotify-image-1.jpeg"), filename: "travis-scott-spotify-image-1.jpeg")

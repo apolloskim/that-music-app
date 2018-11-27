@@ -14,8 +14,8 @@ Artist.destroy_all
 Album.destroy_all
 Song.destroy_all
 User.destroy_all
-Playlist.destory_all
-Playlistsong.destory_all
+Playlist.destroy_all
+Playlistsong.destroy_all
 
 user_1 = User.new(username: "pikachu", password: "pokemon")
 

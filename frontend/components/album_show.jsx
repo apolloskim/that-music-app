@@ -87,7 +87,7 @@ export default class AlbumShow extends React.Component {
       <div className="music-note-icon-padding">
         <div className="music-note-icon-center">
           <div className="music-note-icon-margin">
-            <img className="music-note-icon" src={window.musicNoteNeonIcon} />
+            <img className="music-note-icon" src={window.maxVolumeNeonIcon} />
           </div>
         </div>
       </div>

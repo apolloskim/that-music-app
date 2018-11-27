@@ -19,6 +19,9 @@ export default class Playbar extends React.Component {
       currentTime: null,
       duration: null
     }
+    this.timeline = React.createRef();
+    this.slider = React.createRef();
+
     this.handleMouseOver = this.handleMouseOver.bind(this);
     // this.audio = document.getElementById('root-audio');
     this.handleClick = this.handleClick.bind(this);
@@ -34,6 +37,7 @@ export default class Playbar extends React.Component {
   }
 
   handleClick() {
+
     if(this.props.pause) {
       window.audio.play();
       this.onPlaying();
@@ -42,6 +46,10 @@ export default class Playbar extends React.Component {
       window.audio.pause();
       this.onPause();
       this.props.receivePlay(false, true);
+    } else {
+      window.audio.play();
+      this.onPlaying();
+      this.props.receivePlay(true, false);
     }
   }
 
@@ -91,10 +99,11 @@ export default class Playbar extends React.Component {
 
   componentDidMount() {
     if (!window.audio) {
+      debugger
       window.audio = document.getElementById('root-audio');
       window.audio.src = this.props.currentSong.song.songUrl;
     }
-    window.audio.addEventListener("timeupdate", () => {
+    window.audio.ontimeupdate = () => {
       let ratio = window.audio.currentTime / window.audio.duration;
       let position = this.timeline.offsetWidth * ratio;
       let currentSecond = Math.round(window.audio.currentTime % 60).toString().length < 2 ? '0' + Math.round(window.audio.currentTime % 60).toString() : Math.round(window.audio.currentTime % 60).toString();
@@ -105,8 +114,22 @@ export default class Playbar extends React.Component {
       this.setState({currentTime: `${currentMinute}:${currentSecond === '60' ? '00' : currentSecond}`, duration: `${durationMinute}:${durationSecond}`});
       this.positionHandle(position);
       this.playNextSong();
-    });
+    };
   }
+
+  //   window.audio.addEventListener("timeupdate", () => {
+  //     let ratio = window.audio.currentTime / window.audio.duration;
+  //     let position = this.timeline.offsetWidth * ratio;
+  //     let currentSecond = Math.round(window.audio.currentTime % 60).toString().length < 2 ? '0' + Math.round(window.audio.currentTime % 60).toString() : Math.round(window.audio.currentTime % 60).toString();
+  //     let currentMinute = Math.round(window.audio.currentTime / 60);
+  //     let durationSecond = Math.round(window.audio.duration % 60).toString().length < 2 ? '0' + Math.round(window.audio.duration % 60).toString() : Math.round(window.audio.duration % 60).toString();
+  //     let durationMinute = Math.round(window.audio.duration / 60);
+  //
+  //     this.setState({currentTime: `${currentMinute}:${currentSecond === '60' ? '00' : currentSecond}`, duration: `${durationMinute}:${durationSecond}`});
+  //     this.positionHandle(position);
+  //     this.playNextSong();
+  //   });
+  // }
 
   playNextSong() {
     let nextSongIdx;

@@ -4,10 +4,13 @@
     window.currentSong = <%= render("api/songs/song.json.jbuilder", song: current_song(current_user)).html_safe %>
     window.audio = document.getElementById('root-audio');
     window.audio.src = "<%= url_for(current_song(current_user).song_file) %>"
+
   </script>
 <% end %>
 
 <script type="text/javascript">
+  window.background = "<%= image_url('background.svg') %>"
+
   window.spotifyWhite = "<%= image_url('spotify-256.png') %>"
   window.spotifyBlack = "<%= image_url('spotify-black-256.png') %>"
   window.homeLogo = "<%= image_url('home-logo.png') %>"
@@ -37,6 +40,7 @@
   window.playlistGrayIcon = "<%= image_url('noun_Playlist_Gray_1126728.png') %>"
   window.maxVolumeIcon = "<%= image_url('noun_max volume_White_1113091.png') %>"
   window.maxVolumeGrayIcon = "<%= image_url('noun_max volume_Gray_1113091.png') %>"
+  window.maxVolumeNeonIcon = "<%= image_url('noun_max volume_Neon_1113091.png') %>"
 
   window.closeIcon = "<%= image_url('noun_Cross_1902991_FFFFFF.png') %>"
 

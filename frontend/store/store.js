@@ -5,9 +5,9 @@ import rootReducer from '../reducers/root_reducer';
 import { merge } from 'lodash'
 
 const configureStore = (preloadedState = {}) => {
-  let newpreloadedState;
+  // let newpreloadedState;
   // if (preloadedState.currentSong) {
-    newpreloadedState = merge({}, preloadedState, {currentSong: rootReducer.currentSong});
+  const  newpreloadedState = merge({}, preloadedState, {currentSong: rootReducer.currentSong});
   // } else {
   //   newpreloadedState = merge({}, preloadedState);
   // }

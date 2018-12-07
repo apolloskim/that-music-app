@@ -39,7 +39,6 @@ export default class Playbar extends React.Component {
   }
 
   handleClick() {
-
     if(this.props.pause) {
       window.audio.play();
       // this.onPlaying();

@@ -3,6 +3,6 @@
     json.id artist.id
     json.name artist.name
     json.albumIds artist.albums.map { |album| album.id }
-    json.coverimageUrl url_for(artist.images[0])
+    json.thumbImageUrl artist.thumbnail_image
   end
 end

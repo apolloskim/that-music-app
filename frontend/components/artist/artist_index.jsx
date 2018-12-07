@@ -19,7 +19,7 @@ export default class ArtistIndex extends React.Component {
           return (
             <div key={idx} className="cover-container">
               <div key={idx} className="browse-featured-playlist">
-                <img className="artist-cover-image" src={artist.coverimageUrl} />
+                <img className="artist-cover-image" src={artist.thumbImageUrl} />
                 <div className="mo-info" >
                   <Link to={`/`} className="cover-art-text">{artist.name}</Link>
                 </div>

@@ -7,8 +7,8 @@ export const fetchArtists = () => dispatch => {
   return ArtistApiUtil.fetchArtists().then(artists => dispatch(receiveArtists(artists)));
 };
 
-export const fetchArtist = () => dispatch => {
-  return ArtistApiUtil.fetchArtist().then(artist => dispatch(receiveArtist(artist)));
+export const fetchArtist = (id) => dispatch => {
+  return ArtistApiUtil.fetchArtist(id).then(artist => dispatch(receiveArtist(artist)));
 };
 
 export const receiveArtists = (artists) => {

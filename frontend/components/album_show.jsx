@@ -39,6 +39,7 @@ export default class AlbumShow extends React.Component {
 
   handleClick(song) {
     return (e) => {
+      debugger
       this.setState({ playing: !this.props.playing, pause: !this.props.pause});
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
       this.props.receivePlay(true, false);

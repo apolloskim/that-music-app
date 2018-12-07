@@ -10,7 +10,7 @@ if currentSong
       json.songUrl url_for(currentSong.song_file)
       json.album currentSong.album.title
       json.artist currentSong.artist.name
-      json.albumCover url_for(currentSong.album.image)
+      json.albumCover currentSong.album.cover_image
       json.explicit currentSong.explicit
     end
   end

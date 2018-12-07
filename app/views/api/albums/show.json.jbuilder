@@ -5,7 +5,7 @@ json.album do
   json.artistName @album.artist.name
   json.songIds @song_ids
   json.genre @album.genre
-  json.imageUrl url_for(@album.image)
+  json.imageUrl @album.cover_image
   json.songCount @album.songs.size
 end
 

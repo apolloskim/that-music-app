@@ -255,23 +255,23 @@ song_93.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusic
 song_94.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/15.+get+well+soon.mp3"), filename: "15.+get+well+soon.mp3")
 
 
-song_95.song_file.attach(io: EzDownload.open(""), filename: "")
+song_95.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande-Thank+You+Next.mp3"), filename: "Ariana+Grande-Thank+You+Next.mp3")
 
-song_96.song_file.attach(io: EzDownload.open(""), filename: "")
-song_97.song_file.attach(io: EzDownload.open(""), filename: "")
-song_98.song_file.attach(io: EzDownload.open(""), filename: "")
-song_99.song_file.attach(io: EzDownload.open(""), filename: "")
-song_100.song_file.attach(io: EzDownload.open(""), filename: "")
-song_101.song_file.attach(io: EzDownload.open(""), filename: "")
-song_102.song_file.attach(io: EzDownload.open(""), filename: "")
-song_103.song_file.attach(io: EzDownload.open(""), filename: "")
-song_104.song_file.attach(io: EzDownload.open(""), filename: "")
-song_105.song_file.attach(io: EzDownload.open(""), filename: "")
-song_106.song_file.attach(io: EzDownload.open(""), filename: "")
-song_107.song_file.attach(io: EzDownload.open(""), filename: "")
-song_108.song_file.attach(io: EzDownload.open(""), filename: "")
+song_96.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/01+Intro.mp3"), filename: "01+Intro.mp3")
+song_97.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/02+Gave+Your+Love+Away.mp3"), filename: "02+Gave+Your+Love+Away.mp3")
+song_98.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/03+OG+Heartthrob.mp3"), filename: "03+OG+Heartthrob.mp3")
+song_99.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/04+Body+Talk.mp3"), filename: "04+Body+Talk.mp3")
+song_100.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/05+Not+Ashamed.mp3"), filename: "05+Not+Ashamed.mp3")
+song_101.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/06+One+I+Want+(feat.+PARTYNEXTDOOR).mp3"), filename: "06+One+I+Want+(feat.+PARTYNEXTDOOR).mp3")
+song_102.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/07+You.mp3"), filename: "07+You.mp3")
+song_103.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/08+Phases.mp3"), filename: "08+Phases.mp3")
+song_104.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/09+Asleep.mp3"), filename: "09+Asleep.mp3")
+song_105.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/10+What+You+Do+to+Me.mp3"), filename: "10+What+You+Do+to+Me.mp3")
+song_106.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/11+My+Imagination+(feat.+dvsn).mp3"), filename: "11+My+Imagination+(feat.+dvsn).mp3")
+song_107.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/12+The+Space+Between.mp3"), filename: "12+The+Space+Between.mp3")
+song_108.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid+Jordan+-+The+Space+Between+(2017)+(Mp3+320kbps)+%5BHunter%5D/Majid+Jordan+-+The+Space+Between+(2017)/13+Outro.mp3"), filename: "13+Outro.mp3")
 
-song_109.song_file.attach(io: EzDownload.open(""), filename: "")
+song_109.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Majid_Jordan_-_All_Over_You_CDQ_.mp3"), filename: "Majid_Jordan_-_All_Over_You_CDQ_.mp3")
 
 
 

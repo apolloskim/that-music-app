@@ -6,6 +6,6 @@
     json.artistId album.artist_id
     json.songIds album.songs.map { |song| song.id }
     json.genre album.genre
-    json.imageUrl url_for(album.image)
+    json.imageUrl album.cover_image
   end
 end

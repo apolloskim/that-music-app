@@ -40,8 +40,6 @@ class CollectionPlaylistsHeader extends React.Component {
   }
 
   render() {
-    console.log(this.state);
-    console.log(this.props.currentUserId);
     let playlistForm;
 
     if(this.state.createPlaylist) {
@@ -81,26 +79,29 @@ class CollectionPlaylistsHeader extends React.Component {
     }
 
     return (
-      <nav className="active-feature-nav-header-container">
-        <ul className="active-feature-nav-header-list">
-          <li>
-            <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/collection/playlists'>playlists</NavLink>
-          </li>
-          <li>
-            <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/collection/tracks'>favorite songs</NavLink>
-          </li>
-          <li>
-            <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/collection/albums'>albums</NavLink>
-          </li>
-          <li>
-            <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/collection/artists'>artists</NavLink>
-          </li>
-        </ul>
+      <div className="collection-header-container">
+        <nav className="active-feature-nav-header-container">
+          <ul className="active-feature-nav-header-list">
+            <li>
+              <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/app/collection/playlists'>playlists</NavLink>
+            </li>
+            <li>
+              <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/app/collection/tracks'>favorite songs</NavLink>
+            </li>
+            <li>
+              <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/app/collection/albums'>albums</NavLink>
+            </li>
+            <li>
+              <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/app/collection/artists'>artists</NavLink>
+            </li>
+          </ul>
+          {playlistForm}
+        </nav>
         <div className="create-playlist-container" >
           <button className="create-playlist-button" onClick={(this.handlePlaylistClick.bind(this))}>NEW PLAYLIST</button>
         </div>
-        {playlistForm}
-      </nav>
+      </div>
+
     );
   }
 };

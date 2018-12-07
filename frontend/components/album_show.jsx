@@ -4,6 +4,7 @@ import BrowseNavHeader from './browse_nav_header';
 import {Link} from 'react-router-dom';
 import PlaybarContainer from './playbar-container';
 import DropDownContainer from './dropdown';
+import MediaQuery from 'react-responsive';
 
 export default class AlbumShow extends React.Component {
   constructor(props) {
@@ -50,6 +51,7 @@ export default class AlbumShow extends React.Component {
   componentDidUpdate() {
     if(this.props.currentSong.song !== this.state.formerSong) {
       this.setState({formerSong: this.props.currentSong.song});
+      window.audio.pause();
       window.audio.src = this.props.currentSong.song.songUrl;
       window.audio.play();
     }
@@ -146,7 +148,6 @@ export default class AlbumShow extends React.Component {
             </div>
           );
         }
-
         return (
           <li key={idx}
             ref={songRow => this.songRow = songRow}
@@ -155,25 +156,40 @@ export default class AlbumShow extends React.Component {
             onMouseEnter={this.handleMouseEnter(idx)}
             onMouseLeave={this.handleMouseLeave.bind(this)}>
 
-            {this.state.idxMouseOver === idx
-              ? (song.id === this.props.currentSong.song.id
-                ? renderPlayNeon : renderPlay)
-                : (song.id === this.props.currentSong.song.id
-                  ? renderNoteNeon
-                  : renderNote)}
+            {
+              Object.values(this.props.currentSong).length !== 0
+              ? (this.state.idxMouseOver === idx
+                ? (song.id === this.props.currentSong.song.id
+                  ? renderPlayNeon : renderPlay)
+                  : (song.id === this.props.currentSong.song.id
+                    ? renderNoteNeon
+                    : renderNote))
+              : (this.state.idxMouseOver === idx ? renderPlay : renderNote)
+            }
+
             <div className="track-list-column">
               <div className="track-list-column-margin">
-                <div className={song.id === this.props.currentSong.song.id
-                    ? "track-list-name-neon"
-                    : "track-list-name"}>{song.title}</div>
+                <div className=
+                  {
+                    Object.values(this.props.currentSong).length !== 0
+                    ? (song.id === this.props.currentSong.song.id
+                      ? "track-list-name-neon"
+                      : "track-list-name")
+                    : "track-list-name"
+                  }>{song.title}</div>
                   {explicit}
               </div>
             </div>
             {this.state.idxMouseOver === idx ? renderMore(song.id) : ""}
             <div className="track-list-duration">
-              <div className={song.id === this.props.currentSong.song.id
-                  ? "track-list-duration-margin-top-neon"
-                  : "track-list-duration-margin-top"}>
+              <div className=
+                {
+                  Object.values(this.props.currentSong).length !== 0
+                  ? (song.id === this.props.currentSong.song.id
+                    ? "track-list-duration-margin-top-neon"
+                    : "track-list-duration-margin-top")
+                  : "track-list-duration-margin-top"
+                }>
                 <span>{song.duration}</span>
               </div>
             </div>
@@ -183,60 +199,142 @@ export default class AlbumShow extends React.Component {
     }
 
     return (
-      <div className="album-show-root">
-        <div className="album-show-container">
-          <Navbar />
           <div className="playlist-show-main-content" >
-            <div className="playlist-content-spacing" >
-              <section className="content-playlist">
-                <div className="cover-art-show">
-                  <div>
-                    <div className="track-list-header" >
-                      <div className="track-list-img-title">
-                        <div className="wrapper">
-                          <img className="playlist-cover-img" src={this.props.album ? this.props.album.imageUrl : ""} />
-                        </div>
-                        <div className="playlist-title-wrapper">
-                          <div className="album-title">
-                            <span>{this.props.album ? this.props.album.title : ""}</span>
+            <div>
+              <div className="playlist-content-spacing" >
+                <section className="content-playlist">
+                  <div className="container-fluid">
+                    <div className="album-index">
+                        <div className="track-list-header" >
+                          <div className="track-list-header-wrapper">
+
+                            <MediaQuery minDeviceWidth={1201}>
+                              <div className="track-list-img-title">
+                                <div className="wrapper">
+                                  <img className="playlist-cover-img" src={this.props.album ? this.props.album.imageUrl : ""} />
+                                </div>
+                                <div className="playlist-title-wrapper">
+                                  <div className="album-title">
+                                    <span>{this.props.album ? this.props.album.title : ""}</span>
+                                  </div>
+                                </div>
+                                <div className="spotify-small-text">
+                                  <span dir="auto">
+                                    <Link to="/">{this.props.album ? this.props.album.artistName : ""}</Link>
+                                  </span>
+                                </div>
+                              </div>
+
+                              <MediaQuery maxWidth={1200}>
+                                <div className="wrapper">
+                                  <img className="playlist-cover-img" src={this.props.album ? this.props.album.imageUrl : ""} />
+                                </div>
+                                <div className="album-info-smaller">
+                                  <div className="album-title-author-smaller">
+                                    <div className="album-title-smaller">
+                                      <span>{this.props.album ? this.props.album.title : ""}</span>
+                                    </div>
+                                    <div>
+                                      <span dir="auto" className="album-by">By</span>
+                                      <span dir="auto">
+                                        <Link to="/">{this.props.album ? this.props.album.artistName : ""}</Link>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <p className="album-year-count-smaller">
+                                    {
+                                      `${this.props.album ? this.props.album.year : ""} • ${this.props.album ? this.props.album.songCount : ""} songs`
+                                    }
+                                  </p>
+                                  <div className="track-list-buttons-smaller">
+                                    <div className="track-list-header-play-button-top-smaller">
+                                      <button onClick={this.handleClick(Object.values(this.props.songs)[0])} className="track-list-header-play-button">PLAY</button>
+                                    </div>
+                                    <div className="track-list-extra-buttons-smaller">
+                                      <button className="track-list-header-body-heart-buttons-body">
+                                        <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
+                                      </button>
+                                      <button className="track-list-header-body-three-dots-buttons-body">
+                                        <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </MediaQuery>
+                            </MediaQuery>
+
+                            <MediaQuery maxDeviceWidth={1200}>
+                              <div className="wrapper">
+                                <img className="playlist-cover-img" src={this.props.album ? this.props.album.imageUrl : ""} />
+                              </div>
+                              <div className="album-info-smaller">
+                                <div className="album-title-author-smaller">
+                                  <div className="album-title-smaller">
+                                    <span>{this.props.album ? this.props.album.title : ""}</span>
+                                  </div>
+                                  <div>
+                                    <span dir="auto" className="album-by">By</span>
+                                    <span dir="auto">
+                                      <Link to="/">{this.props.album ? this.props.album.artistName : ""}</Link>
+                                    </span>
+                                  </div>
+                                </div>
+                                <p className="album-year-count-smaller">
+                                  {
+                                    `${this.props.album ? this.props.album.year : ""} • ${this.props.album ? this.props.album.songCount : ""} songs`
+                                  }
+                                </p>
+                                <div className="track-list-buttons-smaller">
+                                  <div className="track-list-header-play-button-top-smaller">
+                                    <button onClick={this.handleClick(Object.values(this.props.songs)[0])} className="track-list-header-play-button">PLAY</button>
+                                  </div>
+                                  <div className="track-list-extra-buttons-smaller">
+                                    <button className="track-list-header-body-heart-buttons-body">
+                                      <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
+                                    </button>
+                                    <button className="track-list-header-body-three-dots-buttons-body">
+                                      <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </MediaQuery>
+
+                            <div className="track-list-header-play-button-top">
+                              <button onClick={this.handleClick(Object.values(this.props.songs)[0])} className="track-list-header-play-button">PLAY</button>
+                            </div>
+                            <div className="track-list-header-body">
+                              <p className="track-list-count">{`${this.props.album ? this.props.album.year : ""} • ${this.props.album ? this.props.album.songCount : ""} songs`}</p>
+                              <div className="track-list-header-body-children">
+                                <div className="track-list-header-body-extra-buttons">
+                                  <button className="track-list-header-body-heart-buttons-body">
+                                    <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
+                                  </button>
+                                  <button className="track-list-header-body-three-dots-buttons-body">
+                                    <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
                           </div>
+
+
                         </div>
-                        <div className="spotify-small-text">
-                          <span>that music app</span>
+                        <div className="playlist-song-lists">
+                          <section className="track-list-container">
+                            <ol className="track-list">
+                              {renderSongs}
+                            </ol>
+                          </section>
                         </div>
-                      </div>
-                      <div className="track-list-header-play-button-top">
-                        <button onClick={this.handleClick(Object.values(this.props.songs)[0])} className="track-list-header-play-button">PLAY</button>
-                      </div>
-                      <div className="track-list-header-body">
-                        <p className="track-list-count">{`${this.props.album ? this.props.album.songCount : ""} songs`}</p>
-                        <div className="track-list-header-body-children">
-                          <div className="track-list-header-body-extra-buttons">
-                            <button className="track-list-header-body-heart-buttons-body">
-                              <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
-                            </button>
-                            <button className="track-list-header-body-three-dots-buttons-body">
-                              <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
                     </div>
+
                   </div>
-                </div>
-                <div className="playlist-song-lists">
-                  <section className="track-list-container">
-                    <ol className="track-list">
-                      {renderSongs}
-                    </ol>
-                  </section>
-                </div>
-              </section>
+                </section>
+              </div>
             </div>
           </div>
-        </div>
-        <PlaybarContainer/>
-      </div>
+
     );
   }
 }

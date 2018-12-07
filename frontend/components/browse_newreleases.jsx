@@ -3,6 +3,7 @@ import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
 import PlaybarContainer from './playbar-container';
 import AlbumIndexContainer from './album_index_container';
+import ArtistIndexContainer from './artist/artist_index_container';
 
 class BrowseNewReleases extends React.Component {
 
@@ -13,10 +14,11 @@ class BrowseNewReleases extends React.Component {
   render() {
     return (
       <div className="browse-newreleases-container">
-        <Navbar />
-        <BrowseNavHeader />
-        <AlbumIndexContainer />
-        <PlaybarContainer />
+        <section className="new-releases-content-spacing">
+          <BrowseNavHeader />
+          <AlbumIndexContainer />
+          <ArtistIndexContainer/>
+        </section>
       </div>
     );
   }

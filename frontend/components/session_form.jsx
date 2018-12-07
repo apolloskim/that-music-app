@@ -36,7 +36,7 @@ class SessionForm extends React.Component {
 
   submitDemoForm(e) {
     e.preventDefault();
-    this.props.submitForm({username: "pikachu", password: "pokemon"});
+    this.props.login({username: "pikachu", password: "pokemon"});
   }
 
 
@@ -98,9 +98,14 @@ class SessionForm extends React.Component {
                 placeholder="username"
                 onChange={this.update("username")} />
 
-                <p className="form-error">{this.props.errors[0] === 'Username is too short (minimum is 6 characters)' ?
-                  this.props.errors[0] : (this.props.errors[0] === 'Password is too short (minimum is 6 characters)' ?
-                  this.props.errors[0] : '')}</p>
+              <p className="form-error">
+                {
+                  this.props.errors[0] === 'Username is too short (minimum is 6 characters)' || this.props.errors[0] === "Username can't be blank"
+                  ? this.props.errors[0]
+                  : ''
+                }
+              </p>
+
             </li>
             <li className={`form-list ${this.props.errors.length > 0 ? 'has-errors' : ""}`}>
               <input type="password"
@@ -108,9 +113,22 @@ class SessionForm extends React.Component {
                 placeholder="password"
                 onChange={this.update("password")} />
 
-                <p className="form-error">{this.props.errors[1] === 'Password is too short (minimum is 6 characters)' ?
-                  this.props.errors[1] : (this.props.errors[0] === 'Password is too short (minimum is 6 characters)' ?
-                  this.props.errors[0] : '')}</p>
+              <p className="form-error">
+                {
+                  this.props.errors[1] === 'Password is too short (minimum is 6 characters)'
+                  ? this.props.errors[1]
+                  : ( this.props.errors[0] === 'Password is too short (minimum is 6 characters)'
+                    ? this.props.errors[0]
+                    : ( this.props.errors[2] === 'Password is too short (minimum is 6 characters)'
+                      ? this.props.errors[2]
+                      : ( this.props.errors[0] === 'invalid login credentials'
+                        ? this.props.errors[0]
+                        : ''
+                        )
+                      )
+                    )
+                  }
+                </p>
             </li>
           </ul>
           <button className="form-submit">{this.props.formType}</button>

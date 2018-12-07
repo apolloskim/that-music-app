@@ -20,34 +20,20 @@ Playlistsong.destroy_all
 user_1 = User.new(username: "pikachu", password: "pokemon")
 
 
-artist_1 = Artist.new(name: "Drake")
-artist_2 = Artist.new(name: "Travis Scott")
-artist_3 = Artist.new(name: "BTS")
+artist_1 = Artist.create!(name: "Drake", thumbnail_image: "https://i.scdn.co/image/012ecd119617ac24ab56620ace4b81735b172686", main_image: "https://i.scdn.co/image/a2ee94afb84f525ed12c58a60bf4d269b47b603a")
+artist_2 = Artist.create!(name: "Travis Scott", thumbnail_image: "https://i.scdn.co/image/dc5eba5e032c2e5bc4d42c89d61ffee5875c981f", main_image: "https://i.scdn.co/image/2b2fdb7cec7dc92f14a3e8b26a3d70abe7cc1344")
+artist_3 = Artist.create!(name: "BTS", thumbnail_image: "https://i.scdn.co/image/0c9057cb30520f9f883a220051260fc66a2f3ffa", main_image: "https://i.scdn.co/image/4ceff7deeccd66fb87cbe51d5aab598af8e99ff0")
+artist_4 = Artist.create!(name: "Ariana Grande", thumbnail_image: "https://i.scdn.co/image/25dd6de55a74237ae84e1b53e083bbd5aadade39", main_image: "https://i.scdn.co/image/6142da41a093913f20322760226e542a0f753872")
+artist_5 = Artist.create!(name: "Majid Jordan", thumbnail_image: "https://i.scdn.co/image/ac02003a89bd2d77d8277d06066a9c9c15bf89d6", main_image: "https://i.scdn.co/image/93877227805a55988191a4f9a323dbf01c2bb72b")
 
-
-
-artist_1.images.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Drake-scorpion-image.jpg"), filename: "Drake-scorpion-image.jpg")
-artist_2.images.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/travis-scott-spotify-image-1.jpeg"), filename: "travis-scott-spotify-image-1.jpeg")
-artist_3.images.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/bts-spotify-cover.jpg"), filename: "bts-spotify-cover.jpg")
-
-artist_1.save!
-artist_2.save!
-artist_3.save!
-
-album_1 = Album.new(title: "Scorpion", year: 2018, genre: "hip-hop", artist_id: artist_1.id, publisher: "© 2018 Young Money/Cash Money Records")
-album_2 = Album.new(title: "ASTROWORLD", year: 2018, genre: "hip-hop", artist_id: artist_2.id, publisher: "℗ 2018 Epic Records, a division of Sony Music Entertainment. With Cactus Jack and Grand Hustle.")
-album_3 = Album.new(title: "Love Yourself 轉 'Tear'", year: 2018, genre: "k-pop", artist_id: artist_3.id, publisher: "© 2018 Bighit Entertainment")
-album_4 = Album.new(title: "Love Yourself 結 'Answer'", year: 2018, genre: "k-pop", artist_id: artist_3.id, publisher: "© 2018 Bighit Entertainment")
-
-album_1.image.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/drake-scorpion-album-cover.jpg"), filename: "drake-scorpion-album-cover.jpg")
-album_2.image.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/travis-scott-astroworld.jpg"), filename: "travis-scott-astroworld.jpg")
-album_3.image.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/%5B2018.05.18%5D+%E1%84%87%E1%85%A1%E1%86%BC%E1%84%90%E1%85%A1%E1%86%AB%E1%84%89%E1%85%A9%E1%84%82%E1%85%A7%E1%86%AB%E1%84%83%E1%85%A1%E1%86%AB+%5B3%E1%84%8C%E1%85%B5%E1%86%B8%5D+LOVE+YOURSELF+%E8%BD%89+%60Tear%60/cover.jpg"), filename: "cover.jpg")
-album_4.image.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/BTS-Love+Yourself+'ANSWER'/CD+2/cover.jpg"), filename: "cover.jpg")
-
-album_1.save!
-album_2.save!
-album_3.save!
-album_4.save!
+album_1 = Album.create!(title: "Scorpion", year: 2018, genre: "hip-hop", artist_id: artist_1.id, publisher: "© 2018 Young Money/Cash Money Records", cover_image: "https://i.scdn.co/image/542d705154be4049fc927050d006987e63739bbd")
+album_2 = Album.create!(title: "ASTROWORLD", year: 2018, genre: "hip-hop", artist_id: artist_2.id, publisher: "℗ 2018 Epic Records, a division of Sony Music Entertainment. With Cactus Jack and Grand Hustle.", cover_image: "https://i.scdn.co/image/cdca7dc20c778ada42fb18506ea1f26857f01d17")
+album_3 = Album.create!(title: "Love Yourself 轉 'Tear'", year: 2018, genre: "k-pop", artist_id: artist_3.id, publisher: "© 2018 Bighit Entertainment", cover_image: "https://i.scdn.co/image/2bb8b49298155123402a78f1a68a245c0051c1c0")
+album_4 = Album.create!(title: "Love Yourself 結 'Answer'", year: 2018, genre: "k-pop", artist_id: artist_3.id, publisher: "© 2018 Bighit Entertainment", cover_image: "https://i.scdn.co/image/09b29171880b765c0632eaf44d10d18178a3f2c5")
+album_5 = Album.create!(title: "Sweetener", year: 2018, genre: "pop", artist_id: artist_4.id, publisher: "© 2018 Republic Records, a Division of UMG Recordings, Inc.", cover_image: "https://i.scdn.co/image/381891c42f301e0abaa1b1dcfbf0390334e698eb")
+album_6 = Album.create!(title: "thank u, next", year: 2018, genre: "pop", artist_id: artist_4.id, publisher: "© 2018 Republic Records, a Division of UMG Recordings, Inc.", cover_image: "https://i.scdn.co/image/77eb7c17cafe550337bbb4711235a0128db66a66")
+album_7 = Album.create!(title: "The Space Between", year: 2017, genre: "r&b", artist_id: artist_5.id, publisher: "© 2017 OVO Sound/Warner Bros. Records Inc.", cover_image: "https://i.scdn.co/image/8f8a22af30187754febdd377717551107ea510f0")
+album_8 = Album.create!(title: "All Over You", year: 2018, genre: "r&b", artist_id: artist_5.id, publisher: "© 2017 OVO Sound/Warner Bros. Records Inc.", cover_image: "https://i.scdn.co/image/bc466b0d038e515a66b120af07bb36467e021ba8")
 
 song_1 = Song.new(title: "Survival", album_id: album_1.id, explicit: true, duration: "2:16" )
 song_2 = Song.new(title: "Nonstop", album_id: album_1.id, explicit: true, duration: "3:58" )
@@ -132,6 +118,40 @@ song_77 = Song.new(title: "FAKE LOVE (Rocking Vibe Mix)", album_id: album_4.id, 
 song_78 = Song.new(title: "MIC Drop (Steve Aoki Remix) [Full Length Edition]", album_id: album_4.id, explicit: false, duration: "5:07" )
 song_79 = Song.new(title: "IDOL (feat. Nicki Minaj)", album_id: album_4.id, explicit: false, duration: "4:20" )
 
+
+song_80 = Song.new(title: "raindrops (an angel cried)", album_id: album_5.id, explicit: true, duration: "0:37" )
+song_81 = Song.new(title: "blazed (feat. Pharrell Williams)", album_id: album_5.id, explicit: true, duration: "3:16" )
+song_82 = Song.new(title: "the light is coming (feat. Nicki Minaj)", album_id: album_5.id, explicit: true, duration: "3:48" )
+song_83 = Song.new(title: "R.E.M", album_id: album_5.id, explicit: true, duration: "4:05" )
+song_84 = Song.new(title: "God is a woman", album_id: album_5.id, explicit: true, duration: "3:17" )
+song_85 = Song.new(title: "sweetener", album_id: album_5.id, explicit: true, duration: "3:28" )
+song_86 = Song.new(title: "successful", album_id: album_5.id, explicit: true, duration: "3:47" )
+song_87 = Song.new(title: "everytime", album_id: album_5.id, explicit: true, duration: "2:52" )
+song_88 = Song.new(title: "breathin", album_id: album_5.id, explicit: true, duration: "3:18" )
+song_89 = Song.new(title: "no tears left to cry", album_id: album_5.id, explicit: false, duration: "3:25" )
+song_90 = Song.new(title: "borderline (feat. Missy Elliott)", album_id: album_5.id, explicit: true, duration: "2:57" )
+song_91 = Song.new(title: "better off", album_id: album_5.id, explicit: true, duration: "2:51" )
+song_92 = Song.new(title: "goodnight n go", album_id: album_5.id, explicit: true, duration: "3:09" )
+song_93 = Song.new(title: "pete davidson", album_id: album_5.id, explicit: true, duration: "1:13" )
+song_94 = Song.new(title: "get well soon", album_id: album_5.id, explicit: true, duration: "5:22" )
+
+song_95 = Song.new(title: "thank u, next", album_id: album_6.id, explicit: true, duration: "3:27" )
+
+song_96 = Song.new(title: "Intro", album_id: album_7.id, explicit: false, duration: "1:07" )
+song_97 = Song.new(title: "Gave Your Love Away", album_id: album_7.id, explicit: false, duration: "4:45" )
+song_98 = Song.new(title: "OG Heartthrob", album_id: album_7.id, explicit: false, duration: "4:28" )
+song_99 = Song.new(title: "Body Talk", album_id: album_7.id, explicit: false, duration: "3:27" )
+song_100 = Song.new(title: "Not Ashamed", album_id: album_7.id, explicit: false, duration: "4:00" )
+song_101 = Song.new(title: "One I Want (feat. PARTYNEXTDOOR)", album_id: album_7.id, explicit: false, duration: "3:32" )
+song_102 = Song.new(title: "You", album_id: album_7.id, explicit: false, duration: "5:42" )
+song_103 = Song.new(title: "Phases", album_id: album_7.id, explicit: false, duration: "3:37" )
+song_104 = Song.new(title: "Asleep", album_id: album_7.id, explicit: false, duration: "3:49" )
+song_105 = Song.new(title: "What You Do to Me", album_id: album_7.id, explicit: false, duration: "3:36" )
+song_106 = Song.new(title: "My Imagination (feat. dvsn)", album_id: album_7.id, explicit: false, duration: "3:45" )
+song_107 = Song.new(title: "The Space Between", album_id: album_7.id, explicit: false, duration: "3:25" )
+song_108 = Song.new(title: "Outro", album_id: album_7.id, explicit: false, duration: "4:21" )
+
+song_109 = Song.new(title: "All Over You", album_id: album_8.id, explicit: false, duration: "3:35" )
 
 
 song_1.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Drake-Scorpion/1-01+Survival.mp3"), filename: "1-01 Survival.mp3")
@@ -218,6 +238,43 @@ song_77.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusic
 song_78.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/BTS-Love+Yourself+'ANSWER'/CD+2/09.+MIC+Drop+(Steve+Aoki+Remix)+(Full+Length+Edition).mp3"), filename: "09. MIC Drop (Steve Aoki Remix) (Full Length Edition).mp3")
 song_79.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/BTS-Love+Yourself+'ANSWER'/CD+2/10.+IDOL+(Feat.+Nicki+Minaj).mp3"), filename: "10. IDOL (Feat. Nicki Minaj).mp3")
 
+song_80.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/1.+raindrops+(an+angel+cried).mp3"), filename: "1.+raindrops+(an+angel+cried).mp3")
+song_81.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/2.+blazed.mp3"), filename: "2.+blazed.mp3")
+song_82.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/3.+the+light+is+coming.mp3"), filename: "3.+the+light+is+coming.mp3")
+song_83.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/4.+R.E.M.mp3"), filename: "4.+R.E.M.mp3")
+song_84.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/5.+God+is+a+woman.mp3"), filename: "5.+God+is+a+woman.mp3")
+song_85.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/6.+sweetener.mp3"), filename: "6.+sweetener.mp3")
+song_86.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/7.+successful.mp3"), filename: "7.+successful.mp3")
+song_87.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/8.+everytime.mp3"), filename: "8.+everytime.mp3")
+song_88.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/9.+breathin.mp3"), filename: "9.+breathin.mp3")
+song_89.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/10.+no+tears+left+to+cry.mp3"), filename: "10.+no+tears+left+to+cry.mp3")
+song_90.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/11.+borderline.mp3"), filename: "11.+borderline.mp3")
+song_91.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/12.+better+off.mp3"), filename: "12.+better+off.mp3")
+song_92.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/13.+goodnight+n+go.mp3"), filename: "13.+goodnight+n+go.mp3")
+song_93.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/14.+pete+davidson.mp3"), filename: "14.+pete+davidson.mp3")
+song_94.song_file.attach(io: EzDownload.open("https://s3.amazonaws.com/thatmusicapp-dev/Ariana+Grande+-+Sweetener+(+320+kbps)/15.+get+well+soon.mp3"), filename: "15.+get+well+soon.mp3")
+
+
+song_95.song_file.attach(io: EzDownload.open(""), filename: "")
+
+song_96.song_file.attach(io: EzDownload.open(""), filename: "")
+song_97.song_file.attach(io: EzDownload.open(""), filename: "")
+song_98.song_file.attach(io: EzDownload.open(""), filename: "")
+song_99.song_file.attach(io: EzDownload.open(""), filename: "")
+song_100.song_file.attach(io: EzDownload.open(""), filename: "")
+song_101.song_file.attach(io: EzDownload.open(""), filename: "")
+song_102.song_file.attach(io: EzDownload.open(""), filename: "")
+song_103.song_file.attach(io: EzDownload.open(""), filename: "")
+song_104.song_file.attach(io: EzDownload.open(""), filename: "")
+song_105.song_file.attach(io: EzDownload.open(""), filename: "")
+song_106.song_file.attach(io: EzDownload.open(""), filename: "")
+song_107.song_file.attach(io: EzDownload.open(""), filename: "")
+song_108.song_file.attach(io: EzDownload.open(""), filename: "")
+
+song_109.song_file.attach(io: EzDownload.open(""), filename: "")
+
+
+
 song_1.save!
 song_2.save!
 song_3.save!
@@ -297,3 +354,33 @@ song_76.save!
 song_77.save!
 song_78.save!
 song_79.save!
+song_80.save!
+song_81.save!
+song_82.save!
+song_83.save!
+song_84.save!
+song_85.save!
+song_86.save!
+song_87.save!
+song_88.save!
+song_89.save!
+song_90.save!
+song_91.save!
+song_92.save!
+song_93.save!
+song_94.save!
+song_95.save!
+song_96.save!
+song_97.save!
+song_98.save!
+song_99.save!
+song_100.save!
+song_101.save!
+song_102.save!
+song_103.save!
+song_104.save!
+song_105.save!
+song_106.save!
+song_107.save!
+song_108.save!
+song_109.save!

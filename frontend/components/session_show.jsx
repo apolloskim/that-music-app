@@ -12,13 +12,13 @@ class SessionShow extends React.Component {
     window.audio.pause();
     window.audio.currentTime = 0;
     window.audio.src = "";
+    this.props.receivePlay(false, true);
     this.props.logout();
   }
 
   render() {
     return (
       <div className="session-show-container">
-        <Navbar />
         <div className="session-show-lists">
           <div className="session-show-icon">
             <svg width="80" height="90" viewBox="0 0 80 90" xmlns="http://www.w3.org/2000/svg">
@@ -29,7 +29,6 @@ class SessionShow extends React.Component {
           <div className="session-show-username">{this.props.currentUser.username}</div>
           <button className="logout-button" onClick={this.handleLogoutClick.bind(this)}>log out</button>
         </div>
-        <PlaybarContainer/>
       </div>
     );
   }

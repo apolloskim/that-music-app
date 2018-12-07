@@ -186,7 +186,6 @@ export default class PlaylistShow extends React.Component {
     return (
       <div className="album-show-root">
         <div className="playlist-show-container">
-          <Navbar />
           <div className="playlist-show-main-content" >
             <div className="playlist-content-spacing" >
               <section className="content-playlist">
@@ -236,7 +235,6 @@ export default class PlaylistShow extends React.Component {
             </div>
           </div>
         </div>
-        <PlaybarContainer/>
       </div>
     );
   }

@@ -13,8 +13,7 @@ class Song < ApplicationRecord
   validates :title, presence: true
 
   has_one_attached :song_file
-  has_one_attached :image
-
+  
   has_many :playlistsongs
 
   has_many :playlists,

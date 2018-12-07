@@ -3,8 +3,7 @@
     window.currentUser = <%= render("api/users/user.json.jbuilder", user: current_user, currentSong: current_song(current_user)).html_safe %>
     window.currentSong = <%= render("api/songs/song.json.jbuilder", song: current_song(current_user)).html_safe %>
     window.audio = document.getElementById('root-audio');
-    window.audio.src = "<%= url_for(current_song(current_user).song_file) %>"
-
+    window.audio.src = "<%= current_song(current_user) ? url_for(current_song(current_user).song_file) : ""%>"
   </script>
 <% end %>
 

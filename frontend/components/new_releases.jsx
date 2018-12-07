@@ -20,10 +20,12 @@ class NewReleases extends React.Component {
       renderPlaylists = (
         Object.values(this.props.playlists).map( ( playlist, idx ) => {
           return (
-            <div key={idx} className="browse-featured-playlist">
-              <img src={playlist.imageUrl} />
-              <div className="mo-info" >
-                <Link to={`/playlist/${playlist.id}`} className="cover-art-text">{playlist.title}</Link>
+            <div key={idx} className="cover-container">
+              <div className="browse-featured-playlist">
+                <img src={playlist.imageUrl} />
+                <div className="mo-info" >
+                  <Link to={`/playlist/${playlist.id}`} className="cover-art-text">{playlist.title}</Link>
+                </div>
               </div>
             </div>
           );
@@ -32,18 +34,16 @@ class NewReleases extends React.Component {
     };
 
     return (
-      <div className="browse-featured-content-container">
-        <section className="browse-featured-content-spacing">
-          <div className="browse-featured-content-wrapper">
-            <div className="browse-featured-header">
-              <h1 className="browse-featured-header-new-releases">New releases</h1>
-            </div>
-            <div className="browse-featured-playlist-lists">
-              {renderPlaylists}
-            </div>
-          </div>
-        </section>
+
+      <div className="browse-featured-content-wrapper">
+        <div className="browse-featured-header">
+          <h1 className="browse-featured-header-new-releases">New releases</h1>
+        </div>
+        <div className="browse-featured-playlist-lists">
+          {renderPlaylists}
+        </div>
       </div>
+
 
     );
   }

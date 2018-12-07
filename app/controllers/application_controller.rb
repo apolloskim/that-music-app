@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_song(user)
-    Song.find(user.current_song_id || 100)
+    user.current_song_id ? Song.find(user.current_song_id) : nil
   end
 
   def require_logged_in

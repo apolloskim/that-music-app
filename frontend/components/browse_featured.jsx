@@ -1,8 +1,6 @@
 import React from 'react';
-import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
 import NewReleasesContainer from './new_releases_container';
-import PlaybarContainer from './playbar-container';
 import {Link} from 'react-router-dom';
 
 class BrowsePlaylists extends React.Component {
@@ -12,13 +10,12 @@ class BrowsePlaylists extends React.Component {
   }
 
   render() {
-
+    
     return (
-      <div className="browse-featured-container">
-        <Navbar />
-        <BrowseNavHeader />
-        <NewReleasesContainer />
-        <PlaybarContainer/>
+      <div className="browse-newreleases-container">
+        <section className="new-releases-content-spacing">
+          <BrowseNavHeader />
+        </section>
       </div>
     );
   }

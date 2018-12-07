@@ -123,7 +123,6 @@ class Search extends React.Component {
     // console.log(this.state.searchString);
     return (
       <div className="search-container">
-        <Navbar />
           <section className="search">
             <div className="search-input-box">
               <div className="search-content-spacing">
@@ -134,7 +133,6 @@ class Search extends React.Component {
           <ul className="searched-songs-lists">
             {renderSongs}
           </ul>
-        <PlaybarContainer/>
       </div>
     );
   }

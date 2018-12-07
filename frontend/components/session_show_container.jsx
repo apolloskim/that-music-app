@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {logout} from '../actions/session_actions';
 import SessionShow from './session_show';
+import {receivePlay} from '../actions/song_actions';
 
 
 const msp = state => {
@@ -14,7 +15,8 @@ const msp = state => {
 
 const mdp = dispatch => {
   return {
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
+    receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause))
   };
 };
 

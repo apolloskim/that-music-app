@@ -19,8 +19,8 @@ export default class Playbar extends React.Component {
       currentTime: null,
       duration: null
     }
-    this.timeline = React.createRef();
-    this.slider = React.createRef();
+    // this.timeline = React.createRef();
+    // this.slider = React.createRef();
 
     this.handleMouseOver = this.handleMouseOver.bind(this);
     // this.audio = document.getElementById('root-audio');
@@ -30,6 +30,8 @@ export default class Playbar extends React.Component {
     this.mouseMove = this.mouseMove.bind(this);
     this.volumeMouseMove = this.volumeMouseMove.bind(this);
     this.playNextSong = this.playNextSong.bind(this);
+    this.positionHandle = this.positionHandle.bind(this);
+    this.handleAudioUpdate = this.handleAudioUpdate.bind(this);
   }
 
   handleMouseOver(field) {
@@ -40,7 +42,7 @@ export default class Playbar extends React.Component {
 
     if(this.props.pause) {
       window.audio.play();
-      this.onPlaying();
+      // this.onPlaying();
       this.props.receivePlay(true, false);
     } else if (this.props.playing) {
       window.audio.pause();
@@ -62,11 +64,10 @@ export default class Playbar extends React.Component {
   }
 
   positionHandle(position) {
-    let handleLeft = position - 0;
-    if (handleLeft >= 0 && handleLeft <= this.timeline.offsetWidth) {
-      this.status.style.width = (handleLeft * 100 / this.timeline.offsetWidth) + "%";
+    if (position >= 0 && position <= this.timeline.offsetWidth) {
+      this.status.style.width = (position * 100 / this.timeline.offsetWidth) + "%";
     }
-    if (handleLeft < 0) {
+    if (position < 0) {
       this.slider.style.width = "0px";
     }
 
@@ -98,26 +99,10 @@ export default class Playbar extends React.Component {
 
 
   componentDidMount() {
-    if (!window.audio) {
-      debugger
-      window.audio = document.getElementById('root-audio');
-      window.audio.src = this.props.currentSong.song.songUrl;
-    }
-    window.audio.ontimeupdate = () => {
-      let ratio = window.audio.currentTime / window.audio.duration;
-      let position = this.timeline.offsetWidth * ratio;
-      let currentSecond = Math.round(window.audio.currentTime % 60).toString().length < 2 ? '0' + Math.round(window.audio.currentTime % 60).toString() : Math.round(window.audio.currentTime % 60).toString();
-      let currentMinute = Math.round(window.audio.currentTime / 60);
-      let durationSecond = Math.round(window.audio.duration % 60).toString().length < 2 ? '0' + Math.round(window.audio.duration % 60).toString() : Math.round(window.audio.duration % 60).toString();
-      let durationMinute = Math.round(window.audio.duration / 60);
 
-      this.setState({currentTime: `${currentMinute}:${currentSecond === '60' ? '00' : currentSecond}`, duration: `${durationMinute}:${durationSecond}`});
-      this.positionHandle(position);
-      this.playNextSong();
-    };
-  }
-
-  //   window.audio.addEventListener("timeupdate", () => {
+    window.audio = document.getElementById('root-audio');
+    window.audio.src = Object.values(this.props.currentSong).length !== 0 ? this.props.currentSong.song.songUrl: "";
+  //   window.audio.ontimeupdate = () => {
   //     let ratio = window.audio.currentTime / window.audio.duration;
   //     let position = this.timeline.offsetWidth * ratio;
   //     let currentSecond = Math.round(window.audio.currentTime % 60).toString().length < 2 ? '0' + Math.round(window.audio.currentTime % 60).toString() : Math.round(window.audio.currentTime % 60).toString();
@@ -128,8 +113,28 @@ export default class Playbar extends React.Component {
   //     this.setState({currentTime: `${currentMinute}:${currentSecond === '60' ? '00' : currentSecond}`, duration: `${durationMinute}:${durationSecond}`});
   //     this.positionHandle(position);
   //     this.playNextSong();
-  //   });
+  //   };
   // }
+
+    window.audio.addEventListener("timeupdate", this.handleAudioUpdate);
+  }
+
+  handleAudioUpdate() {
+    let ratio = window.audio.currentTime / window.audio.duration;
+    let position = this.timeline.offsetWidth * ratio;
+    let currentSecond = Math.round(window.audio.currentTime % 60).toString().length < 2 ? '0' + Math.round(window.audio.currentTime % 60).toString() : Math.round(window.audio.currentTime % 60).toString();
+    let currentMinute = Math.round(window.audio.currentTime / 60);
+    let durationSecond = Math.round(window.audio.duration % 60).toString().length < 2 ? '0' + Math.round(window.audio.duration % 60).toString() : Math.round(window.audio.duration % 60).toString();
+    let durationMinute = Math.round(window.audio.duration / 60);
+
+    this.setState({currentTime: `${currentMinute}:${currentSecond === '60' ? '00' : currentSecond}`, duration: `${durationMinute}:${durationSecond}`});
+    this.positionHandle(position);
+    this.playNextSong();
+  }
+
+  componentWillUnmount() {
+    window.audio.removeEventListener("timeupdate", this.handleAudioUpdate);
+  }
 
   playNextSong() {
     let nextSongIdx;
@@ -223,9 +228,6 @@ export default class Playbar extends React.Component {
         </div>
       );
     }
-
-
-
 
     return (
       <div className="player-controls">

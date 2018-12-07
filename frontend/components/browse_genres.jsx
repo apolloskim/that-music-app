@@ -11,10 +11,10 @@ class BrowseGenres extends React.Component {
 
   render() {
     return (
-      <div className="browse-genres-container">
-        <Navbar />
-        <BrowseNavHeader />
-        <PlaybarContainer/>
+      <div className="browse-newreleases-container">
+        <section className="new-releases-content-spacing">
+          <BrowseNavHeader />
+        </section>
       </div>
     );
   }

@@ -25,20 +25,11 @@ const Root = ({store}) => {
     <Provider store={store}>
       <HashRouter>
         <div>
+
           <AuthRoute exact path="/" component={Splash} />
           <AuthRoute exact path='/signup' component={SignupFormContainer} />
           <AuthRoute exact path='/login' component={LoginFormContainer} />
-          <ProtectedRoute exact path='/browse/featured' component={BrowsePlaylists} />
-          <ProtectedRoute exact path='/browse/genres' component={BrowseGenres} />
-          <ProtectedRoute exact path='/browse/newreleases' component={BrowseNewReleases} />
-          <ProtectedRoute exact path='/collection/playlists' component={CollectionPlaylists} />
-          <ProtectedRoute exact path='/collection/tracks' component={CollectionFavoriteSongs} />
-          <ProtectedRoute exact path='/collection/albums' component={CollectionAlbums} />
-          <ProtectedRoute exact path='/collection/artists' component={CollectionArtists} />
-          <ProtectedRoute exact path='/search' component={SearchContainer} />
-          <ProtectedRoute exact path='/settings/account' component={SessionShowContainer} />
-          <ProtectedRoute exact path={`/playlist/:playlistId`} component={PlaylistShowContainer} />
-          <ProtectedRoute exact path={`/album/:albumId`} component={AlbumShowContainer} />
+          <ProtectedRoute path='/app' component={App} />
         </div>
       </HashRouter>
     </Provider>

@@ -1,0 +1,134 @@
+.wrap {
+  background: linear-gradient(#F037A5 -60%, #FAE62D 140%);
+  width: auto;
+  height: 100vh;
+  overflow: scroll;
+}
+
+.navbar {
+  border: 0;
+}
+
+.navbar > .container .navbar-brand {
+  margin: 0;
+}
+
+.navbar-default .navbar-brand {
+  color: #FFF;
+}
+
+.navbar-header {
+  display: block;
+}
+
+.navbar-brand {
+  padding: 0;
+  height: auto;
+  line-height: 1;
+  float: left;
+  font-size: 20px;
+}
+
+.navbar-fixed-top {
+  position: fixed;
+  right: 0;
+  left: 0;
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.navbar-collapse {
+  overflow-x: visible;
+  padding-right: 15px;
+  padding-left: 15px;
+  border-top: 1px solid transparent;
+}
+
+.navbar-nav > li > a{
+  color: #FFF;
+  position: relative;
+  display: block;
+}
+
+.navbar-nav > .divider {
+  background-color: #D9DADC;
+}
+
+.navbar-brand {
+  display: flex;
+}
+
+.navbar-toggle {
+  margin-top: 9px;
+  margin-bottom: 9px;
+  border: 0;
+  margin-right: -10px;
+  position: relative;
+  float: right;
+  padding: 9px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.icon-bar {
+  display: block;
+  background-color: #FFF;
+  transform-origin: 21px;
+  transition: transform 0.2s;
+  height: 3px;
+  width: 22px;
+  border-radius: 1px;
+}
+
+.navbar-toggle .icon-bar + .icon-bar {
+  margin-top: 4px;
+}
+
+.simplified {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.hero-home {
+  color: #FFF;
+}
+
+.hero {
+  overflow: hidden;
+}
+
+.container-simplified {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.row-simplified {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.row-simplified h1{
+  /* position: relative; */
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-top: 0;
+  /* transform: translateY(-40%); */
+}
+
+.row-simplified h4 {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 400;
+  /* transform: translateY(-80%); */
+}

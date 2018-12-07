@@ -12,9 +12,20 @@ const Greeting = (props) => {
     );
   } else {
     logged_or_not = (
-      <ul className="signup-login">
-        <li><Link className="auth-link" to="/signup">Sign up</Link></li>
-        <li><Link className="auth-link" to="/login">Log in</Link></li>
+      <ul className="nav navbar-nav navbar-right nav-main">
+        <li>
+          <a className="auth-link sidepanel-bold" href="https://github.com/apolloskim">Github</a>
+        </li>
+        <li>
+          <a className="auth-link sidepanel-bold" href="https://www.linkedin.com/in/apollos-kim-2bb1a4171/">Linkedin</a>
+        </li>
+        <li role="separator" className="divider sidepanel-divider"></li>
+        <li>
+          <Link className="auth-link sidepanel-normal" to="/signup">Sign up</Link>
+        </li>
+        <li>
+          <Link className="auth-link sidepanel-normal" to="/login">Log in</Link>
+        </li>
       </ul>
     );
   }

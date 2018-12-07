@@ -7,7 +7,7 @@ const currentSongsReducer = (state = {}, action) => {
     case RECEIVE_CURRENT_SONG:
     return action.song;
     case RECEIVE_CURRENT_USER:
-      return action.currentSong;
+      return action.currentSong ? action.currentSong : {};
     case LOGOUT_CURRENT_USER:
       return {};
     default:

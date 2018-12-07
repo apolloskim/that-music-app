@@ -11,10 +11,10 @@ export default class CollectionFavoriteSongs extends React.Component {
 
   render() {
     return (
-      <div className="collection-favorite-songs-container">
-        <Navbar />
-        <CollectionPlaylistsHeader />
-        <PlaybarContainer/>
+      <div className="browse-newreleases-container">
+        <section className="new-releases-content-spacing">
+          <CollectionPlaylistsHeader />
+        </section>
       </div>
     );
   }

@@ -1,30 +1,27 @@
 import React from 'react';
-import Navbar from './navbar/navbar';
-import BrowseNavHeader from './browse_nav_header';
 import {Link} from 'react-router-dom';
-import {ProtectedRoute} from '../util/route_util';
 
-class AlbumIndex extends React.Component {
+export default class ArtistIndex extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
   }
 
   componentDidMount() {
-    this.props.fetchAlbums();
+    this.props.fetchArtists();
   }
 
   render() {
-    let renderAlbums;
-    if (this.props.albums) {
-      renderAlbums = (
-        Object.values(this.props.albums).map( ( album, idx ) => {
+    let renderArtists;
+    if (this.props.artists) {
+      renderArtists = (
+        Object.values(this.props.artists).map( ( artist, idx ) => {
           return (
             <div key={idx} className="cover-container">
               <div key={idx} className="browse-featured-playlist">
-                <img src={album.imageUrl} />
+                <img className="artist-cover-image" src={artist.coverimageUrl} />
                 <div className="mo-info" >
-                  <Link to={`/app/album/${album.id}`} className="cover-art-text">{album.title}</Link>
+                  <Link to={`/`} className="cover-art-text">{artist.name}</Link>
                 </div>
               </div>
             </div>
@@ -37,12 +34,12 @@ class AlbumIndex extends React.Component {
 
         <div className="browse-featured-content-wrapper">
           <div className="browse-featured-header">
-            <h1 className="browse-featured-header-new-releases">New albums & singles</h1>
+            <h1 className="browse-featured-header-new-releases">Recommended Artists</h1>
           </div>
           <div className="browse-featured-playlist-lists">
             <div className="container-fluid">
               <div className="album-index row">
-                {renderAlbums}
+                {renderArtists}
               </div>
             </div>
           </div>
@@ -50,5 +47,3 @@ class AlbumIndex extends React.Component {
     );
   }
 }
-
-export default AlbumIndex;

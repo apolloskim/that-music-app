@@ -11,10 +11,10 @@ export default class CollectionArtists extends React.Component {
 
   render() {
     return (
-      <div className="collection-artists-container">
-        <Navbar />
-        <CollectionPlaylistsHeader />
-        <PlaybarContainer/>
+      <div className="browse-newreleases-container">
+        <section className="new-releases-content-spacing">
+          <CollectionPlaylistsHeader />
+        </section>
       </div>
     );
   }

@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ArtistIndex from './artist_index';
+import ArtistShow from './artist_show';
 import { fetchArtist } from '../../actions/artist_actions';
 
 const mapStateToProps = (state, {match})=> {
-  artistId = match.params.artistId;
+  let artistId = match.params.artistId;
   return {
-    artistId
+    artistId,
+    artist: state.entities.artists[artistId]
   };
 };
 

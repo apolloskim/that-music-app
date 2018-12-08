@@ -7,6 +7,6 @@ export const fetchArtists = () => {
 
 export const fetchArtist = (id) => {
   return $.ajax({
-    url: `/api/artists${id}`
+    url: `/api/artists/${id}`
   });
 };

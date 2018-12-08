@@ -9,6 +9,7 @@ import BrowseGenres from './browse_genres';
 import BrowseNewReleases from './browse_newreleases';
 import PlaylistShowContainer from './playlist_show_container';
 import AlbumShowContainer from './album_show_container';
+import ArtistShowContainer from './artist/artist_show_container';
 import CollectionPlaylists from './collection_playlists';
 import CollectionFavoriteSongs from './collection_favorite_songs';
 import CollectionAlbums from './collection_albums';
@@ -112,6 +113,7 @@ const App = () => {
           <ProtectedRoute path='/app/settings/account' component={SessionShowContainer} />
           <ProtectedRoute path={`/app/playlist/:playlistId`} component={PlaylistShowContainer} />
           <ProtectedRoute path={`/app/album/:albumId`} component={AlbumShowContainer} />
+          <ProtectedRoute path={`/app/artist/:artistId`} component={ArtistShowContainer} />
           <PlaybarContainer />
       </div>
     </div>

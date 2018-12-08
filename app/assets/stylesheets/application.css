@@ -53,8 +53,61 @@ body {
 
 }
 
+.artist-header {
+  padding-left: 230px;
+  margin-left: -230px;
+  position: relative;
+  background-size: cover;
+  background-position: 50%;
+  align-items: center;
+}
+
+.artist-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(0,0,0,0) -30%,#181818);
+}
+
+.monthly-listeners {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: lighter;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  color: #FFF;
+  opacity: .6;
+  padding-top: 100px;
+  display: block;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.large {
+  font-size: 68px;
+  line-height: 82px;
+  letter-spacing: -.005em;
+  font-weight: 600;
+  color: #FFF;
+  margin: 0 auto;
+  max-width: 70%;
+  display: block;
+  text-align: center;
+  position: relative;
+}
+
 .artist-cover-image {
   border-radius: 50%;
+}
+
+.header-buttons {
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  padding-top: 7px;
 }
 
 .background-image {
@@ -366,6 +419,7 @@ text-align: center;
   height: 100vh;
   padding: 24px 22px 5px;
   position: fixed;
+  z-index: 1;
 }
 
 .navBar-header-link {
@@ -839,14 +893,37 @@ text-align: center;
 }
 
 .track-list-header-body-dots-icon {
-  height: 37px;
-  width: 37px;
+  height: 35px;
+  width: 35px;
+}
+
+.artist-show-heart-button {
+  margin-right: 10px;
+  transition-duration: 50ms;
+  transition: none 33ms cubic-bezier(.3,0,.7,1);
+  transition-property: all;
+  /* margin-top: 16px; */
+  margin-bottom: 0;
+  text-align: center;
+  border: 0;
+  border-radius: 500px;
+  padding: 13px;
+  vertical-align: middle;
+
+}
+
+.btn-margin-right {
+  margin-right: 15px;
+}
+
+.artist-show-heart-button:hover {
+  transform: scale(1.06);
 }
 
 
 .track-list-header-body-heart-icon {
-  height: 33px;
-  width: 33px;
+  height: 30px;
+  width: 30px;
 }
 
 .track-list-header, .playlist-song-lists {

@@ -4,6 +4,7 @@
     json.title playlist.title
     json.creator_id playlist.creator_id
     json.playlistSongIds playlist.songs.map { |song| song.id }
-    json.imageUrl url_for(playlist.image)
+    json.imageUrl playlist.image_url
+    json.firstImage playlist.songs.first.album.cover_image
   end
 end

@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PlaylistShow from './playlist_show';
 import {fetchPlaylist} from '../actions/playlist_actions';
-import {fetchCurrentSong, receivePlay, receiveSongQueue} from '../actions/song_actions';
-import {fetchCurrentPlaylists} from '../actions/playlist_actions';
-
+import {fetchCurrentSong, receivePlay, receiveSongQueue, receiveClickedSongId} from '../actions/song_actions';
+import {fetchCurrentPlaylists, removePlaylists} from '../actions/playlist_actions';
+import {receiveDropdownControl} from '../actions/dropdown_actions';
 
 const mapStateToProps = (state, {match}) => {
   const playlistId = match.params.playlistId;
@@ -24,7 +24,10 @@ const mapDispatchToProps = dispatch => {
     fetchCurrentSong: (currentUserId, id) => dispatch(fetchCurrentSong(currentUserId, id)),
     receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause)),
     fetchCurrentPlaylists: id => dispatch(fetchCurrentPlaylists(id)),
-    receiveSongQueue: songQueue => dispatch(receiveSongQueue(songQueue))
+    receiveDropdownControl: pressed => dispatch(receiveDropdownControl(pressed)),
+    receiveSongQueue: songQueue => dispatch(receiveSongQueue(songQueue)),
+    receiveClickedSongId: (id, playlistSongId) => dispatch(receiveClickedSongId(id, playlistSongId)),
+    removePlaylists: () => dispatch(removePlaylists())
   };
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+
 export default class ArtistIndex extends React.Component {
 
   constructor() {
@@ -21,7 +22,7 @@ export default class ArtistIndex extends React.Component {
               <div key={idx} className="browse-featured-playlist">
                 <img className="artist-cover-image" src={artist.thumbImageUrl} />
                 <div className="mo-info" >
-                  <Link to={`/app/artist/${artist.id}`} className="cover-art-text">{artist.name}</Link>
+                  <Link to={`/app/artist/${artist.id ? artist.id : ""}/overview`} className="cover-art-text">{artist.name}</Link>
                 </div>
               </div>
             </div>

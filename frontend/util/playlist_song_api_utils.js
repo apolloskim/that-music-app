@@ -6,3 +6,10 @@ export const createPlaylistSong = (playlistsong) => {
     data: {playlistsong}
   });
 };
+
+export const deletePlaylistSong = (id) => {
+  return $.ajax({
+    method: "DELETE",
+    url: `/api/playlistsongs/${id}`
+  });
+};

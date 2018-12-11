@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 class CollectionPlaylistsHeader extends React.Component {
@@ -31,13 +31,18 @@ class CollectionPlaylistsHeader extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    let that = this;
     const formData = new FormData();
     formData.append('playlist[title]', this.state.title);
-    formData.append('playlist[image]', this.state.imageFile);
     formData.append('playlist[creator_id]', this.props.currentUserId);
-    this.props.createPlaylist(formData);
+    this.props.createPlaylist(formData).then(() => {
+      let playlistArr = Object.values(that.props.playlists);
+      that.props.history.push(`/app/playlist/${playlistArr[playlistArr.length - 1].id}`);
+    });
     this.setState({title: "", imageFile: null, createPlaylist: false});
+
   }
+
 
   render() {
     let playlistForm;
@@ -55,13 +60,6 @@ class CollectionPlaylistsHeader extends React.Component {
                 <div className="input-box-content-spacing">
                   <h4 className="input-box-label">Playlist Name</h4>
                   <input type="text" className="input-box-input" placeholder="Start typing..." onChange={this.handleInput.bind(this)}/>
-                </div>
-              </div>
-            </div>
-            <div className="input-box-container">
-              <div className="input-box">
-                <div className="input-box-content-spacing">
-                  <input type="file" className="input-box-file" onChange={this.handleFile.bind(this)}/>
                 </div>
               </div>
             </div>
@@ -106,9 +104,10 @@ class CollectionPlaylistsHeader extends React.Component {
   }
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps)=> {
   return {
-    currentUserId: state.session.currentUserId
+    currentUserId: state.session.currentUserId,
+    playlists: state.entities.playlists
   };
 };
 
@@ -118,4 +117,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionPlaylistsHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CollectionPlaylistsHeader));

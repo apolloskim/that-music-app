@@ -24,6 +24,18 @@ class User < ApplicationRecord
   foreign_key: :creator_id,
   class_name: :Playlist
 
+  has_many :like_songs,
+  foreign_key: :user_id,
+  class_name: :Likesong
+
+  has_many :like_artists,
+  foreign_key: :user_id,
+  class_name: :Likeartist
+
+  has_many :like_albums,
+  foreign_key: :user_id,
+  class_name: :Likealbum
+
 
   def self.find_by_credentials(username, password)
     user = self.find_by(username: username)

@@ -7,6 +7,7 @@ class Api::PlaylistsController < ApplicationController
   def show
     @playlist = Playlist.find(params[:id])
     @playlist_song_ids = @playlist.songs.map { |song| song.id }
+    @creator = User.find(@playlist.creator_id)
   end
 
   def update
@@ -23,6 +24,7 @@ class Api::PlaylistsController < ApplicationController
 
     if @playlist.save
       @playlist_song_ids = @playlist.songs.map { |song| song.id }
+      @creator = User.find(@playlist.creator_id)
       render :show
     else
       render json: @playlist.errors.full_messages, status: 401
@@ -30,9 +32,9 @@ class Api::PlaylistsController < ApplicationController
   end
 
   def destroy
-    @playlist = Playlist.find(Params[:id])
+    @playlist = Playlist.find(params[:id])
     @playlist.destroy
-    # render json: {}
+    render json: ["Removed from your library"]
   end
 
   private

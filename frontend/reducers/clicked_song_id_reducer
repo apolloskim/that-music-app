@@ -4,7 +4,7 @@ const clickedSongIdReducer = (state = null, action) => {
   Object.freeze(state);
   switch(action.type) {
     case RECEIVE_CLICKED_SONG_ID:
-      return action.id;
+      return {id: action.id, playlistSongId: action.playlistSongId};
     default:
       return state;
   }

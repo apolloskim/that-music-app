@@ -3,7 +3,7 @@ import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
 import {Link} from 'react-router-dom';
 import PlaybarContainer from './playbar-container';
-import DropDownContainer from './dropdown';
+import AddPlaylistDropDownContainer from './add_playlist_dropdown_container';
 import MediaQuery from 'react-responsive';
 
 export default class AlbumShow extends React.Component {
@@ -39,7 +39,6 @@ export default class AlbumShow extends React.Component {
 
   handleClick(song) {
     return (e) => {
-      debugger
       this.setState({ playing: !this.props.playing, pause: !this.props.pause});
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
       this.props.receivePlay(true, false);
@@ -59,14 +58,14 @@ export default class AlbumShow extends React.Component {
 
   }
 
-  handleButtonClick(id) {
+  handleButtonClick(id, playlistSongId) {
     return (e) => {
       e.stopPropagation();
       if (!this.props.dropdownPressed) {
         this.props.receiveDropdownControl(true);
         document.addEventListener("click", this.closeDropdown);
       }
-      this.props.receiveClickedSongId(id);
+      this.props.receiveClickedSongId(id, playlistSongId);
     }
   }
 
@@ -101,15 +100,15 @@ export default class AlbumShow extends React.Component {
     let renderPlayNeon;
 
     if(this.state.mouseOver) {
-      renderMore = (id) => {
+      renderMore = (id, playlistSongId) => {
         return(
           <div className="track-list-more">
             <div className="track-list-more-margin-top">
-              <button className="track-list-more-button" onClick={this.handleButtonClick(id)}>
+              <button className="track-list-more-button" onClick={this.handleButtonClick(id, playlistSongId)}>
                 <img className="track-list-row-body-dots-icon" src={window.threeDotsIcon}/>
               </button>
             </div>
-            <DropDownContainer ref={dropdown => this.dropdown = dropdown}/>
+            <AddPlaylistDropDownContainer ref={dropdown => this.dropdown = dropdown}/>
           </div>
         );
       }
@@ -181,7 +180,7 @@ export default class AlbumShow extends React.Component {
                   {explicit}
               </div>
             </div>
-            {this.state.idxMouseOver === idx ? renderMore(song.id) : ""}
+            {this.state.idxMouseOver === idx ? renderMore(song.id, song.playlistSongId) : ""}
             <div className="track-list-duration">
               <div className=
                 {
@@ -198,7 +197,6 @@ export default class AlbumShow extends React.Component {
         );
       });
     }
-
     return (
           <div className="playlist-show-main-content" >
             <div>
@@ -221,7 +219,7 @@ export default class AlbumShow extends React.Component {
                                 </div>
                                 <div className="spotify-small-text">
                                   <span dir="auto">
-                                    <Link to="/">{this.props.album ? this.props.album.artistName : ""}</Link>
+                                    <Link to={`/app/artist/${this.props.album ? this.props.album.artistId : ""}`}>{this.props.album ? this.props.album.artistName : ""}</Link>
                                   </span>
                                 </div>
                               </div>
@@ -238,7 +236,7 @@ export default class AlbumShow extends React.Component {
                                     <div>
                                       <span dir="auto" className="album-by">By</span>
                                       <span dir="auto">
-                                        <Link to="/">{this.props.album ? this.props.album.artistName : ""}</Link>
+                                        <Link to={`/app/artist/${this.props.album ? this.props.album.artistId : ""}`}>{this.props.album ? this.props.album.artistName : ""}</Link>
                                       </span>
                                     </div>
                                   </div>
@@ -276,7 +274,7 @@ export default class AlbumShow extends React.Component {
                                   <div>
                                     <span dir="auto" className="album-by">By</span>
                                     <span dir="auto">
-                                      <Link to="/">{this.props.album ? this.props.album.artistName : ""}</Link>
+                                      <Link to={`/app/artist/${this.props.album ? this.props.album.artistId : ""}`}>{this.props.album ? this.props.album.artistName : ""}</Link>
                                     </span>
                                   </div>
                                 </div>

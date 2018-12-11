@@ -3,6 +3,7 @@ json.album do
   json.title @album.title
   json.year @album.year
   json.artistName @album.artist.name
+  json.artistId @album.artist_id
   json.songIds @song_ids
   json.genre @album.genre
   json.imageUrl @album.cover_image

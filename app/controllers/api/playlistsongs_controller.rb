@@ -11,8 +11,16 @@ class Api::PlaylistsongsController < ApplicationController
   end
 
   def destroy
+
     @playlistsong = Playlistsong.find(params[:id])
-    @playlistsong.destroy
+    @playlist_id = @playlistsong.playlist_id
+
+    if @playlistsong.destroy
+      @playlist = Playlist.find(@playlist_id)
+      @playlist_song_ids = @playlist.songs.map { |song| song.id }
+      @creator = User.find(@playlist.creator_id)
+      render "/api/playlists/show"
+    end
   end
 
   private

@@ -13,7 +13,7 @@ class Song < ApplicationRecord
   validates :title, presence: true
 
   has_one_attached :song_file
-  
+
   has_many :playlistsongs
 
   has_many :playlists,
@@ -25,6 +25,10 @@ class Song < ApplicationRecord
   has_one :artist,
   through: :album,
   source: :artist
+
+  has_many :like_songs,
+  foreign_key: :song_id,
+  class_name: :Likesong
 
 
 end

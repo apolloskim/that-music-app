@@ -31,9 +31,12 @@ a {
   border-bottom: 1px solid rgba(0,0,0,0);
 }
 
+
 h1, h4 {
   line-height: 1.1;
 }
+
+
 
 #root {
   min-height: 100vh;
@@ -51,6 +54,14 @@ body {
   line-height: 20px;
   letter-spacing: .015em;
 
+}
+
+section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  display: block;
 }
 
 .artist-header {
@@ -108,6 +119,26 @@ body {
   margin-bottom: 30px;
   position: relative;
   padding-top: 7px;
+}
+
+.artist-show-link-nav {
+  position: relative;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.artist-show-link-list {
+  text-align: center;
+  list-style: none;
+}
+
+.artist-show-link {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: .015em;
+  font-weight: 200;
+  color: #b3b3b3;
 }
 
 .background-image {
@@ -230,6 +261,7 @@ body {
   top: 50%;
   z-index: -1;
 }
+
 
 .demo-login-container strong:after {
   border-bottom: 1px solid #dfe0e6;
@@ -508,14 +540,110 @@ text-align: center;
   font-size: 14px;
 }
 
+.artist-music {
+  overflow: hidden;
+  background-color: #181818;
+}
+
+.related-artists {
+  padding-top: 1.5em;
+  background-color: #181818;
+}
+
 .container-fluid {
+  /* margin-right: auto;
+  margin-left: auto; */
+  padding-left: 8px;
+  padding-right: 8px;
+  width: 100%;
+}
+
+.empty {
   margin-right: auto;
   margin-left: auto;
+}
+
+.empty-state-message-margin {
+  float: left;
+  width: 100%;
+  position: relative;
+  min-height: 1px;
   padding-left: 8px;
   padding-right: 8px;
 }
 
-.container-fluid:before {
+.empty-state-icon {
+  width: 50px;
+  height: 50px;
+  color: #FFF;
+}
+
+.empty-state-title {
+  font-size: 48px;
+  line-height: 56px;
+  letter-spacing: -.005em;
+  font-weight: 600;
+  color: #FFF;
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.white-button {
+  margin-top: 36px;
+  background: #FFF;
+  color: #000;
+  padding: 11px 44px;
+  font-size: 11px;
+  font-weight: 200;
+  letter-spacing: .16em;
+  transition: none 33ms cubic-bezier(.3,0,.7,1);
+  transition-property: all;
+  display: inline-block;
+  margin-bottom: 0;
+  text-align: center;
+  border: 0;
+  border-radius: 500px;
+  /* min-width: 130px; */
+  white-space: normal;
+  will-change: transform;
+  line-height: 1.6;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.white-button:hover {
+  transform: scale(1.06);
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: .35;
+}
+
+.empty-state-subtitle {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: .015em;
+  font-weight: 200;
+  color: #b3b3b3;
+}
+
+.empty-state-icon-wrapper {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width: 50px;
+  height: 50px;
+  fill: #FFF;
+  display: inline-block;
+}
+
+.empty-state-message {
+  text-align: center;
+  max-width: 626px;
+  margin-bottom: 1em;
+}
+
+.container-fluid::before {
   content: " ";
   display: table;
 }
@@ -523,6 +651,11 @@ text-align: center;
 .row {
   margin-left: -16px;
   margin-right: -16px;
+}
+
+.row::before {
+  content: " ";
+  display: table;
 }
 
 .album-index {
@@ -648,6 +781,25 @@ text-align: center;
   -webkit-transition:color 0.1s ease-in;
 }
 
+.nav-link-spacing {
+  font-size: 12px;
+  /* line-height: 16px; */
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  color: #b3b3b3;
+  position: relative;
+  border: 0;
+  display: inline-block;
+  margin: 10px;
+  padding: 5px 10px;
+  transition: opacity .2s linear;
+}
+
+.artist-nav-active {
+  opacity: 1;
+}
+
 .active {
   color: white;
   /* border-bottom: 2px solid #1db954;
@@ -679,6 +831,44 @@ text-align: center;
   margin: 0 auto;
 }
 
+.cover-art-with-auto-height {
+  padding-top: 100%;
+}
+
+.icon {
+  position: absolute;
+  top: 35%;
+  bottom: 35%;
+  left: 35%;
+  right: 35%;
+}
+
+.icon svg {
+  color: #b3b3b3;
+}
+
+.default-cover-padding {
+  margin: 0 auto;
+  padding-bottom: 15px;
+  max-width: 320px;
+  position: relative;
+}
+
+.cover-art-size {
+  margin: 0;
+  display: block;
+  border: 0;
+  outline: 0;
+  position: relative;
+  background-color: #282828;
+}
+
+.cover-art {
+  width: auto;
+  height: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,.3);
+}
+
 .browse-featured-content-wrapper {
   /* width: 1175px; */
 }
@@ -688,6 +878,10 @@ text-align: center;
   flex-wrap: wrap;
   flex-direction: row;
   width: 100%;
+}
+
+.playlist-top-margin {
+  margin-top: 15px;
 }
 
 .browse-featured-playlist-lists img {
@@ -743,10 +937,20 @@ text-align: center;
   color: #FFF;
 }
 
-.playlist-show-container {
-  background-image: linear-gradient(rgb(110, 75, 43), rgb(11, 8, 4) 85%);
+.header-margin {
+  margin: 24px 0;
+}
+
+.album-cover-padding {
+  height: 3.9em;
+  width: 3.9em;
+  margin-right: 1em;
+}
+
+.album-cover-padding img {
+  box-shadow: 0 0 10px rgba(0,0,0,.3);
+  height: 100%;
   width: 100%;
-  height: 1000px;
 }
 
 .playlist-show-main-content {
@@ -793,6 +997,15 @@ text-align: center;
 .playlist-title-wrapper {
   margin: 5px 0 4px;
   text-align: center;
+}
+
+.playlist-author-link {
+  opacity: .6;
+}
+
+.playlist-author-link:hover {
+  opacity: 1;
+  border-bottom: 1px solid #FFF;
 }
 
 .playlist-title {
@@ -952,8 +1165,26 @@ text-align: center;
   background-color: rgba(0,0,0,.3);
 }
 
+.fewer-padding {
+  padding: .2em 0;
+}
+
+.artist-albums {
+  padding-top: 0;
+  overflow: hidden;
+  background-color: #181818;
+}
+
+.artist-albums::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 .track-list-column {
   flex: 1;
+  display: flex;
+  align-items: center;
 }
 
 .track-list-column-margin {
@@ -981,6 +1212,8 @@ text-align: center;
   padding-right: .35em;
   padding-top: .4em;
   padding-left: .65em;
+  display: flex;
+  align-items: center;
 }
 
 .music-note-icon-center {
@@ -1402,7 +1635,6 @@ text-align: center;
   letter-spacing: -.005em;
   font-weight: 600;
   color: #FFF;
-  width: 275px;
 }
 
 .playlist-form-modal {
@@ -1472,6 +1704,11 @@ text-align: center;
   padding: 0 32px;
   margin: 0 auto;
   max-width: 1480px;
+}
+
+.artist-toptracks {
+  margin: 0 auto;
+  float: none;
 }
 
 .input-box-label {
@@ -1555,9 +1792,14 @@ text-align: center;
   position: relative;
 }
 
+.svg-cover-art {
+  width: 100%;
+  height: 100%;
+}
+
 .search-input-box {
   right: 0;
-  left: 232px;
+  left: 231px;
   position: fixed;
   background-color: #282828;
   padding: 16px;
@@ -1878,6 +2120,20 @@ text-align: center;
   }
 
 }
+
+
+@media screen and (max-width: 1199px) {
+  .default-cover-padding {
+    width: 30%;
+    min-width: 157px;
+    position: relative;
+  }
+
+  .bigger {
+    display: none;
+  }
+}
+
 
 @media screen and (max-width: 991px) {
   .navbar-default {

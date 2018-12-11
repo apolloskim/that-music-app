@@ -12,8 +12,6 @@
 class Playlist < ApplicationRecord
   validates :title, presence: true
 
-  has_one_attached :image
-
   belongs_to :creator,
   foreign_key: :creator_id,
   primary_key: :id,

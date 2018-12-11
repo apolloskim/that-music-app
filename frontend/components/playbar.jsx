@@ -151,7 +151,6 @@ export default class Playbar extends React.Component {
 
   skipToPrevSong() {
     let prevSongIdx;
-    // debugger
     prevSongIdx = this.props.songQueue.indexOf(this.props.currentSong.song.id) - 1;
     if (prevSongIdx < 0) {
       this.props.fetchCurrentSong(this.props.currentUserId, this.props.songQueue[this.props.songQueue.length + prevSongIdx]);

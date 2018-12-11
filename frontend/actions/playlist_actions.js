@@ -4,6 +4,7 @@ export const RECEIVE_PLAYLISTS = "RECEIVE_PLAYLISTS";
 export const RECEIVE_PLAYLIST = "RECEIVE_PLAYLIST";
 export const RECEIVE_PLAYLIST_ERRORS = "RECEIVE_PLAYLIST_ERRORS";
 export const RECEIVE_CURRENT_PLAYLISTS = "RECEIVE_CURRENT_PLAYLISTS";
+export const REMOVE_PLAYLISTS = "REMOVE_PLAYLISTS";
 
 export const fetchPlaylists = () => dispatch => {
   return PlaylistApiUtil.fetchPlaylists().then( playlists => dispatch(receivePlaylists(playlists)))
@@ -20,7 +21,9 @@ export const fetchCurrentPlaylists = id => dispatch => {
 };
 
 export const createPlaylist = playlist => dispatch => {
-  return PlaylistApiUtil.createPlaylist(playlist).then( playlist => dispatch(receivePlaylist(playlist)),
+  return PlaylistApiUtil.createPlaylist(playlist).then( playlist => {
+    dispatch(receivePlaylist(playlist))
+  },
 err => dispatch(receivePlaylistErrors(err.responseJSON)));
 };
 
@@ -30,7 +33,13 @@ err => dispatch(receivePlaylistErrors(err.responseJSON)));
 };
 
 export const deletePlaylist = id => dispatch => {
-  return PlaylistApiUtil.deletePlaylist(id).then( playlists => dispatch(receivePlaylists(playlists)) );
+  return PlaylistApiUtil.deletePlaylist(id).then( response => console.log(response) );
+};
+
+export const removePlaylists = () => {
+  return{
+    type: REMOVE_PLAYLISTS
+  };
 };
 
 export const receivePlaylists = (playlists) => {

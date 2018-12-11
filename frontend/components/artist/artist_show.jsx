@@ -1,4 +1,9 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import ArtistOverviewContainer from './artist_show_overview';
+import ArtistRelatedContainer from './artist_show_related_artists';
+import {ProtectedRoute} from '../../util/route_util';
+
 
 export default class ArtistShow extends React.Component {
 
@@ -7,8 +12,11 @@ export default class ArtistShow extends React.Component {
   }
 
   render() {
-    const artistHeader = {
-      backgroundImage: `url(${this.props.artist ? this.props.artist.coverImageUrl : ""})`
+    let artistHeader;
+    if (this.props.artist) {
+      artistHeader = {
+        backgroundImage: `url(${this.props.artist.coverImageUrl})`
+      };
     };
 
     return (
@@ -27,7 +35,23 @@ export default class ArtistShow extends React.Component {
                     <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
                   </button>
               </div>
+              <nav className="artist-show-link-nav">
+                <ul className="artist-show-link-list">
+                  <li className="artist-show-link">
+                    <div>
+                      <NavLink className="nav-link-spacing" active="artist-nav-active" to={`/app/artist/${this.props.artistId ? this.props.artistId : ""}/overview`}>OVERVIEW</NavLink>
+                    </div>
+                  </li>
+                  <li className="artist-show-link">
+                    <div>
+                      <NavLink className="nav-link-spacing" active="artist-nav-active" to={`/app/artist/${this.props.artistId ? this.props.artistId : ""}/related`}>RELATED ARTISTS</NavLink>
+                    </div>
+                  </li>
+                </ul>
+              </nav>
             </header>
+            <ProtectedRoute path={`/app/artist/:artistId/overview`} component={ArtistOverviewContainer} />
+            <ProtectedRoute path={`/app/artist/:artistId/related`} component={ArtistRelatedContainer} />
           </section>
         </div>
       </div>

@@ -8,8 +8,11 @@ export const fetchArtists = () => dispatch => {
 };
 
 export const fetchArtist = (id) => dispatch => {
-  return ArtistApiUtil.fetchArtist(id).then(artist => dispatch(receiveArtist(artist)));
+  return ArtistApiUtil.fetchArtist(id).then(artist => {
+    dispatch(receiveArtist(artist))
+  });
 };
+
 
 export const receiveArtists = (artists) => {
   return {
@@ -18,9 +21,11 @@ export const receiveArtists = (artists) => {
   };
 };
 
-export const receiveArtist = (artist) => {
+export const receiveArtist = ({artist, songs, albums}) => {
   return {
     type: RECEIVE_ARTIST,
-    artist
+    artist,
+    songs,
+    albums
   };
 };

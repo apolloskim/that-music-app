@@ -1,4 +1,5 @@
 
+
 export const fetchArtists = () => {
   return $.ajax({
     url: `/api/artists`

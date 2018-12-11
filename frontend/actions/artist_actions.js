@@ -13,6 +13,18 @@ export const fetchArtist = (id) => dispatch => {
   });
 };
 
+export const createLikeArtist = (user_id, artist_id) => dispatch => {
+  return LikeArtistApiUtil.createLikeArtist({user_id, artist_id}).then( response => console.log(response), err => (dispatch(receiveErrors(err.responseJSON))) );
+}
+
+export const deleteLikeArtist = (id) => dispatch => {
+  return LikeArtistApiUtil.deleteLikeArtist(id).then( playlist => dispatch(receiveQueriedSongs(playlist)));
+}
+
+export const fetchLikeArtists = id => dispatch => {
+  return LikeArtistApiUtil.fetchLikeArtists(id).then( artists => dispatch(receiveArtists(artists)));
+}
+
 
 export const receiveArtists = (artists) => {
   return {

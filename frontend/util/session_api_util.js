@@ -22,6 +22,22 @@ export const logout = () => {
   });
 };
 
+export const createCurrentlyVisited = (user_id, table_id, table, title, image_url, thumb_image_url, cover_image) => {
+  return $.ajax({
+    method: 'POST',
+    url: `api/recently_visiteds`,
+    data: {recently_visited: {user_id, table_id, table, title, image_url, thumb_image_url, cover_image}}
+  });
+};
+
+
+export const fetchCurrentlyVisited = (id) => {
+  return $.ajax({
+    url: `api/users/${id}/recently_visiteds`
+  });
+};
+
+
 window.login = login;
 window.logout = logout;
 window.signup = signup;

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_11_154353) do
+ActiveRecord::Schema.define(version: 2018_12_19_021439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,16 @@ ActiveRecord::Schema.define(version: 2018_12_11_154353) do
     t.integer "song_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "recently_visiteds", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "table"
+    t.string "title"
+    t.integer "table_id"
+    t.string "image_url"
+    t.string "thumb_image_url"
+    t.string "cover_image"
   end
 
   create_table "songs", force: :cascade do |t|

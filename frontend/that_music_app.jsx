@@ -8,6 +8,7 @@ import {fetchPlaylist, createPlaylist} from "./actions/playlist_actions";
 document.addEventListener("DOMContentLoaded", () => {
 
   let store;
+  let songQueueArr = window.currentSong && window.currentSong.song ? [window.currentSong.song.id] : [];
   if (window.currentUser) {
     const preloadedState = {
       entities: {
@@ -15,7 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       session: { currentUserId: window.currentUser.id },
       currentSong: window.currentSong,
-      playStatus: { playing: false, pause: true }
+      playStatus: { playing: false, pause: true },
+      songQueue: songQueueArr,
+      currentPlayingPage: Object.values(window.recentlyVisited)
     };
     store = configureStore(preloadedState);
     delete window.currentUser;

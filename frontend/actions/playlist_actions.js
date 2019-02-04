@@ -5,14 +5,26 @@ export const RECEIVE_PLAYLIST = "RECEIVE_PLAYLIST";
 export const RECEIVE_PLAYLIST_ERRORS = "RECEIVE_PLAYLIST_ERRORS";
 export const RECEIVE_CURRENT_PLAYLISTS = "RECEIVE_CURRENT_PLAYLISTS";
 export const REMOVE_PLAYLISTS = "REMOVE_PLAYLISTS";
+export const RECEIVE_VISITED_PLAYLIST = "RECEIVE_VISITED_PLAYLIST";
 
-export const fetchPlaylists = () => dispatch => {
-  return PlaylistApiUtil.fetchPlaylists().then( playlists => dispatch(receivePlaylists(playlists)))
+export const fetchPlaylists = (queries) => dispatch => {
+  return PlaylistApiUtil.fetchPlaylists(queries).then( playlists => dispatch(receivePlaylists(playlists)))
 };
 
 export const fetchPlaylist = id => dispatch => {
   return PlaylistApiUtil.fetchPlaylist(id).then( playlist => dispatch(receivePlaylist(playlist)))
 };
+
+export const fetchVisitedPlaylist = id => dispatch => {
+  return PlaylistApiUtil.fetchPlaylist(id).then( playlist => dispatch(receiveVisitedPlaylist(playlist)))
+};
+
+export const receiveVisitedPlaylist = playlist => {
+  return {
+    type: RECEIVE_VISITED_PLAYLIST,
+    playlist
+  }
+}
 
 export const fetchCurrentPlaylists = id => dispatch => {
   return $.ajax({

@@ -40,7 +40,6 @@ class CollectionPlaylistsHeader extends React.Component {
       that.props.history.push(`/app/playlist/${playlistArr[playlistArr.length - 1].id}`);
     });
     this.setState({title: "", imageFile: null, createPlaylist: false});
-
   }
 
 

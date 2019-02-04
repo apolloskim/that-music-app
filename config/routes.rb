@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :likesongs, only: [:index]
       resources :likeartists, only: [:index]
       resources :likealbums, only: [:index]
+      resources :recently_visiteds, only: [:index]
     end
     resources :songs, only: [:index]
     resource :session, only: [:create, :destroy]
@@ -16,9 +17,10 @@ Rails.application.routes.draw do
     resources :artists, only: [:index, :show]
     resources :albums, only: [:index, :show]
     resources :playlistsongs, only: [:create, :destroy]
-    resources :likesongs, only: [:create, :destroy]
+    resources :likesongs, only: [:create, :destroy, :show]
     resources :likeartists, only: [:create, :destroy]
     resources :likealbums, only: [:create, :destroy]
+    resources :recently_visiteds, only: [:create]
   end
 
 

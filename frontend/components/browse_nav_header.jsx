@@ -10,9 +10,6 @@ const BrowseNavHeader = () => {
           <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/app/browse/featured'>featured</NavLink>
         </li>
         <li>
-          <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/app/browse/genres'>genres & moods</NavLink>
-        </li>
-        <li>
           <NavLink className="feature-nav-header-link" active="active-feature-nav-header" to='/app/browse/newreleases'>new releases</NavLink>
         </li>
       </ul>

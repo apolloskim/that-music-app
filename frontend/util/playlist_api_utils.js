@@ -1,8 +1,9 @@
 
-export const fetchPlaylists = () => {
+export const fetchPlaylists = (queries) => {
   return $.ajax({
     method: "GET",
     url: "/api/playlists",
+    data: {queries}
   });
 };
 

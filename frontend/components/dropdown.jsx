@@ -12,7 +12,6 @@ export default class DropDown extends React.Component {
     super(props);
     this.state = {
       actionPlaylist: false,
-
     };
     this.handlePlaylistClick = this.handlePlaylistClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -25,7 +24,6 @@ export default class DropDown extends React.Component {
 
     this.setState({actionPlaylist: this.props.playlistAction});
     if(this.state.actionPlaylist === 'Remove from this Playlist') {
-
       this.props.removePlaylists();
       this.props.deletePlaylistSong(this.props.clickedSongId.playlistSongId);
     } else if (this.state.actionPlaylist === 'Delete') {

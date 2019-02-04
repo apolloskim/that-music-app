@@ -1,7 +1,7 @@
 class Api::SessionsController < ApplicationController
 
   def create
-    @user = User.find_by_credentials(params[:user][:username], params[:user][:password])
+    @user = User.includes(:playlists, :like_songs, :like_albums, :like_artists).find_by_credentials(params[:user][:username], params[:user][:password])
     if @user
       login(@user)
       @current_song = current_song(@user)

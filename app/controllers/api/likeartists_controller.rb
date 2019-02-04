@@ -2,7 +2,8 @@ class Api::LikeartistsController < ApplicationController
   def create
     @likeartist = Likeartist.new(likeartist_params)
     if @likeartist.save
-      render json: ["Saved to your Library"]
+      @user = User.find(@likeartist.user_id)
+      render "/api/users/show"
     else
       render json: @likeartist.errors.full_messages, status: 401
     end
@@ -10,9 +11,17 @@ class Api::LikeartistsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-    @albums = @user.like_artists.map { |like_artist| Album.find(like_artist.artist_id) }
+    @artists = @user.like_artists.map { |like_artist| Artist.find(like_artist.artist_id) }
     render "/api/artists/index"
 
+  end
+
+  def destroy
+    @likeartist = Likeartist.find(params[:id])
+    @user = User.find(@likeartist.user_id)
+    if @likeartist.destroy
+      render "/api/users/show"
+    end
   end
 
   private

@@ -3,9 +3,9 @@ import Navbar from './navbar/navbar';
 import BrowseNavHeader from './browse_nav_header';
 import {Link} from 'react-router-dom';
 import PlaybarContainer from './playbar-container';
-import DeletePlaylistDropDownContainer from './delete_playlist_dropdown_container';
-import RemovePlaylistDropDownContainer from './remove_playlist_dropdown_container';
 import MediaQuery from 'react-responsive';
+import { ContextMenu, MenuItem, ContextMenuTrigger, handleContextClick } from 'react-contextmenu';
+
 
 export default class PlaylistShow extends React.Component {
   constructor(props) {
@@ -15,16 +15,18 @@ export default class PlaylistShow extends React.Component {
       idxMouseOver: null,
       playing: this.props.playing,
       pause: this.props.pause,
-      formerSong: this.props.currentSong.song
+      formerSong: this.props.currentSong.song,
+      actionPlaylist: false
     };
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handlePlay = this.handlePlay.bind(this);
     this.handleButtonClick = this.handleButtonClick.bind(this);
-    this.closeDropdown = this.closeDropdown.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchPlaylist(this.props.playlistId);
+    this.props.fetchCurrentPlaylists(this.props.currentUserId);
   }
 
   handleMouseEnter(idx) {
@@ -37,51 +39,107 @@ export default class PlaylistShow extends React.Component {
     this.setState({mouseOver: false, idxMouseOver: null});
   }
 
+  handleContextMenuClick(e, data) {
+
+    this.setState({actionPlaylist: data.foo});
+  }
+
+  toggleMenu(id, playlistSongId) {
+    let that = this;
+    return e => {
+      e.stopPropagation();
+      if(that.toggle) {
+        that.toggle.handleContextClick(e);
+        that.props.receiveClickedSongId(id, playlistSongId);
+      }
+    }
+  }
+
   handleClick(song) {
     return (e) => {
-      this.setState({ playing: !this.props.playing, pause: !this.props.pause});
+      this.handlePlay(song);
+    };
+  }
+
+  handlePlay(song) {
+
+    if (this.props.playing) {
+      this.props.receivePlay(false, true);
+    } else if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
       this.props.receivePlay(true, false);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
         this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
       }
-    };
+      this.props.createCurrentlyVisited(this.props.currentUserId, this.props.playlistId, 'playlist', this.props.playlist.title, this.props.playlist.firstImage, null, null);
+    } else if (this.props.currentPlayingPage.length === 0){
+      this.props.receivePlay(true, false);
+      if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
+        this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
+      }
+      this.props.createCurrentlyVisited(this.props.currentUserId, this.props.playlistId, 'playlist', this.props.playlist.title, this.props.playlist.firstImage, null, null);
+    } else {
+      this.props.receivePlay(true, false);
+    }
+  }
+
+
+
+  handleButtonClick() {
+    let currentPlayingTable;
+    let currentPlayingId;
+
+    if (this.props.currentPlayingPage.length !== 0) {
+      currentPlayingTable = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table;
+      currentPlayingId = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table_id;
+    }
+
+    if (currentPlayingTable && currentPlayingTable === 'playlist' && currentPlayingId && currentPlayingId.toString() === this.props.playlistId) {
+      this.handlePlay(this.props.currentSong.song);
+    } else {
+      this.handlePlay(Object.values(this.props.songs)[0]);
+    }
   }
 
   componentDidUpdate() {
-    if(this.props.currentSong.song !== this.state.formerSong) {
-      this.setState({formerSong: this.props.currentSong.song});
-      window.audio.pause();
-      window.audio.src = this.props.currentSong.song.songUrl;
-      window.audio.play();
+
+    if(this.state.actionPlaylist === 'Remove from this Playlist') {
+      this.setState({actionPlaylist: false});
+      this.props.deletePlaylistSong(this.props.clickedSongId.playlistSongId);
+    } else if (this.state.actionPlaylist === 'Delete') {
+      this.setState({actionPlaylist: false});
+      this.props.deletePlaylist(this.props.playlistId).then( () => {
+        this.props.history.push('/app/collection/playlists');
+      });
+    } else if (this.state.actionPlaylist === "Save to your Favorite Songs") {
+      this.setState({actionPlaylist: false});
+      this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
     }
   }
 
-  handleButtonClick(id, playlistSongId) {
-    return (e) => {
+
+  togglePlaylistMenu(e) {
       e.stopPropagation();
-      if (!this.props.dropdownPressed) {
-        this.props.receiveDropdownControl(true);
-        document.addEventListener("click", this.closeDropdown);
+      if(this.toggle) {
+        this.toggle.handleContextClick(e);
       }
-      this.props.receiveClickedSongId(id, playlistSongId);
-    }
   }
 
-  handleThreeDotsClick(e) {
-    e.stopPropagation();
-    if (!this.props.dropdownPressed) {
-      this.props.receiveDropdownControl(true);
-      document.addEventListener("click", this.closeDropdown);
-    }
-  }
-
-  closeDropdown() {
-    this.props.receiveDropdownControl(false);
-    document.removeEventListener("click", this.closeDropdown);
-  }
 
   render() {
+    let deletePlaylistMenu = "follow";
+    let removePlaylistMenu = ""
+    if (this.props.currentPlaylists) {
+
+      let currentPlaylistIds = Object.values(this.props.currentPlaylists).map(playlist => playlist.id);
+
+      if (this.props.playlist) {
+        removePlaylistMenu = currentPlaylistIds.includes(this.props.playlist.id) ? "Remove from this Playlist" : "";
+        deletePlaylistMenu = currentPlaylistIds.includes(this.props.playlist.id) ? "Delete" : "follow";
+      }
+    }
+
+
     const renderNote = (
       <div className="music-note-icon-padding">
         <div className="music-note-icon-center">
@@ -117,11 +175,12 @@ export default class PlaylistShow extends React.Component {
         return(
           <div className="track-list-more">
             <div className="track-list-more-margin-top">
-              <button className="track-list-more-button" onClick={this.handleButtonClick(id, playlistSongId)}>
-                <img className="track-list-row-body-dots-icon" src={window.threeDotsIcon}/>
-              </button>
+              <ContextMenuTrigger id="two" ref={c => this.toggle = c}>
+                <button className="track-list-more-button" onClick={this.toggleMenu(id, playlistSongId)}>
+                  <img className="track-list-row-body-dots-icon" src={window.threeDotsIcon}/>
+                </button>
+              </ContextMenuTrigger>
             </div>
-            <DeletePlaylistDropDownContainer ref={dropdown => this.dropdown = dropdown}/>
           </div>
         );
       }
@@ -190,7 +249,16 @@ export default class PlaylistShow extends React.Component {
                       : "track-list-name")
                     : "track-list-name"
                   }>{song.title}</div>
-                  {explicit}
+                  <div className="display-flex">
+                    {explicit}
+                    <span className="ellipsis-one-line">
+                      <Link to={`/app/artist/${song.artistId}`}>{song.artist}</Link>
+                    </span>
+                    <span className="second-line-separator">•</span>
+                    <span className="ellipsis-one-line">
+                      <Link to={`/app/artist/${song.albumId}`}>{song.album}</Link>
+                    </span>
+                  </div>
               </div>
             </div>
             {this.state.idxMouseOver === idx ? renderMore(song.id, song.playlistSongId) : ""}
@@ -316,6 +384,11 @@ export default class PlaylistShow extends React.Component {
               <div className="album-title">
                 <span>{this.props.playlist ? this.props.playlist.title : ""}</span>
               </div>
+              <div className="ellipsis-one-line">
+                <span>
+                  {this.props.playlist ? this.props.playlist.creatorName : ""}
+                </span>
+              </div>
             </div>
             <div className="spotify-small-text">
               <span dir="auto">
@@ -343,9 +416,13 @@ export default class PlaylistShow extends React.Component {
 
       }
     }
+    let currentPlayingTable;
+    let currentPlayingId;
 
-
-
+    if (this.props.currentPlayingPage.length !== 0) {
+      currentPlayingTable = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table;
+      currentPlayingId = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table_id;
+    }
 
     return (
           <div className="playlist-show-main-content" >
@@ -368,8 +445,14 @@ export default class PlaylistShow extends React.Component {
                                     <div className="album-title-smaller">
                                       <span>{this.props.playlist ? this.props.playlist.title : ""}</span>
                                     </div>
-                                    <div>
+
+                                    <div className="display-flex">
                                       <span dir="auto" className="album-by">By</span>
+                                      <div className="ellipsis-one-line">
+                                        <span>
+                                          {this.props.playlist ? this.props.playlist.creatorName : ""}
+                                        </span>
+                                      </div>
                                       <span dir="auto">
                                         <Link to={`/app/artist/${this.props.playlist ? this.props.playlist.artistId : ""}`}>{this.props.playlist ? this.props.playlist.artistName : ""}</Link>
                                       </span>
@@ -377,22 +460,25 @@ export default class PlaylistShow extends React.Component {
                                   </div>
                                   <p className="album-year-count-smaller">
                                     {
-                                      `${this.props.playlist ? this.props.playlist.year : ""} • ${this.props.playlist ? this.props.playlist.songCount : ""} songs`
+                                      `${this.props.playlist ? (this.props.playlist.songCount ? (this.props.playlist.songCount === 1 ? this.props.playlist.songCount + ' song' : this.props.playlist.songCount + ' songs') : "") : ""}`
                                     }
                                   </p>
                                   <div className="track-list-buttons-smaller">
                                     <div className="track-list-header-play-button-top-smaller">
-                                      <button onClick={this.handleClick(Object.values(this.props.songs)[0])} className="track-list-header-play-button">PLAY</button>
+                                      <button onClick={this.handleButtonClick} className="track-list-header-play-button">{currentPlayingTable && currentPlayingId && currentPlayingTable === 'playlist' && currentPlayingId.toString() === this.props.playlistId ? (this.props.playing ? 'PAUSE' : 'PLAY') : 'PLAY'}</button>
                                     </div>
                                     <div className="track-list-extra-buttons-smaller">
                                       <button className="track-list-header-body-heart-buttons-body">
                                         <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
                                       </button>
-                                      <button className="track-list-header-body-three-dots-buttons-body" onClick={this.handleThreeDotsClick.bind(this)}>
-                                        <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
-                                      </button>
+                                      <ContextMenuTrigger id="three" ref={c => this.toggle = c}>
+                                        <button className={`track-list-header-body-three-dots-buttons-body`} onClick={this.togglePlaylistMenu.bind(this)}>
+                                          <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
+                                        </button>
+                                      </ContextMenuTrigger>
+
+
                                     </div>
-                                    <RemovePlaylistDropDownContainer id={this.props.match.params.playlistId} ref={dropdown => this.dropdown = dropdown}/>
                                   </div>
                                 </div>
                               </MediaQuery>
@@ -413,29 +499,29 @@ export default class PlaylistShow extends React.Component {
                                   </div>
                                 </div>
                                 <p className="album-year-count-smaller">
-                                  {
-                                    `${this.props.playlist ? this.props.playlist.year : ""} • ${this.props.playlist ? this.props.playlist.songCount : ""} songs`
-                                  }
+                                  {`${this.props.playlist ? (this.props.playlist.songCount ? (this.props.playlist.songCount === 1 ? this.props.playlist.songCount + ' song' : this.props.playlist.songCount + ' songs') : "") : ""}`}
                                 </p>
                                 <div className="track-list-buttons-smaller">
                                   <div className="track-list-header-play-button-top-smaller">
-                                    <button onClick={this.handleClick(Object.values(this.props.songs)[0])} className="track-list-header-play-button">PLAY</button>
+                                    <button onClick={this.handleButtonClick} className="track-list-header-play-button">{currentPlayingTable && currentPlayingId && currentPlayingTable === 'playlist' && currentPlayingId.toString() === this.props.playlistId ? (this.props.playing ? 'PAUSE' : 'PLAY') : 'PLAY'}</button>
                                   </div>
                                   <div className="track-list-extra-buttons-smaller">
                                     <button className="track-list-header-body-heart-buttons-body">
                                       <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
                                     </button>
-                                    <button className="track-list-header-body-three-dots-buttons-body" onClick={this.handleThreeDotsClick.bind(this)}>
-                                      <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
-                                    </button>
+                                    <ContextMenuTrigger id="three" ref={c => this.toggle = c}>
+                                      <button className="track-list-header-body-three-dots-buttons-body" onClick={this.togglePlaylistMenu.bind(this)}>
+                                        <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
+                                      </button>
+                                    </ContextMenuTrigger>
+
                                   </div>
-                                  <RemovePlaylistDropDownContainer id={this.props.match.params.playlistId} ref={dropdown => this.dropdown = dropdown}/>
                                 </div>
                               </div>
                             </MediaQuery>
 
                             <div className="track-list-header-play-button-top">
-                              <button onClick={this.handleClick(Object.values(this.props.songs)[0])} className={`track-list-header-play-button ${renderDisabled}`}>PLAY</button>
+                              <button onClick={this.handleButtonClick} className={`track-list-header-play-button ${renderDisabled}`}>{currentPlayingTable && currentPlayingId && currentPlayingTable === 'playlist' && currentPlayingId.toString() === this.props.playlistId ? (this.props.playing ? 'PAUSE' : 'PLAY') : 'PLAY'}</button>
                             </div>
                             <div className="track-list-header-body">
                               <p className="track-list-count">{`${this.props.playlist ? (this.props.playlist.songCount ? (this.props.playlist.songCount === 1 ? this.props.playlist.songCount + ' song' : this.props.playlist.songCount + ' songs') : "") : ""}`}</p>
@@ -444,15 +530,16 @@ export default class PlaylistShow extends React.Component {
                                   <button className="track-list-header-body-heart-buttons-body">
                                     <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
                                   </button>
-                                  <button className="track-list-header-body-three-dots-buttons-body" onClick={this.handleThreeDotsClick.bind(this)}>
-                                    <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
-                                  </button>
+                                  <ContextMenuTrigger id="three" ref={c => this.toggle = c}>
+                                    <button className="track-list-header-body-three-dots-buttons-body" onClick={this.togglePlaylistMenu.bind(this)}>
+                                      <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
+                                    </button>
+                                  </ContextMenuTrigger>
+
                                 </div>
-                                <RemovePlaylistDropDownContainer id={this.props.match.params.playlistId} ref={dropdown => this.dropdown = dropdown}/>
                               </div>
                             </div>
                           </div>
-
 
                         </div>
                         <div className="playlist-song-lists">
@@ -462,6 +549,24 @@ export default class PlaylistShow extends React.Component {
 
                   </div>
                 </section>
+                <ContextMenu id="two">
+                  <div className={`${removePlaylistMenu === "" ? 'display-none' : ""}`}>
+                    <MenuItem data={{foo: `${removePlaylistMenu}`}} onClick={this.handleContextMenuClick.bind(this)}>
+                      {removePlaylistMenu}
+                    </MenuItem>
+                  </div>
+                  <div>
+                    <MenuItem data={{foo: 'Save to your Favorite Songs'}} onClick={this.handleContextMenuClick.bind(this)}>
+                      Save to your Favorite Songs
+                    </MenuItem>
+                  </div>
+                </ContextMenu>
+
+                <ContextMenu id="three">
+                  <MenuItem data={{foo: `${deletePlaylistMenu}`}} onClick={this.handleContextMenuClick.bind(this)}>
+                    {deletePlaylistMenu}
+                  </MenuItem>
+                </ContextMenu>
               </div>
             </div>
           </div>

@@ -7,7 +7,8 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    User.find_by(session_token: session[:session_token])
+    @user = User.find_by(session_token: session[:session_token])
+    # @user ? @user.includes(:like_songs, :like_albums, :like_artists, playlists:[:creator, :songs]) : nil
   end
 
   def logged_in?

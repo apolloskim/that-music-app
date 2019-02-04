@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {merge} from 'lodash';
 
 export default class Playbar extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class Playbar extends React.Component {
       playing: this.props.playing,
       pause: this.props.pause,
       currentTime: null,
-      duration: null
+      duration: null,
     }
     // this.timeline = React.createRef();
     // this.slider = React.createRef();
@@ -32,6 +33,14 @@ export default class Playbar extends React.Component {
     this.playNextSong = this.playNextSong.bind(this);
     this.positionHandle = this.positionHandle.bind(this);
     this.handleAudioUpdate = this.handleAudioUpdate.bind(this);
+    this.shuffle = this.shuffle.bind(this);
+    this.formerSongQueue = Object.assign([], this.props.songQueue);
+    this.originalSongQueue = Object.assign([], this.props.songQueue);
+    this.playAudio = this.playAudio.bind(this);
+    this.pauseAudio = this.pauseAudio.bind(this);
+    this.formerSong = this.props.currentSong ? merge({}, this.props.currentSong) : {};
+    this.location = '';
+    this.formerPlayStatus = false;
   }
 
   handleMouseOver(field) {
@@ -40,17 +49,9 @@ export default class Playbar extends React.Component {
 
   handleClick() {
     if(this.props.pause) {
-      window.audio.play();
-      // this.onPlaying();
       this.props.receivePlay(true, false);
     } else if (this.props.playing) {
-      window.audio.pause();
-      this.onPause();
       this.props.receivePlay(false, true);
-    } else {
-      window.audio.play();
-      this.onPlaying();
-      this.props.receivePlay(true, false);
     }
   }
 
@@ -62,10 +63,41 @@ export default class Playbar extends React.Component {
     this.setState({playing: false, pause: true});
   }
 
+  handleRepeat() {
+    if (this.props.repeat && this.props.repeat !== 'once') {
+      this.handleAudioLoop();
+      this.props.receiveRepeat('once');
+    } else if (this.props.repeat === 'once') {
+      this.handleAudioLoop();
+      this.props.receiveRepeat(false);
+    } else {
+      this.props.receiveRepeat(true);
+    }
+  }
+
+  handleShuffle() {
+    if (this.props.shuffle) {
+      this.props.receiveShuffle(false);
+    } else {
+      this.props.receiveShuffle(true);
+    }
+  }
+
+  shuffle(arr) {
+    var j, x, i;
+    for (i = arr.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = arr[i];
+      arr[i] = arr[j];
+      arr[j] = x;
+    }
+    return arr;
+  }
+
   positionHandle(position) {
     if (position >= 0 && position <= this.timeline.offsetWidth) {
       this.status.style.width = (position * 100 / this.timeline.offsetWidth) + "%";
-    }
+    }``
     if (position < 0) {
       this.slider.style.width = "0px";
     }
@@ -96,26 +128,115 @@ export default class Playbar extends React.Component {
     window.audio.volume = ((volumePosition) / this.volumeControl.offsetWidth);
   }
 
+  compare(arr1, arr2) {
+    if (arr1.length !== arr2.length) {
+      return false;
+    } else {
+      for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  componentDidUpdate() {
+    if (this.props.shuffle && !this.compare(this.formerSongQueue, this.props.songQueue)) {
+      this.formerSongQueue = Object.assign([], this.props.songQueue);
+      let newQueue = Object.assign([], this.props.songQueue);
+      newQueue = this.shuffle(newQueue);
+      this.props.receiveShuffleSongQueue(newQueue);
+    }
+
+    if (this.props.shuffle && this.props.shuffleSongQueue.length === 0) {
+      let newQueue = Object.assign([], this.props.songQueue);
+      newQueue = this.shuffle(newQueue);
+      this.props.receiveShuffleSongQueue(newQueue);
+    }
+
+    if (this.props.currentSong.song && this.formerSong.song && this.formerSong.song.id !== this.props.currentSong.song.id && this.props.playing) {
+      this.formerSong = merge({}, this.props.currentSong);
+      // this.props.receivePlay(false, true);
+      window.audio.src = this.props.currentSong.song.songUrl;
+      this.playAudio();
+    }
+
+    if (this.props.currentSong.song && !this.formerSong.song) {
+      this.formerSong = merge({}, this.props.currentSong);
+      window.audio.src = this.props.currentSong.song.songUrl;
+      this.playAudio();
+    }
+
+    if (!this.props.shuffle && this.props.shuffleSongQueue.length !== 0) {
+      this.props.receiveShuffleSongQueue([]);
+    }
+
+    if (this.props.playing && !this.formerPlayStatus) {
+      this.formerPlayStatus = true;
+      this.playAudio();
+    } else if (!this.props.playing && this.formerPlayStatus) {
+      this.formerPlayStatus = false;
+      this.pauseAudio();
+    }
+  }
+
+  handleAudioLoop() {
+    if (window.audio.loop) {
+      window.audio.loop = false;
+    } else {
+      window.audio.loop = true;
+    }
+  }
+
+  playAudio() {
+    let isPlaying = window.audio.currentTime > 0 && !audio.paused && !audio.ended && audio.readyState > 2;
+    if (!isPlaying) {
+      this.props.receivePlay(true, false);
+      window.audio.play().then( () => {
+        console.log('PLAY');
+        window.audio.addEventListener("timeupdate", this.handleAudioUpdate);
+        if (this.props.pause) {
+          this.pauseAudio();
+        }
+      });
+    }
+  }
+
+  pauseAudio() {
+    this.props.receivePlay(false, true);
+    window.audio.pause();
+    window.audio.removeEventListener("timeupdate", this.handleAudioUpdate);
+  }
+
+  handleAudioClose() {
+    window.audio.currentTime === 0;
+
+  }
+
 
   componentDidMount() {
 
     window.audio = document.getElementById('root-audio');
     window.audio.src = Object.values(this.props.currentSong).length !== 0 ? this.props.currentSong.song.songUrl: "";
-  //   window.audio.ontimeupdate = () => {
-  //     let ratio = window.audio.currentTime / window.audio.duration;
-  //     let position = this.timeline.offsetWidth * ratio;
-  //     let currentSecond = Math.round(window.audio.currentTime % 60).toString().length < 2 ? '0' + Math.round(window.audio.currentTime % 60).toString() : Math.round(window.audio.currentTime % 60).toString();
-  //     let currentMinute = Math.round(window.audio.currentTime / 60);
-  //     let durationSecond = Math.round(window.audio.duration % 60).toString().length < 2 ? '0' + Math.round(window.audio.duration % 60).toString() : Math.round(window.audio.duration % 60).toString();
-  //     let durationMinute = Math.round(window.audio.duration / 60);
-  //
-  //     this.setState({currentTime: `${currentMinute}:${currentSecond === '60' ? '00' : currentSecond}`, duration: `${durationMinute}:${durationSecond}`});
-  //     this.positionHandle(position);
-  //     this.playNextSong();
-  //   };
-  // }
+    if (this.props.currentSong.song && this.props.currentSong.song.id) {
 
-    window.audio.addEventListener("timeupdate", this.handleAudioUpdate);
+      this.props.receiveSongQueue([this.props.currentSong.song.id]);
+      this.props.receiveShuffleSongQueue([]);
+    }
+    // window.audio.addEventListener("timeupdate", this.handleAudioUpdate);
+  }
+
+  handleSongQueue() {
+    if(this.props.songQueueClicked) {
+      this.props.history.push(this.location);
+      this.props.receiveSongQueueClick(true);
+    } else {
+      this.location = this.props.history.location.pathname;
+      this.props.history.push('/app/songQueue');
+      this.props.receiveSongQueueClick(true);
+    }
+    // this.setState({songQueueClick: !this.state.songQueueClick});
   }
 
   handleAudioUpdate() {
@@ -131,56 +252,65 @@ export default class Playbar extends React.Component {
     this.playNextSong();
   }
 
-  componentWillUnmount() {
-    window.audio.removeEventListener("timeupdate", this.handleAudioUpdate);
-  }
+  // componentWillUnmount() {
+  //   window.audio.removeEventListener("timeupdate", this.handleAudioUpdate);
+  // }
+
 
   playNextSong() {
     let nextSongIdx;
     if (window.audio.currentTime === window.audio.duration) {
       window.audio.currentTime = "";
-      nextSongIdx = this.props.songQueue.indexOf(this.props.currentSong.song.id) + 1;
-      if (nextSongIdx < this.props.songQueue.length) {
-        this.props.fetchCurrentSong(this.props.currentUserId, this.props.songQueue[nextSongIdx]);
-        window.audio.src = this.props.currentSong.song.songUrl;
-        window.audio.play();
-        this.props.receivePlay(true, false);
+      let songQueue = this.props.shuffle ? Object.assign([], this.props.shuffleSongQueue) : Object.assign([], this.props.songQueue);
+      nextSongIdx = songQueue.indexOf(this.props.currentSong.song.id) + 1;
+      if (nextSongIdx < songQueue.length) {
+        this.pauseAudio();
+        this.props.fetchCurrentSong(this.props.currentUserId, songQueue[nextSongIdx]).then( () => {
+          window.audio.src = this.props.currentSong.song.songUrl;
+          this.playAudio();
+        });
+      } else {
+        if (this.props.repeat) {
+          nextSongIdx = nextSongIdx - songQueue.length;
+          this.pauseAudio();
+          this.props.fetchCurrentSong(this.props.currentUserId, songQueue[nextSongIdx]).then( () => {
+            window.audio.src = this.props.currentSong.song.songUrl;
+              this.playAudio();
+          });
+        }
       }
     }
   }
 
   skipToPrevSong() {
     let prevSongIdx;
-    prevSongIdx = this.props.songQueue.indexOf(this.props.currentSong.song.id) - 1;
+    let songQueue = this.props.shuffle ? Object.assign([], this.props.shuffleSongQueue) : Object.assign([], this.props.songQueue);
+    prevSongIdx = songQueue.indexOf(this.props.currentSong.song.id) - 1;
     if (prevSongIdx < 0) {
-      this.props.fetchCurrentSong(this.props.currentUserId, this.props.songQueue[this.props.songQueue.length + prevSongIdx]);
-      window.audio.src = this.props.currentSong.song.songUrl;
-      window.audio.play();
-      this.props.receivePlay(true, false);
-    } else if (prevSongIdx >= 0 && prevSongIdx < this.props.songQueue.length) {
-      this.props.fetchCurrentSong(this.props.currentUserId, this.props.songQueue[prevSongIdx]);
-      window.audio.src = this.props.currentSong.song.songUrl;
-      window.audio.play();
-      this.props.receivePlay(true, false);
+      this.pauseAudio();
+      this.props.fetchCurrentSong(this.props.currentUserId, songQueue[songQueue.length + prevSongIdx]);
+    } else if (prevSongIdx >= 0 && prevSongIdx < songQueue.length) {
+      this.pauseAudio();
+      this.props.fetchCurrentSong(this.props.currentUserId, songQueue[prevSongIdx]);
     }
+    window.audio.src = this.props.currentSong.song.songUrl;
+    this.props.receivePlay(true, false);
   }
 
   skipToNextSong() {
     let nextSongIdx;
-    nextSongIdx = this.props.songQueue.indexOf(this.props.currentSong.song.id) + 1;
-    if (nextSongIdx > this.props.songQueue.length - 1) {
-      this.props.fetchCurrentSong(this.props.currentUserId, this.props.songQueue[nextSongIdx - this.props.songQueue.length]);
-      window.audio.src = this.props.currentSong.song.songUrl;
-      window.audio.play();
-      this.props.receivePlay(true, false);
-    } else if (nextSongIdx > 0 && nextSongIdx < this.props.songQueue.length) {
-      this.props.fetchCurrentSong(this.props.currentUserId, this.props.songQueue[nextSongIdx]);
-      window.audio.src = this.props.currentSong.song.songUrl;
-      window.audio.play();
-      this.props.receivePlay(true, false);
+    let songQueue = this.props.shuffle ? Object.assign([], this.props.shuffleSongQueue) : Object.assign([], this.props.songQueue);
+    nextSongIdx = songQueue.indexOf(this.props.currentSong.song.id) + 1;
+    if (nextSongIdx > songQueue.length - 1) {
+      this.pauseAudio();
+      this.props.fetchCurrentSong(this.props.currentUserId, songQueue[nextSongIdx - songQueue.length]);
+    } else if (nextSongIdx > 0 && nextSongIdx < songQueue.length) {
+      this.pauseAudio();
+      this.props.fetchCurrentSong(this.props.currentUserId, songQueue[nextSongIdx]);
     }
+    window.audio.src = this.props.currentSong.song.songUrl;
+    this.props.receivePlay(true, false);
   }
-
 
   render() {
     let albumCover = this.props.currentSong.song ? this.props.currentSong.song.albumCover : " ";
@@ -192,6 +322,33 @@ export default class Playbar extends React.Component {
     } else if (this.props.pause) {
       this.playIcon = window.playIcon;
       this.playGrayIcon = window.playGrayIcon;
+    }
+
+    if (this.props.shuffle) {
+      this.shuffleIcon = window.shuffleLightNeonIcon;
+      this.shuffleGrayIcon = window.shuffleNeonIcon;
+    } else {
+      this.shuffleIcon = window.shuffleIcon;
+      this.shuffleGrayIcon = window.shuffleGrayIcon;
+    }
+
+    if (this.props.repeat && this.props.repeat !== 'once') {
+      this.repeatIcon = window.repeatLightNeonIcon;
+      this.repeatGrayIcon = window.repeatNeonIcon;
+    } else if (this.props.repeat === 'once') {
+      this.repeatIcon = window.repeatLightNeonOneIcon;
+      this.repeatGrayIcon = window.repeatNeonOneIcon;
+    } else {
+      this.repeatIcon = window.repeatIcon;
+      this.repeatGrayIcon = window.repeatGrayIcon;
+    }
+
+    if (this.props.songQueueClicked) {
+      this.playlistIcon = window.playlistLightNeonIcon;
+      this.playlistGrayIcon = window.playlistNeonIcon;
+    } else {
+      this.playlistIcon = window.playlistIcon;
+      this.playlistGrayIcon = window.playlistGrayIcon;
     }
 
     let progressBarDuration;
@@ -254,8 +411,8 @@ export default class Playbar extends React.Component {
             <div className="play-bar-center">
               <div className="player-controls-center">
                 <div className="player-controls-buttons">
-                  <button className="player-controls-shuffle-button" onMouseEnter={this.handleMouseOver("mouseShuffleOver")} onMouseLeave={this.handleMouseOver("mouseShuffleOver")}>
-                    <img src={this.state.mouseShuffleOver ? window.shuffleIcon : window.shuffleGrayIcon} />
+                  <button className="player-controls-shuffle-button" onClick={this.handleShuffle.bind(this)} onMouseEnter={this.handleMouseOver("mouseShuffleOver")} onMouseLeave={this.handleMouseOver("mouseShuffleOver")}>
+                    <img src={this.state.mouseShuffleOver ? this.shuffleIcon : this.shuffleGrayIcon} />
                   </button>
                   <button className="player-controls-previous-next-button" onClick={this.skipToPrevSong.bind(this)} onMouseEnter={this.handleMouseOver("mousePreviousOver")} onMouseLeave={this.handleMouseOver("mousePreviousOver")}>
                     <img src={this.state.mousePreviousOver ? window.previousIcon : window.previousGrayIcon} />
@@ -266,8 +423,8 @@ export default class Playbar extends React.Component {
                   <button className="player-controls-previous-next-button" onClick={this.skipToNextSong.bind(this)} onMouseEnter={this.handleMouseOver("mouseNextOver")} onMouseLeave={this.handleMouseOver("mouseNextOver")}>
                     <img src={this.state.mouseNextOver ? window.nextIcon : window.nextGrayIcon} />
                   </button>
-                  <button className="player-controls-repeat-button" onMouseEnter={this.handleMouseOver("mouseRepeatOver")} onMouseLeave={this.handleMouseOver("mouseRepeatOver")}>
-                    <img src={this.state.mouseRepeatOver ? window.repeatIcon : window.repeatGrayIcon} />
+                  <button className="player-controls-repeat-button" onClick={this.handleRepeat.bind(this)} onMouseEnter={this.handleMouseOver("mouseRepeatOver")} onMouseLeave={this.handleMouseOver("mouseRepeatOver")}>
+                    <img src={this.state.mouseRepeatOver ? this.repeatIcon : this.repeatGrayIcon} />
                   </button>
                 </div>
                 <div className="player-controls-playbar">
@@ -281,9 +438,10 @@ export default class Playbar extends React.Component {
             </div>
             <div className="play-bar-right">
                 <div className="extra-controls">
-                  <button className="queue-button" onMouseEnter={this.handleMouseOver("mouseQueueOver")} onMouseLeave={this.handleMouseOver("mouseQueueOver")}>
-                    <img src={this.state.mouseQueueOver ? window.playlistIcon : window.playlistGrayIcon} />
+                  <button className="queue-button" onClick={this.handleSongQueue.bind(this)} onMouseEnter={this.handleMouseOver("mouseQueueOver")} onMouseLeave={this.handleMouseOver("mouseQueueOver")}>
+                    <img src={this.state.mouseQueueOver ? this.playlistIcon : this.playlistGrayIcon} />
                   </button>
+
                   <div className="volume-bar">
                     <button className="volume-button">
                       <img src={window.maxVolumeGrayIcon} />

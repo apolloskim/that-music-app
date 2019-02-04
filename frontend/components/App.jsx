@@ -16,6 +16,7 @@ import CollectionAlbums from './collection_albums';
 import CollectionArtists from './collection_artists';
 import SearchContainer from './search';
 import SessionShowContainer from './session_show_container';
+import SongQueueContainer from './song_queue_container';
 import {ProtectedRoute} from '../util/route_util';
 
 
@@ -114,6 +115,7 @@ const App = () => {
           <ProtectedRoute path={`/app/playlist/:playlistId`} component={PlaylistShowContainer} />
           <ProtectedRoute path={`/app/album/:albumId`} component={AlbumShowContainer} />
           <ProtectedRoute path={`/app/artist/:artistId`} component={ArtistShowContainer} />
+          <ProtectedRoute path={`/app/songQueue`} component={SongQueueContainer} />
           <PlaybarContainer />
       </div>
     </div>

@@ -3,10 +3,12 @@ import { merge } from "lodash";
 
 const playlistsReducer = (state = {}, action) => {
   Object.freeze(state);
+  const newState = merge({}, state);
 
   switch(action.type) {
     case RECEIVE_PLAYLIST:
-      return merge({}, state, {[action.playlist.id]: action.playlist});
+      newState[action.playlist.id] = action.playlist;
+      return newState;
     case RECEIVE_PLAYLISTS:
       return action.playlists;
     case REMOVE_PLAYLISTS:

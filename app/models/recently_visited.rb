@@ -1,0 +1,3 @@
+class RecentlyVisited < ApplicationRecord
+  
+end

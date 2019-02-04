@@ -13,7 +13,6 @@ export default class CollectionPlaylists extends React.Component {
   render() {
     return (
 
-
       <div className="browse-newreleases-container">
         <section className="new-releases-content-spacing">
           <CollectionPlaylistsHeader />

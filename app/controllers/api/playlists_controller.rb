@@ -1,11 +1,15 @@
 class Api::PlaylistsController < ApplicationController
 
   def index
-    @playlists = Playlist.all.includes(:songs)
+    if params[:queries]
+      @playlists = params[:queries] === "" ? [] : Playlist.includes(:creator, songs: [:album, :artist, :playlistsongs]).where("title ILIKE '%#{params[:queries]}%'")
+    else
+      @playlists = Playlist.includes(:creator, songs: [:album, :artist, :playlistsongs]).all
+    end
   end
 
   def show
-    @playlist = Playlist.find(params[:id])
+    @playlist = Playlist.includes(:creator, songs: [:album, :artist, :playlistsongs]).find(params[:id])
     @playlist_song_ids = @playlist.songs.map { |song| song.id }
     @creator = User.find(@playlist.creator_id)
   end
@@ -20,7 +24,7 @@ class Api::PlaylistsController < ApplicationController
   end
 
   def create
-    @playlist = Playlist.new(playlist_params)
+    @playlist = Playlist.includes(:creator, songs: [:album, :artist, :playlistsongs]).new(playlist_params)
 
     if @playlist.save
       @playlist_song_ids = @playlist.songs.map { |song| song.id }
@@ -40,7 +44,7 @@ class Api::PlaylistsController < ApplicationController
   private
 
   def playlist_params
-    params.require(:playlist).permit(:title, :creator_id, :image)
+    params.require(:playlist).permit(:title, :creator_id)
   end
 
 end

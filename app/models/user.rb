@@ -36,6 +36,10 @@ class User < ApplicationRecord
   foreign_key: :user_id,
   class_name: :Likealbum
 
+  has_many :recently_visiteds,
+  foreign_key: :user_id,
+  class_name: :RecentlyVisited
+
 
   def self.find_by_credentials(username, password)
     user = self.find_by(username: username)

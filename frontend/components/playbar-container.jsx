@@ -1,15 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Playbar from './playbar';
-import {receiveCurrentSong, receivePlay, fetchCurrentSong} from '../actions/song_actions';
+import {receiveCurrentSong, receivePlay, fetchCurrentSong, receiveShuffle, receiveRepeat, receiveSongQueue, receiveShuffleSongQueue, receiveSongQueueClick} from '../actions/song_actions';
+import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps)=> {
   return {
     playing: state.playStatus.playing,
     pause: state.playStatus.pause,
+    songQueueClicked: state.playStatus.songQueueClicked,
     currentSong: state.currentSong,
     currentUserId: state.session.currentUserId,
-    songQueue: state.songQueue
+    songQueue: state.songQueue,
+    shuffleSongQueue: state.shuffleSongQueue,
+    shuffle: state.playStatus.shuffle,
+    repeat: state.playStatus.repeat
   };
 };
 
@@ -17,9 +22,14 @@ const mapDispatchToProps = dispatch => {
   return {
     receiveCurrentSong: song => dispatch(receiveCurrentSong(song)),
     receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause)),
-    fetchCurrentSong: (currentUserId, id) => dispatch(fetchCurrentSong(currentUserId, id))
+    receiveShuffle: (shuffle) => dispatch(receiveShuffle(shuffle)),
+    receiveRepeat: (repeat) => dispatch(receiveRepeat(repeat)),
+    fetchCurrentSong: (currentUserId, id) => dispatch(fetchCurrentSong(currentUserId, id)),
+    receiveSongQueue: songQueue => dispatch(receiveSongQueue(songQueue)),
+    receiveShuffleSongQueue: songQueue => dispatch(receiveShuffleSongQueue(songQueue)),
+    receiveSongQueueClick: clicked => dispatch(receiveSongQueueClick(clicked))
   };
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Playbar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Playbar));

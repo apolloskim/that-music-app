@@ -46,9 +46,16 @@ class CollectionPlaylistsIndex extends React.Component {
 
             <div key={idx} className="cover-container">
               <div key={idx} className="browse-featured-playlist">
+                <Link to={`/app/playlist/${playlist.id}`}>
                 {renderPlaylist}
+                </Link>
                 <div className="mo-info" >
                   <Link to={`/app/playlist/${playlist.id}`} className="cover-art-text">{playlist.title}</Link>
+                  <div className="ellipsis-one-line">
+                    <span>
+                      {playlist.creatorName}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -8,6 +8,7 @@ json.album do
   json.genre @album.genre
   json.imageUrl @album.cover_image
   json.songCount @album.songs.size
+  json.publisher @album.publisher
 end
 
 json.songs do

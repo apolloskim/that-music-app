@@ -6,6 +6,7 @@ json.playlist do
   json.playlistSongIds @playlist_song_ids
   json.songCount @playlist_song_ids.size
   json.imageUrl @playlist.image_url
+  json.firstImage @playlist.songs.empty? ? nil : @playlist.songs.first.album.cover_image
 end
 
   json.songs do
@@ -18,7 +19,6 @@ end
         json.duration song.duration
         json.explicit song.explicit
         json.albumCover song.album.cover_image
-        # debugger
         json.playlistSongId song.playlistsongs.all.select {|playlistsong| @playlist.id === playlistsong.playlist_id}.first ? song.playlistsongs.all.select {|playlistsong| @playlist.id === playlistsong.playlist_id}.first.id : nil
       end
     end

@@ -5,10 +5,10 @@ export const fetchCurrentSong = (userId, id) => {
   });
 };
 
-export const searchSong = (str) => {
+export const searchSong = (str, songQueue) => {
   const res = $.ajax({
     url: "/api/songs/",
-    data: {str}
+    data: {str, songQueue}
   });
   return res;
 };

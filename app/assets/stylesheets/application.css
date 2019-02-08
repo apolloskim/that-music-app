@@ -519,7 +519,7 @@ text-align: center;
   padding-top: 15px;
 
 }
-
+/*
 .divider {
   border-top: 1px solid #d9dadc;
   line-height: 1px;
@@ -528,12 +528,13 @@ text-align: center;
   max-width: 28.5em;
   text-align: center;
   margin-left: 760px;
-}
+} */
 
 .signup-invite-container {
   display: flex;
   flex-direction: column;
   margin-top: 35px;
+  align-items: center;
 }
 
 .form-invite-question {
@@ -551,12 +552,12 @@ text-align: center;
   border-width: 0;
   text-transform: uppercase;
   font-weight: 700;
-  padding: 16px 48px 18px;
-  max-width: 26.875em;
+  padding: 16px 1px 18px;
+  max-width: 21.875em;
   text-decoration: none;
   color: #616467;
-  margin-left: 725px;
   letter-spacing: 2px;
+  width: 100%;
 }
 
 .sign-up-link:hover {

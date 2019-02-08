@@ -100,7 +100,7 @@ class SessionForm extends React.Component {
 
               <p className="form-error">
                 {
-                  this.props.errors[0] === 'Username is too short (minimum is 6 characters)' || this.props.errors[0] === "Username can't be blank"
+                  this.props.errors[0] === 'Username is too short (minimum is 6 characters)' || this.props.errors[0] === "Username can't be blank" || this.props.errors[0] === "Username has already been taken"
                   ? this.props.errors[0]
                   : ''
                 }

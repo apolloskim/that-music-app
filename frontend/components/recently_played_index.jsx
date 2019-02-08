@@ -3,10 +3,19 @@ import { connect } from 'react-redux';
 import { fetchVisitedAlbum } from '../actions/album_actions';
 import { fetchVisitedArtist } from '../actions/artist_actions';
 import { fetchVisitedPlaylist } from '../actions/playlist_actions';
+import { removeAllCurrentPlayingPages, fetchCurrentlyVisited } from '../actions/session_actions';
 import { Link } from 'react-router-dom';
 import { merge } from 'lodash';
 
 class RecentlyPlayedIndex extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      componentMounted: false
+    };
+
+  }
 
   handleReverse(arr) {
     let newArr = [];
@@ -30,6 +39,16 @@ class RecentlyPlayedIndex extends React.Component {
     }
     return newArr;
   }
+
+  componentDidMount() {
+    // this.props.fetchCurrentlyVisited(this.props.currentUserId);
+    this.setState({componentMounted: true});
+    // this.props.recentlyPlayedMounted = true;
+  }
+  //
+  // componentWillUnmount() {
+  //   this.props.removeAllCurrentPlayingPages();
+  // }
 
   render() {
     let currentPlayingArr = this.handleReverse(this.props.currentPlayingPage);
@@ -72,11 +91,10 @@ class RecentlyPlayedIndex extends React.Component {
       );
     });
 
-
-    return(
+    const recentlyVisitedDom = (
       <div className="browse-featured-content-wrapper">
         <div className="browse-featured-header">
-          <h1 className="browse-featured-header-new-releases">Recently Played</h1>
+          <h1 className="browse-featured-header-new-releases">{Object.keys(this.props.currentPlayingPage).length > 0 ? `Recently Played` : ""}</h1>
         </div>
         <div className="browse-featured-playlist-lists">
           <div className="container-fluid">
@@ -87,13 +105,21 @@ class RecentlyPlayedIndex extends React.Component {
         </div>
       </div>
     );
+    // debugger
+
+    return(
+      <div>
+        {this.state.componentMounted ? recentlyVisitedDom : ""}
+      </div>
+    );
   }
 }
 
 const msp = state => {
   return {
     currentPlayingPage: state.currentPlayingPage,
-    visitedPages: state.visitedPages
+    visitedPages: state.visitedPages,
+    currentUserId: state.session.currentUserId
   };
 };
 
@@ -101,7 +127,9 @@ const mdp = dispatch => {
   return {
     fetchVisitedAlbum: id => dispatch(fetchVisitedAlbum(id)),
     fetchVisitedArtist: id => dispatch(fetchVisitedArtist(id)),
-    fetchVisitedPlaylist: id => dispatch(fetchVisitedPlaylist(id))
+    fetchVisitedPlaylist: id => dispatch(fetchVisitedPlaylist(id)),
+    removeAllCurrentPlayingPages: () => dispatch(removeAllCurrentPlayingPages()),
+    fetchCurrentlyVisited: id => dispatch(fetchCurrentlyVisited(id))
   }
 }
 

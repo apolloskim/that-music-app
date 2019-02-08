@@ -8,10 +8,19 @@ class AlbumIndex extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      componentMounted: false
+    };
   }
 
   componentDidMount() {
     this.props.fetchAlbums();
+    this.setState({componentMounted: true});
+    // this.props.albumMounted = true;
+  }
+
+  componentWillUnmount() {
+    this.props.removeAlbums();
   }
 
   render() {
@@ -40,20 +49,25 @@ class AlbumIndex extends React.Component {
       ));
     };
 
-    return (
-
-        <div className="browse-featured-content-wrapper">
-          <div className="browse-featured-header">
-            <h1 className="browse-featured-header-new-releases">New albums & singles</h1>
-          </div>
-          <div className="browse-featured-playlist-lists">
-            <div className="container-fluid">
-              <div className="album-index row">
-                {renderAlbums}
-              </div>
+    const albumIndexDom = (
+      <div className="browse-featured-content-wrapper">
+        <div className="browse-featured-header">
+          <h1 className="browse-featured-header-new-releases">{Object.keys(this.props.albums).length > 0 ? "New albums & singles" : ""}</h1>
+        </div>
+        <div className="browse-featured-playlist-lists">
+          <div className="container-fluid">
+            <div className="album-index row">
+              {renderAlbums}
             </div>
           </div>
         </div>
+      </div>
+    );
+
+    return (
+      <div>
+        {this.state.componentMounted ? albumIndexDom : ""}
+      </div>
     );
   }
 }

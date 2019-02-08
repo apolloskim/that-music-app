@@ -159,7 +159,6 @@ class ArtistOverview extends React.Component {
     let playlistForm;
 
     if(this.state.actionPlaylist === "Add to Playlist") {
-
       playlistForm = (
         <div className="playlist-form-modal">
           <div className="playlist-form-container">

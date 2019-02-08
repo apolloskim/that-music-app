@@ -6,10 +6,19 @@ export default class ArtistIndex extends React.Component {
 
   constructor() {
     super();
+    this.state = {
+      componentMounted: false
+    };
   }
 
   componentDidMount() {
     this.props.fetchArtists();
+    this.setState({componentMounted: true});
+    // this.props.artistMounted = true;
+  }
+
+  componentWillUnmount() {
+    this.props.removeArtists();
   }
 
   render() {
@@ -33,20 +42,26 @@ export default class ArtistIndex extends React.Component {
       ));
     }
 
-    return (
+    const artistIndexDom = (
 
-        <div className="browse-featured-content-wrapper">
-          <div className="browse-featured-header">
-            <h1 className="browse-featured-header-new-releases">Recommended Artists</h1>
-          </div>
-          <div className="browse-featured-playlist-lists">
-            <div className="container-fluid">
-              <div className="album-index row">
-                {renderArtists}
-              </div>
+      <div className="browse-featured-content-wrapper">
+        <div className="browse-featured-header">
+          <h1 className="browse-featured-header-new-releases">{Object.keys(this.props.artists).length > 0 ? "Recommended Artists" : ""}</h1>
+        </div>
+        <div className="browse-featured-playlist-lists">
+          <div className="container-fluid">
+            <div className="album-index row">
+              {renderArtists}
             </div>
           </div>
         </div>
+      </div>
+    );
+
+    return (
+      <div>
+        {this.state.componentMounted ? artistIndexDom : ""}
+      </div>
     );
   }
 }

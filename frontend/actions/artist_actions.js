@@ -43,7 +43,7 @@ export const fetchLikeArtists = id => dispatch => {
   return LikeArtistApiUtil.fetchLikeArtists(id).then( artists => dispatch(receiveArtists(artists)));
 }
 
-export const deleteArtists = () => {
+export const removeArtists = () => {
   return {
     type: REMOVE_ARTISTS
   }

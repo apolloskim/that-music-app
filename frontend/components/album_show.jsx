@@ -18,7 +18,8 @@ export default class AlbumShow extends React.Component {
       pause: this.props.pause,
       formerSong: this.props.currentSong.song,
       included: this.props.currentUser.likeAlbumIds.includes(parseInt(this.props.albumId)),
-      actionPlaylist: false
+      actionPlaylist: false,
+      prevId: null
     };
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -32,9 +33,9 @@ export default class AlbumShow extends React.Component {
   }
 
   componentDidMount() {
-
     this.props.fetchAlbum(this.props.albumId);
     this.props.fetchCurrentPlaylists(this.props.currentUserId);
+    this.setState({prevId: this.props.albumId});
   }
 
   handleCloseClick(e) {
@@ -125,6 +126,10 @@ export default class AlbumShow extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.props.albumId !== this.state.prevId) {
+      this.props.fetchAlbum(this.props.albumId);
+      this.setState({prevId: this.props.albumId});
+    }
 
     if(this.state.actionPlaylist === 'Save to your Favorite Songs') {
       this.setState({actionPlaylist: false});
@@ -140,7 +145,6 @@ export default class AlbumShow extends React.Component {
   }
 
   handleContextMenuClick(e, data) {
-
     this.setState({actionPlaylist: data.foo});
   }
 

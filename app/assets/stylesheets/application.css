@@ -610,6 +610,7 @@ text-align: center;
   overflow: auto;
   min-height: 0!important;
   will-change: transform;
+  overflow-x: hidden;
 
 }
 
@@ -728,7 +729,7 @@ text-align: center;
   margin-left: auto; */
   padding-left: 8px;
   padding-right: 8px;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .margin-auto {
@@ -1104,6 +1105,7 @@ text-align: center;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .dropdown-playlist {
@@ -1862,7 +1864,8 @@ text-align: center;
   top: 0;
   bottom: 0;
   background-color: rgba(0,0,0,.9);
-  z-index: 7;
+  z-index: 13;
+  overflow-y: scroll;
 }
 
 .playlist-form-container {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { searchSong, fetchCurrentSong, receivePlay } from '../actions/song_actions';
 import { fetchArtists } from '../actions/artist_actions';
 import { fetchAlbums } from '../actions/album_actions';
-import { fetchPlaylists } from '../actions/playlist_actions';
+import { fetchPlaylists, fetchCurrentPlaylists } from '../actions/playlist_actions';
 import { Link, NavLink } from 'react-router-dom';
 import { ProtectedRoute } from '../util/route_util';
 import { Route } from 'react-router-dom'
@@ -14,6 +14,7 @@ import SearchArtistsContainer from './search_artists';
 import SearchSongsContainer from './search_songs';
 import SearchPlaylistsContainer from './search_playlists';
 import SearchAlbumsContainer from './search_albums';
+import Modal from './modal';
 
 class Search extends React.Component {
 
@@ -22,6 +23,10 @@ class Search extends React.Component {
     this.state = {
       searchString: ""
     };
+  }
+
+  componentDidMount() {
+    this.props.fetchCurrentPlaylists(this.props.currentUserId);
   }
 
   handleSearch(e) {
@@ -74,6 +79,7 @@ class Search extends React.Component {
       <div className="search-main-view">
         <div>
           <section className="search">
+            <Modal />
             <div className="search-input-box">
               <div className="search-content-spacing">
                 <input type="text" onChange={this.handleSearch.bind(this)} className="search-input-box-input" placeholder="Start typing..." />
@@ -100,7 +106,8 @@ const mapStateToProps = state => {
     currentSong: state.currentSong,
     currentUserId: state.session.currentUserId,
     playing: state.playStatus.playing,
-    pause: state.playStatus.pause
+    pause: state.playStatus.pause,
+    modalOpen: state.ui.modal
   };
 };
 
@@ -113,6 +120,7 @@ const mapDispatchToProps = dispatch => {
     receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause)),
     fetchArtists: queries => dispatch(fetchArtists(queries)),
     fetchAlbums: queries => dispatch(fetchAlbums(queries)),
+    fetchCurrentPlaylists: id => dispatch(fetchCurrentPlaylists(id)),
     fetchPlaylists: queries => dispatch(fetchPlaylists(queries))
   };
 };

@@ -4,7 +4,7 @@ import BrowseNavHeader from './browse_nav_header';
 import {Link} from 'react-router-dom';
 import {ProtectedRoute} from '../util/route_util';
 import {connect} from 'react-redux';
-import {fetchCurrentPlaylists} from '../actions/playlist_actions';
+import {fetchCurrentPlaylists, removeCurrentPlaylists} from '../actions/playlist_actions';
 
 
 class CollectionPlaylistsIndex extends React.Component {
@@ -15,6 +15,10 @@ class CollectionPlaylistsIndex extends React.Component {
 
   componentDidMount() {
     this.props.fetchCurrentPlaylists(this.props.currentUserId);
+  }
+
+  componentWillUnmount() {
+    this.props.removeCurrentPlaylists();
   }
 
   render() {
@@ -90,7 +94,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchPlaylist: id => dispatch(fetchPlaylist(id)),
-    fetchCurrentPlaylists: id => dispatch(fetchCurrentPlaylists(id))
+    fetchCurrentPlaylists: id => dispatch(fetchCurrentPlaylists(id)),
+    removeCurrentPlaylists: () => dispatch(removeCurrentPlaylists())
   };
 };
 

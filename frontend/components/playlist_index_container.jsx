@@ -1,16 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchPlaylists } from '../actions/playlist_actions';
+import { fetchPlaylists, removePlaylists } from '../actions/playlist_actions';
 import { Link } from 'react-router-dom';
 
 class PlaylistIndex extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      componentMounted: false
+    };
   }
 
   componentDidMount() {
     this.props.fetchPlaylists();
+    this.setState({componentMounted: true});
+    // this.props.playlistMounted = true;
+  }
+
+  componentWillUnmount() {
+    this.props.removePlaylists();
   }
 
   render() {
@@ -60,20 +69,26 @@ class PlaylistIndex extends React.Component {
       ));
     }
 
-    return (
+    const playlistIndexDom = (
 
-        <div className="browse-featured-content-wrapper">
-          <div className="browse-featured-header">
-            <h1 className="browse-featured-header-new-releases">Playlists for You</h1>
-          </div>
-          <div className="browse-featured-playlist-lists">
-            <div className="container-fluid">
-              <div className="album-index row">
-                {renderPlaylists}
-              </div>
+      <div className="browse-featured-content-wrapper">
+        <div className="browse-featured-header">
+          <h1 className="browse-featured-header-new-releases">{Object.keys(this.props.playlists).length > 0 ? "Playlists for You" : ""}</h1>
+        </div>
+        <div className="browse-featured-playlist-lists">
+          <div className="container-fluid">
+            <div className="album-index row">
+              {renderPlaylists}
             </div>
           </div>
         </div>
+      </div>
+    );
+
+    return (
+      <div>
+        {this.state.componentMounted ? playlistIndexDom : ""}
+      </div>
     );
   }
 }
@@ -86,7 +101,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchPlaylists: (str) => dispatch(fetchPlaylists(str))
+    fetchPlaylists: (str) => dispatch(fetchPlaylists(str)),
+    removePlaylists: () => dispatch(removePlaylists())
   };
 };
 

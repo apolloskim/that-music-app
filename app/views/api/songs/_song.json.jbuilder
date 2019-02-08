@@ -7,5 +7,7 @@ if song
     json.albumCover song.album.cover_image
     json.songUrl url_for(song.song_file)
     json.explicit song.explicit
+    json.artistId song.artist.id
+    json.albumId song.album.id
   end
 end

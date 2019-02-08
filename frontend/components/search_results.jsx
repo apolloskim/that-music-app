@@ -8,6 +8,7 @@ import {
   createLikeSong,
   receivePlay } from '../actions/song_actions';
 import { fetchCurrentPlaylists } from '../actions/playlist_actions';
+import { openModal, closeModal } from '../actions/modal_actions';
 import { ContextMenu, MenuItem, ContextMenuTrigger, handleContextClick } from 'react-contextmenu';
 import { Link } from 'react-router-dom';
 
@@ -25,15 +26,6 @@ class SearchResults extends React.Component {
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
-  }
-
-  handlePlaylistClick(playlist) {
-    let that = this;
-    return e => {
-      e.stopPropagation();
-      that.props.createPlaylistSong(playlist.id, that.props.clickedSongId.id);
-      that.setState({actionPlaylist: false});
-    };
   }
 
   toggleMenu(id, playlistSongId) {
@@ -70,21 +62,19 @@ class SearchResults extends React.Component {
   }
 
   componentDidUpdate() {
-
-
     if(this.state.actionPlaylist === 'Save to your Favorite Songs') {
+      this.setState({actionPlaylist: false});
       this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
     }
   }
 
   handleContextMenuClick(e, data) {
     this.setState({actionPlaylist: data.foo});
+    if (data.foo === "Add to Playlist") {
+      this.props.openModal();
+    }
   }
 
-  handleCloseClick(e) {
-    e.stopPropagation();
-    this.setState({actionPlaylist: false});
-  }
 
 
   render() {
@@ -256,7 +246,7 @@ class SearchResults extends React.Component {
           return (
             <div key={idx} className="cover-container">
               <div key={idx} className="browse-featured-playlist">
-                <Link to={`/app/artist/${artist.id}`}>
+                <Link to={`/app/artist/${artist.id ? artist.id : ""}/overview`} className="cover-art-text">
                   <img className="artist-cover-image" src={artist.thumbImageUrl} />
                 </Link>
                 <div className="mo-info" >
@@ -323,6 +313,16 @@ class SearchResults extends React.Component {
               {renderSongs}
             </ol>
           </section>
+
+          <ContextMenu id="two">
+            <MenuItem data={{foo: 'Add to Playlist'}} onClick={this.handleContextMenuClick.bind(this)}>
+              Add to Playlist
+            </MenuItem>
+            <MenuItem data={{foo: 'Save to your Favorite Songs'}} onClick={this.handleContextMenuClick.bind(this)}>
+              Save to your Favorite Songs
+            </MenuItem>
+          </ContextMenu>
+
           <section className="track-list-container row">
             <div className="input-box-content-spacing">
               <h1 className="browse-featured-header-new-releases header-margin text-center" dir="auto">{Object.values(this.props.artists).length !== 0 && this.props.queries.length !== 0 ? "Artists" : ""}</h1>
@@ -374,7 +374,9 @@ const mapStateToProps = (state, ownProps) => {
     currentSong: state.currentSong,
     queries: ownProps.queries,
     songQueue: state.songQueue,
-    currentUserId: state.session.currentUserId
+    currentUserId: state.session.currentUserId,
+    currentPlaylists: state.currentPlaylists,
+    clickedSongId: state.clickedSongId
   };
 };
 
@@ -385,8 +387,8 @@ const mapDispatchToProps = dispatch => {
     receiveSongQueue: songQueue => dispatch(receiveSongQueue(songQueue)),
     fetchCurrentPlaylists: id => dispatch(fetchCurrentPlaylists(id)),
     receiveClickedSongId: id => dispatch(receiveClickedSongId(id)),
-    createPlaylistSong: (playlist_id, song_id) => dispatch(createPlaylistSong(playlist_id, song_id)),
-    createLikeSong: (userId, songId) => dispatch(createLikeSong(userId, songId))
+    createLikeSong: (userId, songId) => dispatch(createLikeSong(userId, songId)),
+    openModal: () => dispatch(openModal()),
   };
 };
 

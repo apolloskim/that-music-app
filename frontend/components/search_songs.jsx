@@ -9,6 +9,7 @@ import {
   receivePlay } from '../actions/song_actions';
 import { fetchCurrentPlaylists } from '../actions/playlist_actions';
 import { ContextMenu, MenuItem, ContextMenuTrigger, handleContextClick } from 'react-contextmenu';
+import { openModal } from '../actions/modal_actions';
 import { Link } from 'react-router-dom';
 
 class SearchResults extends React.Component {
@@ -25,15 +26,6 @@ class SearchResults extends React.Component {
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
-  }
-
-  handlePlaylistClick(playlist) {
-    let that = this;
-    return e => {
-      e.stopPropagation();
-      that.props.createPlaylistSong(playlist.id, that.props.clickedSongId.id);
-      that.setState({actionPlaylist: false});
-    };
   }
 
   toggleMenu(id, playlistSongId) {
@@ -70,14 +62,19 @@ class SearchResults extends React.Component {
   }
 
   componentDidUpdate() {
-
     if(this.state.actionPlaylist === 'Save to your Favorite Songs') {
+      // debugger
+      this.setState({actionPlaylist: false});
       this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
     }
   }
 
   handleContextMenuClick(e, data) {
+    // debugger
     this.setState({actionPlaylist: data.foo});
+    if (data.foo === "Add to Playlist") {
+      this.props.openModal();
+    }
   }
 
   handleCloseClick(e) {
@@ -86,7 +83,6 @@ class SearchResults extends React.Component {
   }
 
   render() {
-
     const renderNote = (
       <div className="music-note-icon-padding">
         <div className="music-note-icon-center">
@@ -225,6 +221,16 @@ class SearchResults extends React.Component {
             </ol>
           </section>
         </div>
+
+        <ContextMenu id="two">
+          <MenuItem data={{foo: 'Add to Playlist'}} onClick={this.handleContextMenuClick.bind(this)}>
+            Add to Playlist
+          </MenuItem>
+          <MenuItem data={{foo: 'Save to your Favorite Songs'}} onClick={this.handleContextMenuClick.bind(this)}>
+            Save to your Favorite Songs
+          </MenuItem>
+        </ContextMenu>
+
       </div>
     );
   }
@@ -236,7 +242,8 @@ const mapStateToProps = (state, ownProps) => {
     currentSong: state.currentSong,
     queries: ownProps.queries,
     currentUserId: state.session.currentUserId,
-    songQueue: state.songQueue
+    songQueue: state.songQueue,
+    clickedSongId: state.clickedSongId
   };
 };
 
@@ -249,7 +256,8 @@ const mapDispatchToProps = dispatch => {
     fetchCurrentPlaylists: id => dispatch(fetchCurrentPlaylists(id)),
     receiveClickedSongId: id => dispatch(receiveClickedSongId(id)),
     createPlaylistSong: (playlist_id, song_id) => dispatch(createPlaylistSong(playlist_id, song_id)),
-    createLikeSong: (userId, songId) => dispatch(createLikeSong(userId, songId))
+    createLikeSong: (userId, songId) => dispatch(createLikeSong(userId, songId)),
+    openModal: () => dispatch(openModal())
   };
 };
 

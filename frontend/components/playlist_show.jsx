@@ -16,7 +16,8 @@ export default class PlaylistShow extends React.Component {
       playing: this.props.playing,
       pause: this.props.pause,
       formerSong: this.props.currentSong.song,
-      actionPlaylist: false
+      actionPlaylist: false,
+      prevId: null
     };
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -24,10 +25,6 @@ export default class PlaylistShow extends React.Component {
     this.handleButtonClick = this.handleButtonClick.bind(this);
   }
 
-  componentDidMount() {
-    this.props.fetchPlaylist(this.props.playlistId);
-    this.props.fetchCurrentPlaylists(this.props.currentUserId);
-  }
 
   handleMouseEnter(idx) {
     return () => {
@@ -101,7 +98,18 @@ export default class PlaylistShow extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.props.fetchPlaylist(this.props.playlistId);
+    this.props.fetchCurrentPlaylists(this.props.currentUserId);
+    this.setState({prevId: this.props.playlistId});
+  }
+
   componentDidUpdate() {
+
+    if(this.props.playlistId !== this.state.prevId) {
+      this.props.fetchPlaylist(this.props.playlistId);
+      this.setState({prevId: this.props.playlistId});
+    }
 
     if(this.state.actionPlaylist === 'Remove from this Playlist') {
       this.setState({actionPlaylist: false});

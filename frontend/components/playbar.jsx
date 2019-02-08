@@ -316,6 +316,10 @@ export default class Playbar extends React.Component {
     let albumCover = this.props.currentSong.song ? this.props.currentSong.song.albumCover : " ";
     let songTitle = this.props.currentSong.song ? this.props.currentSong.song.title : " ";
     let songArtist = this.props.currentSong.song ? this.props.currentSong.song.artist : " ";
+
+    let artistId = this.props.currentSong.song ? this.props.currentSong.song.artistId : ' ';
+    let albumId = this.props.currentSong.song ? this.props.currentSong.song.albumId : ' ';
+
     if (this.props.playing) {
       this.playIcon = window.pauseIcon;
       this.playGrayIcon = window.pauseGrayIcon;
@@ -391,16 +395,20 @@ export default class Playbar extends React.Component {
             <div className="play-bar-left">
               <div className="current-song-info">
                 <span className="current-song-album-cover">
-                  <Link to="song">
+                  <Link to={`/app/album/${albumId}`} className="cover-art-text">
                     <img src={albumCover}/>
                   </Link>
                 </span>
                 <div className="current-song-title">
                   <div className="current-song-title-top-line">
-                    <Link to="song">{songTitle}</Link>
+                    <Link to={`/app/album/${albumId}`} className="cover-art-text">
+                      {songTitle}
+                    </Link>
                   </div>
                   <div className="current-song-title-bottom-line">
-                    <Link to="artist">{songArtist}</Link>
+                    <Link to={`/app/artist/${artistId ? artistId : ""}/overview`}>
+                      {songArtist}
+                    </Link>
                   </div>
                 </div>
                 <button className="current-song-heart-icon" onMouseEnter={this.handleMouseOver("mouseHeartOver")} onMouseLeave={this.handleMouseOver("mouseHeartOver")}>

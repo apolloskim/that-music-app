@@ -97,26 +97,26 @@ const App = () => {
 
   return (
     <div>
-      <div className="background-image one" style={backgroundOne}>
+      <div className="background-image" style={backgroundOne}>
         <div className="background-image background-opacity two" style={backgroundTwo}>
         </div>
       </div>
       <div className="root-top-container">
-          <Navbar />
-          <ProtectedRoute path='/app/browse/featured' component={BrowsePlaylists} />
-          <ProtectedRoute path='/app/browse/genres' component={BrowseGenres} />
-          <ProtectedRoute path='/app/browse/newreleases' component={BrowseNewReleases} />
-          <ProtectedRoute path='/app/collection/playlists' component={CollectionPlaylists} />
-          <ProtectedRoute path='/app/collection/tracks' component={CollectionFavoriteSongs} />
-          <ProtectedRoute path='/app/collection/albums' component={CollectionAlbums} />
-          <ProtectedRoute path='/app/collection/artists' component={CollectionArtists} />
-          <ProtectedRoute path='/app/search' component={SearchContainer} />
-          <ProtectedRoute path='/app/settings/account' component={SessionShowContainer} />
-          <ProtectedRoute path={`/app/playlist/:playlistId`} component={PlaylistShowContainer} />
-          <ProtectedRoute path={`/app/album/:albumId`} component={AlbumShowContainer} />
-          <ProtectedRoute path={`/app/artist/:artistId`} component={ArtistShowContainer} />
-          <ProtectedRoute path={`/app/songQueue`} component={SongQueueContainer} />
-          <PlaybarContainer />
+        <Navbar />
+        <ProtectedRoute path='/app/browse/featured'        component={BrowsePlaylists} />
+        <ProtectedRoute path='/app/browse/genres'          component={BrowseGenres} />
+        <ProtectedRoute path='/app/browse/newreleases'     component={BrowseNewReleases} />
+        <ProtectedRoute path='/app/collection/playlists'   component={CollectionPlaylists} />
+        <ProtectedRoute path='/app/collection/tracks'      component={CollectionFavoriteSongs} />
+        <ProtectedRoute path='/app/collection/albums'      component={CollectionAlbums} />
+        <ProtectedRoute path='/app/collection/artists'     component={CollectionArtists} />
+        <ProtectedRoute path='/app/search'                 component={SearchContainer} />
+        <ProtectedRoute path='/app/settings/account'       component={SessionShowContainer} />
+        <ProtectedRoute path={`/app/playlist/:playlistId`} component={PlaylistShowContainer} />
+        <ProtectedRoute path={`/app/album/:albumId`}       component={AlbumShowContainer} />
+        <ProtectedRoute path={`/app/artist/:artistId`}     component={ArtistShowContainer} />
+        <ProtectedRoute path={`/app/songQueue`}            component={SongQueueContainer} />
+        <PlaybarContainer />
       </div>
     </div>
 

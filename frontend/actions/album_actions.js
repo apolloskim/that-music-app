@@ -6,6 +6,7 @@ export const RECEIVE_ALBUMS = 'RECEIVE_ALBUMS';
 export const RECEIVE_ALBUM = 'RECEIVE_ALBUM';
 export const RECEIVE_LIKE_ALBUM = 'RECEIVE_LIKE_ALBUM';
 export const RECEIVE_VISITED_ALBUM = 'RECEIVE_VISITED_ALBUM';
+export const REMOVE_ALBUMS = 'REMOVE_ALBUMS';
 
 export const fetchAlbums = (queries) => dispatch => {
   return AlbumApiUtil.fetchAlbums(queries).then( albums => dispatch(receiveAlbums(albums)));
@@ -30,6 +31,12 @@ export const receiveAlbums = (albums) => {
   return {
     type: RECEIVE_ALBUMS,
     albums
+  };
+};
+
+export const removeAlbums = () => {
+  return {
+    type: REMOVE_ALBUMS
   };
 };
 

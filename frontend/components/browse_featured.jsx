@@ -13,8 +13,8 @@ class BrowsePlaylists extends React.Component {
     super(props);
   }
 
-  render() {
 
+  render() {
     return (
       <div className="browse-newreleases-container">
         <section className="new-releases-content-spacing">

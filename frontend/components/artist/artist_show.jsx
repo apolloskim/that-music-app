@@ -14,6 +14,7 @@ export default class ArtistShow extends React.Component {
 
     this.state = {
       included: this.props.currentUser.likeArtistIds.includes(parseInt(this.props.artistId)),
+      prevId: null
     }
     this.handleMenuClick = this.handleMenuClick.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -30,7 +31,6 @@ export default class ArtistShow extends React.Component {
   handleClick(song) {
     let that = this;
     return (e) => {
-
       this.handlePlay(song);
     };
   }
@@ -76,6 +76,15 @@ export default class ArtistShow extends React.Component {
 
   componentDidMount() {
     this.props.fetchArtist(this.props.artistId);
+    this.setState({prevId: this.props.artistId});
+    // debugger
+  }
+
+  componentDidUpdate() {
+    if (this.props.artistId !== this.state.prevId) {
+      this.props.fetchArtist(this.props.artistId);
+      this.setState({prevId: this.props.artistId});
+    }
   }
 
   handleHeartClick() {
@@ -100,7 +109,6 @@ export default class ArtistShow extends React.Component {
 
 
   render() {
-
     let currentPlayingTable;
     let currentPlayingId;
 

@@ -6,6 +6,7 @@ export const RECEIVE_SESSION_ERRORS = 'RECEIVE_SESSION_ERRORS';
 export const REMOVE_SESSION_ERRORS = 'REMOVE_SESSION_ERRORS';
 export const RECEIVE_CURRENT_PLAYING_PAGE = 'RECEIVE_CURRENT_PLAYING_PAGE';
 export const RECEIVE_ALL_CURRENT_PLAYING_PAGES = 'RECEIVE_ALL_CURRENT_PLAYING_PAGES';
+export const REMOVE_ALL_CURRENT_PLAYING_PAGES = 'REMOVE_ALL_CURRENT_PLAYING_PAGES';
 export const RECEIVE_CURRENT_PRESSED_IDX = 'RECEIVE_CURRENT_PRESSED_IDX';
 
 export const login = user => dispatch => {
@@ -35,6 +36,12 @@ export const receiveAllCurrentPlayingPages = visits => {
   return {
     type: RECEIVE_ALL_CURRENT_PLAYING_PAGES,
     visits
+  };
+};
+
+export const removeAllCurrentPlayingPages = () => {
+  return {
+    type: REMOVE_ALL_CURRENT_PLAYING_PAGES
   };
 };
 

@@ -42,6 +42,8 @@ The Playbar will play the songs no matter where you are on That Music App. The p
 
 And, no matter when you log back into That Music App, it will always remember that last song you played.
 
+![That Music App Splash Page](./app/assets/images/that-music-app-login.gif)
+
 ## Future Plans
 * Allow users to change their playlist title, and add a cover image of their choice.
 * Create a page for each users so they can follow each other.

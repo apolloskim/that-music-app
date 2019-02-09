@@ -53,6 +53,7 @@ class SearchResults extends React.Component {
     let that = this;
     return (e) => {
       that.setState({ playing: !that.props.playing, pause: !that.props.pause});
+
       that.props.fetchCurrentSong(that.props.currentUserId, song.id);
       that.props.receivePlay(true, false);
       if (that.props.songQueue[0] !== Object.values(that.props.songs)[0]) {
@@ -155,6 +156,7 @@ class SearchResults extends React.Component {
             </div>
           );
         }
+
         return (
           <li key={idx}
             ref={songRow => this.songRow = songRow}
@@ -166,29 +168,38 @@ class SearchResults extends React.Component {
             {
               Object.values(this.props.currentSong).length !== 0
               ? (this.state.idxMouseOver === idx
-                ? (song.id === this.props.currentSong.id
+                ? (song.id === this.props.currentSong.song.id
                   ? renderPlayNeon : renderPlay)
-                  : (song.id === this.props.currentSong.id
+                  : (song.id === this.props.currentSong.song.id
                     ? renderNoteNeon
                     : renderNote))
               : (this.state.idxMouseOver === idx ? renderPlay : renderNote)
             }
 
             <div className="album-cover-padding">
-              <img src={song.albumCover} />
-            </div>
+               <img src={song.albumCover} />
+             </div>
 
             <div className="track-list-column">
               <div className="track-list-column-margin">
                 <div className=
                   {
                     Object.values(this.props.currentSong).length !== 0
-                    ? (song.id === this.props.currentSong.id
+                    ? (song.id === this.props.currentSong.song.id
                       ? "track-list-name-neon"
                       : "track-list-name")
                     : "track-list-name"
                   }>{song.title}</div>
-                  {explicit}
+                  <div className="display-flex">
+                    {explicit}
+                    <span className="ellipsis-one-line">
+                      <Link to={`/app/artist/${song.artistId}`}>{song.artist}</Link>
+                    </span>
+                    <span className="second-line-separator">•</span>
+                    <span className="ellipsis-one-line">
+                      <Link to={`/app/artist/${song.albumId}`}>{song.album}</Link>
+                    </span>
+                  </div>
               </div>
             </div>
             {this.state.idxMouseOver === idx ? renderMore(song.id, song.playlistSongId) : ""}
@@ -196,7 +207,7 @@ class SearchResults extends React.Component {
               <div className=
                 {
                   Object.values(this.props.currentSong).length !== 0
-                  ? (song.id === this.props.currentSong.id
+                  ? (song.id === this.props.currentSong.song.id
                     ? "track-list-duration-margin-top-neon"
                     : "track-list-duration-margin-top")
                   : "track-list-duration-margin-top"

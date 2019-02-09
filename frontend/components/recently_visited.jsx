@@ -49,7 +49,7 @@ class RecentlyVisited extends React.Component {
 
 
         return (
-          <li className="navbar-item-small">
+          <li key={idx} className="navbar-item-small">
             <div>
               <Link to={tableLink} onClick={this.handleClick(idx)} className={that.props.currentIdx === idx && (that.props.history.location.pathname === `/app/${table.table}/${table.table_id}` || that.props.history.location.pathname === `/app/${table.table}/${table.table_id}/overview`) ? "navbar-link recently-played-active" : "navbar-link"}>
                 <div className="navbar-link-text">

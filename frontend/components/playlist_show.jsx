@@ -62,7 +62,9 @@ export default class PlaylistShow extends React.Component {
 
     if (this.props.playing) {
       this.props.receivePlay(false, true);
-    } else if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
+    }
+
+    if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
       this.props.receivePlay(true, false);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {

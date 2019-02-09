@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import {fetchAlbum, createLikeAlbum, deleteLikeAlbum} from '../actions/album_actions';
 import {fetchCurrentPlaylists} from '../actions/playlist_actions';
 import {createPlaylistSong, createLikeSong} from '../actions/song_actions';
+import {openModal} from '../actions/modal_actions';
+import Modal from './modal';
 
 class SongQueue extends React.Component {
 
@@ -67,18 +69,23 @@ class SongQueue extends React.Component {
     };
   }
 
-  componentDidUpdate() {
-    if(this.state.actionPlaylist === 'Save to your Favorite Songs') {
-      this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
-    }
-  }
-
   componentWillUnmount() {
     this.props.receiveSongQueueClick(false);
   }
 
+
+  componentDidUpdate() {
+    if(this.state.actionPlaylist === 'Save to your Favorite Songs') {
+      this.setState({actionPlaylist: false});
+      this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
+    }
+  }
+
   handleContextMenuClick(e, data) {
     this.setState({actionPlaylist: data.foo});
+    if (data.foo === "Add to Playlist") {
+      this.props.openModal();
+    }
   }
 
   handleCloseClick(e) {
@@ -185,7 +192,7 @@ class SongQueue extends React.Component {
 
 
         let songRow = (
-          <li key={idx}
+          <li
             ref={songRow => this.songRow = songRow}
             className="track-list-row fewer-padding"
             onClick={this.handleClick(song)}
@@ -254,15 +261,19 @@ class SongQueue extends React.Component {
         }
 
         return (
-          <div className={song.id === this.props.currentSong.song.id ? "" : "disabled"}>
+          <div key={idx}>
             {songRow}
           </div>
+          // <div className={song.id === this.props.currentSong.song.id ? "" : "disabled"}>
+          //   {songRow}
+          // </div>
         );
       });
     }
 
     return (
       <div className="search-main-view">
+        <Modal />
         <div>
           <div className="search-content-spacing">
             <div className="container-fluid margin-auto">
@@ -272,6 +283,16 @@ class SongQueue extends React.Component {
                   {renderSongs}
                 </ol>
               </section>
+
+              <ContextMenu id="two">
+                <MenuItem data={{foo: 'Add to Playlist'}} onClick={this.handleContextMenuClick.bind(this)}>
+                  Add to Playlist
+                </MenuItem>
+                <MenuItem data={{foo: 'Save to your Favorite Songs'}} onClick={this.handleContextMenuClick.bind(this)}>
+                  Save to your Favorite Songs
+                </MenuItem>
+              </ContextMenu>
+
             </div>
           </div>
         </div>
@@ -311,7 +332,8 @@ const mapDispatchToProps = dispatch => {
     createPlaylistSong: (playlist_id, song_id) => dispatch(createPlaylistSong(playlist_id, song_id)),
     createLikeSong: (userId, songId) => dispatch(createLikeSong(userId, songId)),
     receiveShuffle: (shuffle) => dispatch(receiveShuffle(shuffle)),
-    receiveSongQueueClick: clicked => dispatch(receiveSongQueueClick(clicked))
+    receiveSongQueueClick: clicked => dispatch(receiveSongQueueClick(clicked)),
+    openModal: () => dispatch(openModal())
   };
 };
 

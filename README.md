@@ -33,7 +33,7 @@ As you search the songs, That Music App renders the results with each keystroke.
 #### Responsive Design
 That Music App renders nicely on smaller devices, like iPad and other tablet devices.
 
-![That Music App Splash Page](./app/assets/images/that-music-app-responsive.png)
+![That Music App Splash Page](./app/assets/images/that-music-app-responsive-ipad.png)
 
 #### Playbar
 The Playbar will play the songs no matter where you are on That Music App. The progress bar makes it very easy for you to skip songs, shuffle the song queue, and repeat that song you're particularly obsessed with.

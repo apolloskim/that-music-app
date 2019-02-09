@@ -9,36 +9,39 @@ That Music App is a fullstack clone of Spotify that allows you to stream songs w
 
 ## Technologies
 
-#### Front-End
+### Front-End
 * React.js
 * Redux
 
-#### Back-End
+### Back-End
 * Ruby on Rails
 * PostgreSQL
 * AWS S3
 
 ## Key Features
 
-#### Recently Played
+### Recently Played
 If you ever want to go back to a playlist, album, or an artist page, That Music App makes it very easy for you to do that. That Music App stores every playlist, artist, and album page you've visited. Want to listen to *that song* again? That Music App got you covered. :)
 
 ![That Music App Splash Page](./app/assets/images/recently-played.gif)
 
-#### Search
+### Search
 As you search the songs, That Music App renders the results with each keystroke. There is no need for a "search" button.
 
 ![That Music App Splash Page](./app/assets/images/that-music-app-search.gif)
 
-#### Responsive Design
+### Responsive Design
 That Music App renders nicely on smaller devices, like iPad and other tablet devices.
+<!--
+![That Music App Splash Page](./app/assets/images/that-music-app-responsive-ipad.png) -->
 
-![That Music App Splash Page](./app/assets/images/that-music-app-responsive-ipad.png)
+<img src="./app/assets/images/that-music-app-responsive-ipad.png" alt="drawing" width="300"/>
 
-#### Playbar
+### Playbar
 The Playbar will play the songs no matter where you are on That Music App. The progress bar makes it very easy for you to skip songs, shuffle the song queue, and repeat that song you're particularly obsessed with.
 
 ![That Music App Splash Page](./app/assets/images/that-music-app-playbar.gif)
+
 
 And, no matter when you log back into That Music App, it will always remember that last song you played.
 

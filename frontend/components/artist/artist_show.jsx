@@ -38,9 +38,7 @@ export default class ArtistShow extends React.Component {
   handlePlay(song) {
     if (this.props.playing) {
       this.props.receivePlay(false, true);
-    }
-
-    if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
+    } else if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
       this.props.receivePlay(true, false);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
@@ -79,7 +77,6 @@ export default class ArtistShow extends React.Component {
   componentDidMount() {
     this.props.fetchArtist(this.props.artistId);
     this.setState({prevId: this.props.artistId});
-    // debugger
   }
 
   componentDidUpdate() {

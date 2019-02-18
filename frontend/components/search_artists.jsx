@@ -15,7 +15,7 @@ class SearchArtists extends React.Component {
           return (
             <div key={idx} className="cover-container">
               <div key={idx} className="browse-featured-playlist">
-                <Link to={`/app/artist/${artist.id}`}>
+                <Link to={`/app/artist/${artist.id ? artist.id : ""}/overview`}>
                   <img className="artist-cover-image" src={artist.thumbImageUrl} />
                 </Link>
                 <div className="mo-info" >

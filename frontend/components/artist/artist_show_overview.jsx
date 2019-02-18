@@ -186,7 +186,9 @@ class ArtistOverview extends React.Component {
           return (
             <div key={idx} className="cover-container">
               <div key={idx} className="browse-featured-playlist">
-                <img src={album.imageUrl} style={Object.values(this.props.albums).length === 1 ? oneAlbumSize : null}/>
+                <Link to={`/app/album/${album.id}`} className="cover-art-text">
+                  <img src={album.imageUrl} style={Object.values(this.props.albums).length === 1 ? oneAlbumSize : null}/>
+                </Link>
                 <div className="mo-info" >
                   <Link to={`/app/album/${album.id}`} className="cover-art-text">{album.title}</Link>
                 </div>

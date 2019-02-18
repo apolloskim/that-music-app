@@ -105,7 +105,6 @@ class RecentlyPlayedIndex extends React.Component {
         </div>
       </div>
     );
-    // debugger
 
     return(
       <div>

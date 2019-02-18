@@ -63,14 +63,12 @@ class SearchResults extends React.Component {
 
   componentDidUpdate() {
     if(this.state.actionPlaylist === 'Save to your Favorite Songs') {
-      // debugger
       this.setState({actionPlaylist: false});
       this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
     }
   }
 
   handleContextMenuClick(e, data) {
-    // debugger
     this.setState({actionPlaylist: data.foo});
     if (data.foo === "Add to Playlist") {
       this.props.openModal();

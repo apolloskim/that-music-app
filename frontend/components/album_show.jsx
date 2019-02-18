@@ -89,9 +89,7 @@ export default class AlbumShow extends React.Component {
   handlePlay(song) {
     if (this.props.playing) {
       this.props.receivePlay(false, true);
-    }
-
-    if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
+    } else if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
       this.props.receivePlay(true, false);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
@@ -114,7 +112,6 @@ export default class AlbumShow extends React.Component {
   handleButtonClick() {
     let currentPlayingTable;
     let currentPlayingId;
-
     if (this.props.currentPlayingPage.length !== 0) {
       currentPlayingTable = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table;
       currentPlayingId = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table_id;
@@ -133,21 +130,36 @@ export default class AlbumShow extends React.Component {
       this.setState({prevId: this.props.albumId});
     }
 
-    if(this.state.actionPlaylist === 'Save to your Favorite Songs') {
-      this.setState({actionPlaylist: false});
-      this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
-    } else if (this.state.actionPlaylist === 'Save to Your Library') {
-      this.setState({actionPlaylist: false});
-      this.props.createLikeAlbum(this.props.currentUserId, this.props.albumId).then( () => this.setState({included: true, actionPlaylist: false}));
-    } else if (this.state.actionPlaylist === "Remove from Your Library") {
-      let likeAlbumId = this.props.currentUser.likeAlbums.filter(album => album.album_id === parseInt(this.props.albumId))[0].id
-      this.props.deleteLikeAlbum(likeAlbumId).then( () => this.setState({included: !this.state.included, actionPlaylist: false}));
-    }
+    // if(this.state.actionPlaylist === 'Save to your Favorite Songs') {
+    //   this.setState({actionPlaylist: false});
+    //   this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
+    // } else if (this.state.actionPlaylist === 'Save to Your Library') {
+    //   this.setState({actionPlaylist: false});
+    //   this.props.createLikeAlbum(this.props.currentUserId, this.props.albumId).then( () => this.setState({included: true, actionPlaylist: false}));
+    // } else if (this.state.actionPlaylist === "Remove from Your Library") {
+    //   let likeAlbumId = this.props.currentUser.likeAlbums.filter(album => album.album_id === parseInt(this.props.albumId))[0].id
+    //   this.props.deleteLikeAlbum(likeAlbumId).then( () => {
+    //     this.setState({included: !this.state.included, actionPlaylist: false})
+    //   });
+    // }
 
   }
 
   handleContextMenuClick(e, data) {
-    this.setState({actionPlaylist: data.foo});
+    // this.setState({actionPlaylist: data.foo});
+
+    if (data.foo === 'Save to your Favorite Songs') {
+      this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
+    } else if (data.foo === 'Save to Your Library') {
+      this.props.createLikeAlbum(this.props.currentUserId, this.props.albumId).then( () => this.setState({included: true}));
+    } else if (data.foo === 'Remove from Your Library') {
+      let likeAlbumId = this.props.currentUser.likeAlbums.filter(album => album.album_id === parseInt(this.props.albumId))[0].id
+      this.props.deleteLikeAlbum(likeAlbumId).then( () => {
+        this.setState({included: !this.state.included})
+      });
+    } else if (data.foo === 'Add to Playlist') {
+        this.setState({actionPlaylist: 'Add to Playlist'});
+    }
   }
 
   handlePlaylistClick(playlist) {
@@ -391,7 +403,7 @@ export default class AlbumShow extends React.Component {
                                     <div>
                                       <span dir="auto" className="album-by">By</span>
                                       <span dir="auto">
-                                        <Link to={`/app/artist/${this.props.album ? this.props.album.artistId : ""}`}>{this.props.album ? this.props.album.artistName : ""}</Link>
+                                        <Link to={`/app/artist/${this.props.album ? this.props.album.artistId : ""}/overview`}>{this.props.album ? this.props.album.artistName : ""}</Link>
                                       </span>
                                     </div>
                                   </div>
@@ -431,7 +443,7 @@ export default class AlbumShow extends React.Component {
                                   <div>
                                     <span dir="auto" className="album-by">By</span>
                                     <span dir="auto">
-                                      <Link to={`/app/artist/${this.props.album ? this.props.album.artistId : ""}`}>{this.props.album ? this.props.album.artistName : ""}</Link>
+                                      <Link to={`/app/artist/${this.props.album ? this.props.album.artistId : ""}/overview`}>{this.props.album ? this.props.album.artistName : ""}</Link>
                                     </span>
                                   </div>
                                 </div>

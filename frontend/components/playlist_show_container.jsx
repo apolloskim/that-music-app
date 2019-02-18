@@ -28,7 +28,8 @@ const mapStateToProps = (state, {match}) => {
     currentPlaylists: state.currentPlaylists,
     playing: state.playStatus.playing,
     pause: state.playStatus.pause,
-    currentPlayingPage: state.currentPlayingPage
+    currentPlayingPage: state.currentPlayingPage,
+    currentUser: state.entities.users[state.session.currentUserId]
   };
 };
 

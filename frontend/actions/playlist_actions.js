@@ -58,7 +58,8 @@ err => dispatch(receivePlaylistErrors(err.responseJSON)));
 };
 
 export const deletePlaylist = id => dispatch => {
-  return PlaylistApiUtil.deletePlaylist(id).then( response => console.log(response) );
+  return PlaylistApiUtil.deletePlaylist(id);
+  // .then( response => console.log(response) );
 };
 
 

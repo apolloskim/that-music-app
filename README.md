@@ -5,7 +5,7 @@
 
 ## Overview
 
-That Music App is a fullstack clone of Spotify that allows you to stream songs whenever you want. Browse your favorite artists and albums, and create your very own playlist!
+That Music App is a full stack clone of Spotify that allows you to stream songs whenever you want. Browse your favorite artists and albums, and create your very own playlist!
 
 ## Technologies
 

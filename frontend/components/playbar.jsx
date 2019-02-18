@@ -19,6 +19,7 @@ export default class Playbar extends React.Component {
       pause: this.props.pause,
       currentTime: null,
       duration: null,
+      included: this.props.currentUser.likeSongIds.includes(parseInt(this.props.currentSong.song.id)),
     }
     // this.timeline = React.createRef();
     // this.slider = React.createRef();
@@ -41,6 +42,17 @@ export default class Playbar extends React.Component {
     this.formerSong = this.props.currentSong ? merge({}, this.props.currentSong) : {};
     this.location = '';
     this.formerPlayStatus = false;
+  }
+
+  handleLikeSongClick() {
+    if (this.state.included) {
+      let likeSongId = this.props.currentUser.likeSongs.filter(song => song.song_id === parseInt(this.props.currentSong.song.id))[0].id;
+      this.props.deleteLikeSong(likeSongId).then(() => this.props.fetchLikeSongs(this.props.currentUserId));
+      this.setState({included: false});
+    } else {
+      this.props.createLikeSong(this.props.currentUserId, this.props.currentSong.song.id).then(() => this.props.fetchLikeSongs(this.props.currentUserId));
+      this.setState({included: true});
+    }
   }
 
   handleMouseOver(field) {
@@ -157,6 +169,7 @@ export default class Playbar extends React.Component {
 
     if (this.props.currentSong.song && this.formerSong.song && this.formerSong.song.id !== this.props.currentSong.song.id && this.props.playing) {
       this.formerSong = merge({}, this.props.currentSong);
+      this.setState({included: this.props.currentUser.likeSongIds.includes(parseInt(this.props.currentSong.song.id))});
       // this.props.receivePlay(false, true);
       window.audio.src = this.props.currentSong.song.songUrl;
       this.playAudio();
@@ -194,7 +207,6 @@ export default class Playbar extends React.Component {
     if (!isPlaying) {
       this.props.receivePlay(true, false);
       window.audio.play().then( () => {
-        console.log('PLAY');
         window.audio.addEventListener("timeupdate", this.handleAudioUpdate);
         if (this.props.pause) {
           this.pauseAudio();
@@ -411,8 +423,8 @@ export default class Playbar extends React.Component {
                     </Link>
                   </div>
                 </div>
-                <button className="current-song-heart-icon" onMouseEnter={this.handleMouseOver("mouseHeartOver")} onMouseLeave={this.handleMouseOver("mouseHeartOver")}>
-                  <img src={this.state.mouseHeartOver ? window.heartIcon : window.heartGrayIcon} />
+                <button className="current-song-heart-icon" onClick={this.handleLikeSongClick.bind(this)} onMouseEnter={this.handleMouseOver("mouseHeartOver")} onMouseLeave={this.handleMouseOver("mouseHeartOver")}>
+                  <img src={this.state.mouseHeartOver ? (this.state.included ? window.heartFilledIcon : window.heartIcon) : (this.state.included ? window.heartFilledIcon : window.heartGrayIcon)} />
                 </button>
               </div>
             </div>

@@ -62,9 +62,7 @@ export default class PlaylistShow extends React.Component {
 
     if (this.props.playing) {
       this.props.receivePlay(false, true);
-    }
-
-    if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
+    } else if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
       this.props.receivePlay(true, false);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
@@ -104,6 +102,7 @@ export default class PlaylistShow extends React.Component {
     this.props.fetchPlaylist(this.props.playlistId);
     this.props.fetchCurrentPlaylists(this.props.currentUserId);
     this.setState({prevId: this.props.playlistId});
+    
   }
 
   componentDidUpdate() {
@@ -434,6 +433,35 @@ export default class PlaylistShow extends React.Component {
       currentPlayingId = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table_id;
     }
 
+    let extraButtons = (
+      <div className="track-list-header-body-children">
+        <div className="track-list-header-body-extra-buttons">
+          <button className={`track-list-header-body-heart-buttons-body ${this.props.currentUser.playlistIds.includes(parseInt(this.props.playlistId)) ? 'invisible' : ""}`}>
+            <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
+          </button>
+          <ContextMenuTrigger id="three" ref={c => this.toggle = c}>
+            <button className="track-list-header-body-three-dots-buttons-body" onClick={this.togglePlaylistMenu.bind(this)}>
+              <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
+            </button>
+          </ContextMenuTrigger>
+
+        </div>
+      </div>
+    );
+
+    let extraButtonsSmaller = (
+      <div className="track-list-extra-buttons-smaller">
+        <button className={`track-list-header-body-heart-buttons-body ${this.props.currentUser.playlistIds.includes(parseInt(this.props.playlistId)) ? 'invisible' : ""}`}>
+          <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
+        </button>
+        <ContextMenuTrigger id="three" ref={c => this.toggle = c}>
+          <button className={`track-list-header-body-three-dots-buttons-body`} onClick={this.togglePlaylistMenu.bind(this)}>
+            <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
+          </button>
+        </ContextMenuTrigger>
+      </div>
+    );
+
     return (
           <div className="playlist-show-main-content" >
             <div>
@@ -457,15 +485,11 @@ export default class PlaylistShow extends React.Component {
                                     </div>
 
                                     <div className="display-flex">
-                                      <span dir="auto" className="album-by">By</span>
                                       <div className="ellipsis-one-line">
-                                        <span>
-                                          {this.props.playlist ? this.props.playlist.creatorName : ""}
+                                        <span dir="auto">
+                                          <Link to={`/app/artist/${this.props.playlist ? this.props.playlistId : ""}/overview`}>{this.props.playlist ? this.props.playlist.creatorName : ""}</Link>
                                         </span>
                                       </div>
-                                      <span dir="auto">
-                                        <Link to={`/app/artist/${this.props.playlist ? this.props.playlist.artistId : ""}`}>{this.props.playlist ? this.props.playlist.artistName : ""}</Link>
-                                      </span>
                                     </div>
                                   </div>
                                   <p className="album-year-count-smaller">
@@ -477,18 +501,7 @@ export default class PlaylistShow extends React.Component {
                                     <div className="track-list-header-play-button-top-smaller">
                                       <button onClick={this.handleButtonClick} className="track-list-header-play-button">{currentPlayingTable && currentPlayingId && currentPlayingTable === 'playlist' && currentPlayingId.toString() === this.props.playlistId ? (this.props.playing ? 'PAUSE' : 'PLAY') : 'PLAY'}</button>
                                     </div>
-                                    <div className="track-list-extra-buttons-smaller">
-                                      <button className="track-list-header-body-heart-buttons-body">
-                                        <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
-                                      </button>
-                                      <ContextMenuTrigger id="three" ref={c => this.toggle = c}>
-                                        <button className={`track-list-header-body-three-dots-buttons-body`} onClick={this.togglePlaylistMenu.bind(this)}>
-                                          <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
-                                        </button>
-                                      </ContextMenuTrigger>
-
-
-                                    </div>
+                                    {/* extraButtonsSmaller */}
                                   </div>
                                 </div>
                               </MediaQuery>
@@ -516,7 +529,7 @@ export default class PlaylistShow extends React.Component {
                                     <button onClick={this.handleButtonClick} className="track-list-header-play-button">{currentPlayingTable && currentPlayingId && currentPlayingTable === 'playlist' && currentPlayingId.toString() === this.props.playlistId ? (this.props.playing ? 'PAUSE' : 'PLAY') : 'PLAY'}</button>
                                   </div>
                                   <div className="track-list-extra-buttons-smaller">
-                                    <button className="track-list-header-body-heart-buttons-body">
+                                    <button className={`track-list-header-body-heart-buttons-body ${this.props.currentUser.playlistIds.includes(parseInt(this.props.playlistId)) ? 'invisible' : ""}`}>
                                       <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
                                     </button>
                                     <ContextMenuTrigger id="three" ref={c => this.toggle = c}>
@@ -535,19 +548,7 @@ export default class PlaylistShow extends React.Component {
                             </div>
                             <div className="track-list-header-body">
                               <p className="track-list-count">{`${this.props.playlist ? (this.props.playlist.songCount ? (this.props.playlist.songCount === 1 ? this.props.playlist.songCount + ' song' : this.props.playlist.songCount + ' songs') : "") : ""}`}</p>
-                              <div className="track-list-header-body-children">
-                                <div className="track-list-header-body-extra-buttons">
-                                  <button className="track-list-header-body-heart-buttons-body">
-                                    <img className="track-list-header-body-heart-icon" src={window.heartIcon}/>
-                                  </button>
-                                  <ContextMenuTrigger id="three" ref={c => this.toggle = c}>
-                                    <button className="track-list-header-body-three-dots-buttons-body" onClick={this.togglePlaylistMenu.bind(this)}>
-                                      <img className="track-list-header-body-dots-icon" src={window.threeDotsIcon}/>
-                                    </button>
-                                  </ContextMenuTrigger>
-
-                                </div>
-                              </div>
+                              {/* extraButtons */}
                             </div>
                           </div>
 

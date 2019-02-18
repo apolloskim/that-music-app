@@ -25,7 +25,9 @@ class CollectionLikeAlbums extends React.Component {
           return (
             <div key={idx} className="cover-container">
               <div key={idx} className="browse-featured-playlist">
-                <img src={album.imageUrl} />
+                <Link to={`/app/album/${album.id}`} className="cover-art-text">
+                  <img src={album.imageUrl} />
+                </Link>
                 <div className="mo-info" >
                   <Link to={`/app/album/${album.id}`} className="cover-art-text">{album.title}</Link>
                   <div className="ellipsis-one-line">

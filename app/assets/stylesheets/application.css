@@ -1070,7 +1070,7 @@ text-align: center;
 }
 
 .browse-featured-playlist-lists {
-  display: flex;
+  /* display: flex; */
   flex-wrap: wrap;
   flex-direction: row;
   width: 100%;
@@ -1258,6 +1258,7 @@ text-align: center;
   margin-bottom: 15px;
   width: 100%;
   text-align: center;
+  /* cursor: pointer; */
 }
 
 .track-list-header-play-button {
@@ -1275,6 +1276,7 @@ text-align: center;
   transition: none 33ms cubic-bezier(.3,0,0,1);
   transition-duration: 50ms;
   transition-property: background-color;
+  cursor: pointer;
 }
 
 .track-list-header-play-button:hover {
@@ -1308,6 +1310,7 @@ text-align: center;
   margin-top: 30px;
   transition-duration: 66ms;
   transition-property: all;
+  cursor: pointer;
 }
 
 .track-list-header-body-three-dots-buttons-body {
@@ -1315,6 +1318,7 @@ text-align: center;
   margin-top: 30px;
   transition-duration: 66ms;
   transition-property: all;
+  cursor: pointer;
 }
 
 
@@ -1343,7 +1347,7 @@ text-align: center;
   border-radius: 500px;
   padding: 13px;
   vertical-align: middle;
-
+  cursor: pointer;
 }
 
 .btn-margin-right {
@@ -1380,6 +1384,7 @@ text-align: center;
   transition-timing-function: linear;
   transition-duration: .2s;
   transition-property: background-color;
+  cursor: pointer;
 }
 
 .track-list-row:hover {
@@ -1621,6 +1626,7 @@ text-align: center;
 
 .current-song-heart-icon {
   padding: 10px;
+  cursor: pointer;
 }
 
 .play-bar-center {
@@ -1648,6 +1654,7 @@ text-align: center;
 .player-controls-play-button img{
   height: 50px;
   width: 50px;
+  cursor: pointer;
 }
 
 .player-controls-play-button img:hover{
@@ -1657,16 +1664,19 @@ text-align: center;
 .player-controls-previous-next-button img{
   height: 16px;
   width: 16px;
+  cursor: pointer;
 }
 
 .player-controls-shuffle-button img {
   height: 26px;
   width: 26px;
+  cursor: pointer;
 }
 
 .player-controls-repeat-button img {
   height: 22px;
   width: 22px;
+  cursor: pointer;
 }
 
 .player-controls-playbar {
@@ -1675,6 +1685,7 @@ text-align: center;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 
 .player-controls-playbar-progress-time {
@@ -1685,6 +1696,7 @@ text-align: center;
   text-align: center;
   color: #b3b3b3;
   font-weight: lighter;
+  cursor: pointer;
 }
 
 .progress-bar {
@@ -1762,6 +1774,7 @@ text-align: center;
 
 .queue-button {
   padding: 0 5px;
+  cursor: pointer;
 }
 
 .queue-button img {
@@ -1787,6 +1800,7 @@ text-align: center;
 .volume-progress-bar-container {
   height: 12px;
   width: 100%;
+  cursor: pointer;
 
 }
 
@@ -1986,6 +2000,7 @@ text-align: center;
   border-radius: 500px;
   min-width: 130px;
   line-height: 1.6;
+  cursor: pointer;
 }
 
 .input-box-button-black {
@@ -2149,6 +2164,10 @@ text-align: center;
   .navbar-toggle {
     display: none;
   }
+
+  .invisible {
+      display: none;
+    }
 
   .navbar-collapse {
     margin-right: 0;
@@ -2349,6 +2368,10 @@ text-align: center;
 
   .track-list-header-body-heart-buttons-body, .track-list-header-body-three-dots-buttons-body {
     margin-top: 0;
+  }
+
+  .invisible {
+    display: none;
   }
 
 }

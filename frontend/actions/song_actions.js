@@ -17,7 +17,9 @@ export const RECEIVE_SONG_QUEUE_CLICK = "RECEIVE_SONG_QUEUE_CLICK";
 
 
 export const createPlaylistSong = (playlist_id, song_id) => dispatch => {
-  return PlaylistSongApiUtil.createPlaylistSong({playlist_id, song_id}).then( response => console.log(response), err => (dispatch(receiveErrors(err.responseJSON))) );
+  return PlaylistSongApiUtil.createPlaylistSong({playlist_id, song_id});
+  
+  // .then( response => console.log(response), err => (dispatch(receiveErrors(err.responseJSON))) );
 }
 
 export const deletePlaylistSong = (id) => dispatch => {

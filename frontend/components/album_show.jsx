@@ -521,7 +521,6 @@ export default class AlbumShow extends React.Component {
             </ContextMenu>
 
             <ContextMenu id="three">
- 
               <MenuItem data={{foo: this.state.included ? "Remove from Your Library" : "Save to Your Library"}} onClick={this.handleContextMenuClick}>
                 {this.state.included ? "Remove from Your Library" : "Save to Your Library"}
               </MenuItem>

@@ -11,7 +11,7 @@ import { fetchLikeSongs,
   deletePlaylistSong,
   createLikeSong,
   deleteLikeSong } from '../actions/song_actions';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { ContextMenu, MenuItem, ContextMenuTrigger, handleContextClick } from 'react-contextmenu';
 
 import {fetchPlaylist, deletePlaylist, fetchCurrentPlaylists, removePlaylists} from '../actions/playlist_actions';
@@ -296,4 +296,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionFavoriteSongs);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CollectionFavoriteSongs));

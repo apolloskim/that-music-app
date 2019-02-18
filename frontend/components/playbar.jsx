@@ -48,10 +48,18 @@ export default class Playbar extends React.Component {
   handleLikeSongClick() {
     if (this.state.included) {
       let likeSongId = this.props.currentUser.likeSongs.filter(song => song.song_id === parseInt(this.props.currentSong.song.id))[0].id;
-      this.props.deleteLikeSong(likeSongId).then(() => this.props.fetchLikeSongs(this.props.currentUserId));
+      this.props.deleteLikeSong(likeSongId).then(() => {
+        if (this.props.location.pathname === "/app/collection/tracks") {
+          this.props.fetchLikeSongs(this.props.currentUserId);
+        }
+      });
       this.setState({included: false});
     } else {
-      this.props.createLikeSong(this.props.currentUserId, this.props.currentSong.song.id).then(() => this.props.fetchLikeSongs(this.props.currentUserId));
+      this.props.createLikeSong(this.props.currentUserId, this.props.currentSong.song.id).then(() => {
+        if (this.props.location.pathname === "/app/collection/tracks") {
+          this.props.fetchLikeSongs(this.props.currentUserId);
+        }
+      });
       this.setState({included: true});
     }
   }

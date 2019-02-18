@@ -5,6 +5,7 @@ import {merge} from 'lodash';
 export default class Playbar extends React.Component {
   constructor(props) {
     super(props);
+    // this.currentSongIsLiked = this.props.currentSong.song ? this.props.currentUser.likeSongIds.includes(parseInt(this.props.currentSong.song.id)) : false;
     this.state = {
       mouseHeartOver: false,
       mouseShuffleOver: false,
@@ -19,8 +20,8 @@ export default class Playbar extends React.Component {
       pause: this.props.pause,
       currentTime: null,
       duration: null,
-      included: this.props.currentUser.likeSongIds.includes(parseInt(this.props.currentSong.song.id)),
-    }
+      included: this.props.currentSong.song ? this.props.currentUser.likeSongIds.includes(parseInt(this.props.currentSong.song.id)) : false
+    };
     // this.timeline = React.createRef();
     // this.slider = React.createRef();
 
@@ -423,7 +424,7 @@ export default class Playbar extends React.Component {
                     </Link>
                   </div>
                 </div>
-                <button className="current-song-heart-icon" onClick={this.handleLikeSongClick.bind(this)} onMouseEnter={this.handleMouseOver("mouseHeartOver")} onMouseLeave={this.handleMouseOver("mouseHeartOver")}>
+                <button className={`current-song-heart-icon ${this.props.currentSong.song ? '' : 'invisible'}`} onClick={this.handleLikeSongClick.bind(this)} onMouseEnter={this.handleMouseOver("mouseHeartOver")} onMouseLeave={this.handleMouseOver("mouseHeartOver")}>
                   <img src={this.state.mouseHeartOver ? (this.state.included ? window.heartFilledIcon : window.heartIcon) : (this.state.included ? window.heartFilledIcon : window.heartGrayIcon)} />
                 </button>
               </div>

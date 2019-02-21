@@ -548,7 +548,7 @@ export default class PlaylistShow extends React.Component {
                             </div>
                             <div className="track-list-header-body">
                               <p className="track-list-count">{`${this.props.playlist ? (this.props.playlist.songCount ? (this.props.playlist.songCount === 1 ? this.props.playlist.songCount + ' song' : this.props.playlist.songCount + ' songs') : "") : ""}`}</p>
-                              {/* extraButtons */}
+                              {extraButtons}
                             </div>
                           </div>
 

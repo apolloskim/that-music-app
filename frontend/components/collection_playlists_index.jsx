@@ -24,6 +24,8 @@ class CollectionPlaylistsIndex extends React.Component {
   render() {
     let renderPlaylist;
     let renderPlaylists;
+    let renderAllPlaylists;
+
     if (Object.values(this.props.playlists).length !== 0) {
       renderPlaylists = (
         Object.values(this.props.playlists).map( ( playlist, idx ) => {
@@ -66,19 +68,39 @@ class CollectionPlaylistsIndex extends React.Component {
           );
         }
       ));
-    };
 
-    return (
-      <div className="browse-featured-content-wrapper">
-        <div className="browse-featured-playlist-lists playlist-top-margin">
-          <div className="container-fluid">
-            <div className="album-index row">
-              {renderPlaylists}
+      renderAllPlaylists = (
+        <div className="browse-featured-content-wrapper">
+          <div className="browse-featured-playlist-lists playlist-top-margin">
+            <div className="container-fluid">
+              <div className="album-index row">
+                {renderPlaylists}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      );
+    } else {
+      renderAllPlaylists = (
+        <section className="empty-state-message container-fluid empty">
+          <div className="row">
+            <div className="empty-state-message-margin">
+              <div className="empty-state-icon-wrapper">
+                <svg className="empty-state-icon" width="51" height="52" viewBox="0 0 51 52" xmlns="http://www.w3.org/2000/svg"><title>Add Playlist Icon</title><path d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10c0-5.524-4.477-10-10-10zm7 11h-6v6H9v-6H3V9h6V3h2v6h6v2zm7.75-3.655c.118.653.188 1.32.217 2L49 4.234v27.03c-1.65-2.044-4.174-3.356-7-3.356-4.962 0-9 4.037-9 9 0 4.962 4.038 9 9 9s9-4.038 9-9V1.764l-26.25 5.58zM42 43.91c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm-25-6.556C15.348 35.31 12.826 34 10 34c-4.963 0-9 4.037-9 9 0 4.96 4.037 9 9 9s9-4.04 9-9V21.97c-.632.476-1.296.912-2 1.285v14.097zM10 50c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7c0 3.858-3.14 7-7 7z" fill="currentColor" fillRule="evenodd"></path></svg>              
+              </div>  
+              <h1 className="empty-state-title">Create your first playlist</h1>
+              <h4 className="empty-state-subtitle">We’ll help you make the perfect mixtape, minus the tape.</h4>
+              <Link className="white-button" to="/app/browse/newreleases">CREATE NEW PLAYLIST</Link>
+            </div>
+          </div>
+        </section>
+      );
+    };
 
+    return (
+      <ul>
+        {renderAllPlaylists}
+      </ul>
     );
   }
 

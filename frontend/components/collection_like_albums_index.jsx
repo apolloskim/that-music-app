@@ -41,6 +41,21 @@ class CollectionLikeAlbums extends React.Component {
           );
         }
       ));
+    } else {
+      renderAlbums = (
+        <section className="empty-state-message container-fluid empty">
+          <div className="row">
+            <div className="empty-state-message-margin">
+              <div className="empty-state-icon-wrapper">
+                <svg className="empty-state-icon" width="80" height="79" viewBox="0 0 80 79" xmlns="http://www.w3.org/2000/svg"><title>Album</title><path d="M76.8 3.138v72.126H3.2V3.138h73.6zM80 0H0v78.398h80V0zM40 20.8c-9.72 0-17.6 7.88-17.6 17.6C22.4 48.12 30.28 56 40 56c9.72 0 17.6-7.88 17.6-17.6 0-9.72-7.88-17.6-17.6-17.6zm0 3.2c7.94 0 14.4 6.46 14.4 14.4S47.94 52.8 40 52.8s-14.4-6.46-14.4-14.4S32.06 24 40 24z" fill="currentColor" fillRule="evenodd"></path></svg>
+              </div>
+              <h1 className="empty-state-title">Save your favorite albums</h1>
+              <h4 className="empty-state-subtitle">Save albums you love to build the collection of your dreams.</h4>
+              <Link className="white-button" to="/app/browse/newreleases">DISCOVER</Link>
+            </div>
+          </div>
+        </section>
+      );
     };
 
     return (

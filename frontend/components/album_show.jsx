@@ -148,8 +148,9 @@ export default class AlbumShow extends React.Component {
   handleContextMenuClick(e, data) {
     // this.setState({actionPlaylist: data.foo});
 
-    if (data.foo === 'Save to your Favorite Songs') {
+    if(data.foo === 'Save to your Favorite Songs') {
       this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
+      this.props.receiveCurrentSongLikeStatus(true);
     } else if (data.foo === 'Save to Your Library') {
       this.props.createLikeAlbum(this.props.currentUserId, this.props.albumId).then( () => this.setState({included: true}));
     } else if (data.foo === 'Remove from Your Library') {

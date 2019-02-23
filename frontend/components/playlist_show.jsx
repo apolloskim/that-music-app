@@ -120,10 +120,11 @@ export default class PlaylistShow extends React.Component {
       this.props.deletePlaylist(this.props.playlistId).then( () => {
         this.props.history.push('/app/collection/playlists');
       });
-    } else if (this.state.actionPlaylist === "Save to your Favorite Songs") {
+    } else if (this.state.actionPlaylist === 'Save to your Favorite Songs') {
       this.setState({actionPlaylist: false});
       this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
-    }
+      this.props.receiveCurrentSongLikeStatus(true);
+    } 
   }
 
 

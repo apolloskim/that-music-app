@@ -768,6 +768,15 @@ text-align: center;
   margin-bottom: 36px;
 }
 
+.empty-search-title {
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: -.005em;
+  font-weight: 600;
+  color: #FFF;
+  text-align: center;
+}
+
 .white-button {
   margin-top: 36px;
   background: #FFF;
@@ -810,6 +819,15 @@ text-align: center;
   letter-spacing: .015em;
   font-weight: 200;
   color: #b3b3b3;
+}
+
+.empty-search-subtitle {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: .015em;
+  font-weight: 200;
+  color: #b3b3b3;
+  padding-top: 10px;
 }
 
 .empty-state-icon-wrapper {

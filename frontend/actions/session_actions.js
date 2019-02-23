@@ -1,4 +1,5 @@
 import * as SessionApiUtil from '../util/session_api_util';
+import * as SongAction from './song_actions';
 
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
@@ -10,8 +11,10 @@ export const REMOVE_ALL_CURRENT_PLAYING_PAGES = 'REMOVE_ALL_CURRENT_PLAYING_PAGE
 export const RECEIVE_CURRENT_PRESSED_IDX = 'RECEIVE_CURRENT_PRESSED_IDX';
 
 export const login = user => dispatch => {
-  return SessionApiUtil.login(user).then((user)=> dispatch(receiveCurrentUser(user)),
-err => (dispatch(receiveErrors(err.responseJSON))) );
+  return SessionApiUtil.login(user).then((user)=> {
+    dispatch(receiveCurrentUser(user));
+    dispatch(SongAction.receiveCurrentSongLikeStatus(user.likeSongIds.includes(user.currentSong.song.id)));
+  }, err => (dispatch(receiveErrors(err.responseJSON))) );
 };
 
 export const signup = user => dispatch => {

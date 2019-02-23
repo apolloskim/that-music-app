@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import ArtistShow from './artist_show';
 import { fetchArtist, createLikeArtist, deleteLikeArtist, removeArtists } from '../../actions/artist_actions';
 import { receiveCurrentPlayingPage, createCurrentlyVisited } from '../../actions/session_actions';
-import {fetchCurrentSong, receivePlay, receiveSongQueue, receiveClickedSongId, createLikeSong, createPlaylistSong} from '../../actions/song_actions';
+import { 
+  fetchCurrentSong, 
+  receivePlay, 
+  receiveSongQueue, 
+  receiveCurrentSongLikeStatus } from '../../actions/song_actions';
 
 const mapStateToProps = (state, {match})=> {
   let artistId = match.params.artistId;
@@ -31,7 +35,8 @@ const mapDispatchToProps = dispatch => {
     fetchCurrentSong: (currentUserId, id) => dispatch(fetchCurrentSong(currentUserId, id)),
     receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause)),
     receiveSongQueue: songQueue => dispatch(receiveSongQueue(songQueue)),
-    createCurrentlyVisited: (user_id, table_id, table, title, imageUrl, thumbImage, coverImage) => dispatch(createCurrentlyVisited(user_id, table_id, table, title, imageUrl, thumbImage, coverImage))
+    createCurrentlyVisited: (user_id, table_id, table, title, imageUrl, thumbImage, coverImage) => dispatch(createCurrentlyVisited(user_id, table_id, table, title, imageUrl, thumbImage, coverImage)),
+    receiveCurrentSongLikeStatus: likeStatus => dispatch(receiveCurrentSongLikeStatus(likeStatus))
   };
 };
 

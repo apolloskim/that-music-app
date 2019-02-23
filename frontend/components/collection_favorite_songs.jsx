@@ -10,7 +10,8 @@ import { fetchLikeSongs,
   receiveClickedSongId,
   deletePlaylistSong,
   createLikeSong,
-  deleteLikeSong } from '../actions/song_actions';
+  deleteLikeSong,
+  receiveCurrentSongLikeStatus } from '../actions/song_actions';
 import { Link, withRouter } from 'react-router-dom';
 import { ContextMenu, MenuItem, ContextMenuTrigger, handleContextClick } from 'react-contextmenu';
 
@@ -99,10 +100,14 @@ class CollectionFavoriteSongs extends React.Component {
     } else if (this.state.actionPlaylist === "Save to your Favorite Songs") {
       this.setState({actionPlaylist: false});
       this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
+      this.props.receiveCurrentSongLikeStatus(true);
     } else if (this.state.actionPlaylist === "Remove from your Favorite Songs") {
       let likeSongId = this.props.currentUser.likeSongs.filter(song => song.song_id === parseInt(this.props.clickedSongId.id))[0].id;
       this.setState({actionPlaylist: false});
-      this.props.deleteLikeSong(likeSongId).then( () => this.props.fetchLikeSongs(this.props.currentUserId));
+      this.props.deleteLikeSong(likeSongId).then( () => {
+        this.props.fetchLikeSongs(this.props.currentUserId)
+        this.props.receiveCurrentSongLikeStatus(false);
+      });
     }
   }
 
@@ -290,7 +295,8 @@ const mapStateToProps = state => {
     playing: state.playStatus.playing,
     pause: state.playStatus.pause,
     songQueue: state.songQueue,
-    clickedSongId: state.clickedSongId
+    clickedSongId: state.clickedSongId,
+    currentSongLikeStatus: state.currentSong.likeStatus
   };
 };
 
@@ -307,7 +313,8 @@ const mapDispatchToProps = dispatch => {
     deletePlaylistSong: (id) => dispatch(deletePlaylistSong(id)),
     deletePlaylist: (id) => dispatch(deletePlaylist(id)),
     createLikeSong: (userId, songId) => dispatch(createLikeSong(userId, songId)),
-    deleteLikeSong: id => dispatch(deleteLikeSong(id))
+    deleteLikeSong: id => dispatch(deleteLikeSong(id)),
+    receiveCurrentSongLikeStatus: likeStatus => dispatch(receiveCurrentSongLikeStatus(likeStatus))
   };
 };
 

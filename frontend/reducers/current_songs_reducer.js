@@ -1,4 +1,4 @@
-import { RECEIVE_CURRENT_SONG } from '../actions/song_actions';
+import { RECEIVE_CURRENT_SONG, RECEIVE_CURRENT_SONG_LIKED } from '../actions/song_actions';
 import { LOGOUT_CURRENT_USER, RECEIVE_CURRENT_USER } from '../actions/session_actions';
 
 const currentSongsReducer = (state = {}, action) => {
@@ -10,6 +10,8 @@ const currentSongsReducer = (state = {}, action) => {
       return action.currentSong ? action.currentSong : {};
     case LOGOUT_CURRENT_USER:
       return {};
+    case RECEIVE_CURRENT_SONG_LIKED:
+      return Object.assign({}, state, {likeStatus: action.likeStatus});
     default:
       return state;
   }

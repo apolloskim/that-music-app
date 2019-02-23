@@ -1,7 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchArtist } from '../../actions/artist_actions';
-import {fetchCurrentSong, receivePlay, receiveSongQueue, receiveClickedSongId, createLikeSong, createPlaylistSong} from '../../actions/song_actions';
+import {
+  fetchCurrentSong, 
+  receivePlay, 
+  receiveSongQueue, 
+  receiveClickedSongId, 
+  createLikeSong, 
+  createPlaylistSong,
+  receiveCurrentSongLikeStatus } from '../../actions/song_actions';
 import {receiveDropdownControl} from '../../actions/dropdown_actions';
 import {fetchCurrentPlaylists} from '../../actions/playlist_actions';
 import { Link } from 'react-router-dom';
@@ -35,13 +42,13 @@ class ArtistOverview extends React.Component {
     };
   }
 
-  toggleMenu(id, playlistSongId) {
+  toggleMenu(id, songId) {
     let that = this;
     return e => {
       e.stopPropagation();
       if(that.toggle) {
         that.toggle.handleContextClick(e);
-        that.props.receiveClickedSongId(id, playlistSongId);
+        that.props.receiveClickedSongId(id, songId);
       }
     }
   }
@@ -77,11 +84,11 @@ class ArtistOverview extends React.Component {
 
 
   componentDidUpdate() {
-
     if(this.state.actionPlaylist === 'Save to your Favorite Songs') {
       this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
-    }
-
+      this.props.receiveCurrentSongLikeStatus(true);
+      this.setState({actionPlaylist: false});
+    } 
   }
 
   handleButtonClick(id) {
@@ -383,6 +390,7 @@ const mapStateToProps = (state, {match})=> {
     currentSong: state.currentSong.song,
     songs: state.entities.songs,
     currentUserId: state.session.currentUserId,
+    currentUser: state.entities.users[state.session.currentUserId],
     playing: state.playStatus.playing,
     pause: state.playStatus.pause,
     songQueue: state.songQueue,
@@ -405,7 +413,8 @@ const mapDispatchToProps = dispatch => {
     createPlaylistSong: (playlist_id, song_id) => dispatch(createPlaylistSong(playlist_id, song_id)),
     createLikeSong: (userId, songId) => dispatch(createLikeSong(userId, songId)),
     receiveCurrentPlayingPage: (id, type, title) => dispatch(receiveCurrentPlayingPage(id, type, title)),
-    createCurrentlyVisited: (user_id, table_id, table, title, imageUrl, thumbImage, coverImage) => dispatch(createCurrentlyVisited(user_id, table_id, table, title, imageUrl, thumbImage, coverImage))
+    createCurrentlyVisited: (user_id, table_id, table, title, imageUrl, thumbImage, coverImage) => dispatch(createCurrentlyVisited(user_id, table_id, table, title, imageUrl, thumbImage, coverImage)),
+    receiveCurrentSongLikeStatus: likeStatus => dispatch(receiveCurrentSongLikeStatus(likeStatus))
   };
 };
 

@@ -176,10 +176,6 @@ class SearchResults extends React.Component {
               : (this.state.idxMouseOver === idx ? renderPlay : renderNote)
             }
 
-            <div className="album-cover-padding">
-               <img src={song.albumCover} />
-             </div>
-
             <div className="track-list-column">
               <div className="track-list-column-margin">
                 <div className=

@@ -2,7 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AlbumShow from './album_show';
 import {fetchAlbum, createLikeAlbum, deleteLikeAlbum} from '../actions/album_actions';
-import {fetchCurrentSong, receivePlay, receiveSongQueue, receiveClickedSongId} from '../actions/song_actions';
+import {
+  fetchCurrentSong, 
+  receivePlay, 
+  receiveSongQueue, 
+  receiveClickedSongId, 
+  receiveCurrentSongLikeStatus
+} from '../actions/song_actions';
 import {receiveDropdownControl} from '../actions/dropdown_actions';
 import {fetchCurrentPlaylists} from '../actions/playlist_actions';
 import { receiveCurrentPlayingPage, createCurrentlyVisited } from '../actions/session_actions';
@@ -29,6 +35,7 @@ const mapStateToProps = (state, {match}) => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    receiveCurrentSongLikeStatus: likeStatus => dispatch(receiveCurrentSongLikeStatus(likeStatus)),
     fetchAlbum: id => dispatch(fetchAlbum(id)),
     fetchCurrentSong: (currentUserId, id) => dispatch(fetchCurrentSong(currentUserId, id)),
     receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause)),

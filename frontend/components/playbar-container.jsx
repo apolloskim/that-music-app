@@ -11,7 +11,8 @@ import { receiveCurrentSong,
   receiveSongQueueClick, 
   createLikeSong,
   deleteLikeSong, 
-  fetchLikeSongs } from '../actions/song_actions';
+  fetchLikeSongs,
+  receiveCurrentSongLikeStatus } from '../actions/song_actions';
 import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps)=> {
@@ -25,7 +26,8 @@ const mapStateToProps = (state, ownProps)=> {
     shuffleSongQueue: state.shuffleSongQueue,
     shuffle: state.playStatus.shuffle,
     repeat: state.playStatus.repeat,
-    currentUser: state.entities.users[state.session.currentUserId]
+    currentUser: state.entities.users[state.session.currentUserId],
+    currentSongLikeStatus: state.currentSong.likeStatus
   };
 };
 
@@ -41,7 +43,8 @@ const mapDispatchToProps = dispatch => {
     receiveSongQueueClick: clicked => dispatch(receiveSongQueueClick(clicked)),
     createLikeSong: (userId, songId) => dispatch(createLikeSong(userId, songId)),
     deleteLikeSong: id => dispatch(deleteLikeSong(id)),
-    fetchLikeSongs: id => dispatch(fetchLikeSongs(id))
+    fetchLikeSongs: id => dispatch(fetchLikeSongs(id)),
+    receiveCurrentSongLikeStatus: likeStatus => dispatch(receiveCurrentSongLikeStatus(likeStatus))
   };
 };
 

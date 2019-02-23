@@ -46,21 +46,21 @@ export default class Playbar extends React.Component {
   }
 
   handleLikeSongClick() {
-    if (this.state.included) {
+    if (this.props.currentSongLikeStatus) {
       let likeSongId = this.props.currentUser.likeSongs.filter(song => song.song_id === parseInt(this.props.currentSong.song.id))[0].id;
       this.props.deleteLikeSong(likeSongId).then(() => {
         if (this.props.location.pathname === "/app/collection/tracks") {
           this.props.fetchLikeSongs(this.props.currentUserId);
         }
       });
-      this.setState({included: false});
+      this.props.receiveCurrentSongLikeStatus(false);
     } else {
       this.props.createLikeSong(this.props.currentUserId, this.props.currentSong.song.id).then(() => {
         if (this.props.location.pathname === "/app/collection/tracks") {
           this.props.fetchLikeSongs(this.props.currentUserId);
         }
       });
-      this.setState({included: true});
+      this.props.receiveCurrentSongLikeStatus(true);
     }
   }
 
@@ -178,11 +178,12 @@ export default class Playbar extends React.Component {
 
     if (this.props.currentSong.song && this.formerSong.song && this.formerSong.song.id !== this.props.currentSong.song.id && this.props.playing) {
       this.formerSong = merge({}, this.props.currentSong);
-      this.setState({included: this.props.currentUser.likeSongIds.includes(parseInt(this.props.currentSong.song.id))});
-      // this.props.receivePlay(false, true);
+      this.props.receiveCurrentSongLikeStatus(this.props.currentUser.likeSongIds.includes(parseInt(this.props.currentSong.song.id)));
+      // this.setState({included: this.props.currentUser.likeSongIds.includes(parseInt(this.props.currentSong.song.id))});
       window.audio.src = this.props.currentSong.song.songUrl;
       this.playAudio();
     }
+
 
     if (this.props.currentSong.song && !this.formerSong.song) {
       this.formerSong = merge({}, this.props.currentSong);
@@ -232,12 +233,10 @@ export default class Playbar extends React.Component {
 
   handleAudioClose() {
     window.audio.currentTime === 0;
-
   }
 
 
   componentDidMount() {
-
     window.audio = document.getElementById('root-audio');
     window.audio.src = Object.values(this.props.currentSong).length !== 0 ? this.props.currentSong.song.songUrl: "";
     if (this.props.currentSong.song && this.props.currentSong.song.id) {
@@ -245,7 +244,6 @@ export default class Playbar extends React.Component {
       this.props.receiveSongQueue([this.props.currentSong.song.id]);
       this.props.receiveShuffleSongQueue([]);
     }
-    // window.audio.addEventListener("timeupdate", this.handleAudioUpdate);
   }
 
   handleSongQueue() {
@@ -257,7 +255,6 @@ export default class Playbar extends React.Component {
       this.props.history.push('/app/songQueue');
       this.props.receiveSongQueueClick(true);
     }
-    // this.setState({songQueueClick: !this.state.songQueueClick});
   }
 
   handleAudioUpdate() {
@@ -272,11 +269,6 @@ export default class Playbar extends React.Component {
     this.positionHandle(position);
     this.playNextSong();
   }
-
-  // componentWillUnmount() {
-  //   window.audio.removeEventListener("timeupdate", this.handleAudioUpdate);
-  // }
-
 
   playNextSong() {
     let nextSongIdx;
@@ -433,7 +425,7 @@ export default class Playbar extends React.Component {
                   </div>
                 </div>
                 <button className={`current-song-heart-icon ${this.props.currentSong.song ? '' : 'invisible'}`} onClick={this.handleLikeSongClick.bind(this)} onMouseEnter={this.handleMouseOver("mouseHeartOver")} onMouseLeave={this.handleMouseOver("mouseHeartOver")}>
-                  <img src={this.state.mouseHeartOver ? (this.state.included ? window.heartFilledIcon : window.heartIcon) : (this.state.included ? window.heartFilledIcon : window.heartGrayIcon)} />
+                  <img src={this.state.mouseHeartOver ? (this.props.currentSongLikeStatus ? window.heartFilledIcon : window.heartIcon) : (this.props.currentSongLikeStatus ? window.heartFilledIcon : window.heartGrayIcon)} />
                 </button>
               </div>
             </div>

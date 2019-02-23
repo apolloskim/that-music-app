@@ -31,10 +31,12 @@ class Search extends React.Component {
 
   handleSearch(e) {
     this.setState({searchString: e.currentTarget.value});
-    this.props.searchSong(e.currentTarget.value, null);
-    this.props.fetchArtists(e.currentTarget.value);
-    this.props.fetchAlbums(e.currentTarget.value);
-    this.props.fetchPlaylists(e.currentTarget.value);
+    if (e.currentTarget.value !== '') {
+      this.props.searchSong(e.currentTarget.value, null);
+      this.props.fetchArtists(e.currentTarget.value);
+      this.props.fetchAlbums(e.currentTarget.value);
+      this.props.fetchPlaylists(e.currentTarget.value);
+    }
   }
 
 
@@ -72,6 +74,17 @@ class Search extends React.Component {
             </li>
           </ul>
         </nav>
+      );
+    } else {
+      links = (
+        <section className="empty-state-message container-fluid empty">
+          <div className="row">
+            <div className="empty-state-message-margin">
+              <h1 className="empty-search-title">Search That Music App</h1>
+              <h4 className="empty-search-subtitle">Find your favorite songs, artists, albums, podcasts and playlists.</h4>
+            </div>
+          </div>
+        </section>
       );
     }
 

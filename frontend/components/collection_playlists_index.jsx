@@ -11,10 +11,15 @@ class CollectionPlaylistsIndex extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      loaded: false
+    };
   }
 
   componentDidMount() {
-    this.props.fetchCurrentPlaylists(this.props.currentUserId);
+    this.props.fetchCurrentPlaylists(this.props.currentUserId).then ( () => {
+      this.setState({loaded: true});
+    });
   }
 
   componentWillUnmount() {
@@ -99,7 +104,7 @@ class CollectionPlaylistsIndex extends React.Component {
 
     return (
       <ul>
-        {renderAllPlaylists}
+        {this.state.loaded === true ? renderAllPlaylists : ""}
       </ul>
     );
   }

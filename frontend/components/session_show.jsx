@@ -12,7 +12,7 @@ class SessionShow extends React.Component {
     window.audio.pause();
     window.audio.currentTime = 0;
     window.audio.src = "";
-    this.props.receivePlay(false, true);
+    this.props.receivePlay(false, true, "");
     this.props.logout();
   }
 

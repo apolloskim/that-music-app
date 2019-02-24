@@ -59,24 +59,42 @@ export default class PlaylistShow extends React.Component {
   }
 
   handlePlay(song) {
-
-    if (this.props.playing) {
-      this.props.receivePlay(false, true);
-    } else if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
+    if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
-      this.props.receivePlay(true, false);
+      this.props.receivePlay(true, false, song.title);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
         this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
       }
       this.props.createCurrentlyVisited(this.props.currentUserId, this.props.playlistId, 'playlist', this.props.playlist.title, this.props.playlist.firstImage, null, null);
     } else if (this.props.currentPlayingPage.length === 0){
-      this.props.receivePlay(true, false);
+      this.props.receivePlay(true, false, song.title);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
         this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
       }
       this.props.createCurrentlyVisited(this.props.currentUserId, this.props.playlistId, 'playlist', this.props.playlist.title, this.props.playlist.firstImage, null, null);
     } else {
-      this.props.receivePlay(true, false);
+      this.props.receivePlay(true, false, song.title);
+    }
+  }
+  
+  handleButtonPlay(song) {
+    if (this.props.playing && song.id === this.props.currentSong.song.id) {
+      this.props.receivePlay(false, true, song.title);
+    } else if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
+      this.props.fetchCurrentSong(this.props.currentUserId, song.id);
+      this.props.receivePlay(true, false, song.title);
+      if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
+        this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
+      }
+      this.props.createCurrentlyVisited(this.props.currentUserId, this.props.playlistId, 'playlist', this.props.playlist.title, this.props.playlist.firstImage, null, null);
+    } else if (this.props.currentPlayingPage.length === 0){
+      this.props.receivePlay(true, false, song.title);
+      if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
+        this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
+      }
+      this.props.createCurrentlyVisited(this.props.currentUserId, this.props.playlistId, 'playlist', this.props.playlist.title, this.props.playlist.firstImage, null, null);
+    } else {
+      this.props.receivePlay(true, false, song.title);
     }
   }
 
@@ -90,11 +108,10 @@ export default class PlaylistShow extends React.Component {
       currentPlayingTable = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table;
       currentPlayingId = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table_id;
     }
-
     if (currentPlayingTable && currentPlayingTable === 'playlist' && currentPlayingId && currentPlayingId.toString() === this.props.playlistId) {
-      this.handlePlay(this.props.currentSong.song);
+      this.handleButtonPlay(this.props.currentSong.song);
     } else {
-      this.handlePlay(Object.values(this.props.songs)[0]);
+      this.handleButtonPlay(Object.values(this.props.songs)[0]);
     }
   }
 
@@ -234,7 +251,7 @@ export default class PlaylistShow extends React.Component {
           <li key={idx}
             ref={songRow => this.songRow = songRow}
             className="track-list-row"
-            onClick={this.handleClick(song)}
+            onDoubleClick={this.handleClick(song)}
             onMouseEnter={this.handleMouseEnter(idx)}
             onMouseLeave={this.handleMouseLeave.bind(this)}>
 
@@ -568,7 +585,7 @@ export default class PlaylistShow extends React.Component {
                     </MenuItem>
                   </div>
                   <div>
-                    <MenuItem data={{foo: 'Save to your Favorite Songs'}} onClick={this.handleContextMenuClick.bind(this)}>
+                    <MenuItem data={{foo: this.props.clickedSongId && this.props.currentUser.likeSongIds.includes(this.props.clickedSongId.id) ? '' : 'Save to your Favorite Songs'}} onClick={this.handleContextMenuClick.bind(this)}>
                       Save to your Favorite Songs
                     </MenuItem>
                   </div>

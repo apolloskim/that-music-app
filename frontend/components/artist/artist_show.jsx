@@ -36,23 +36,23 @@ export default class ArtistShow extends React.Component {
   }
 
   handlePlay(song) {
-    if (this.props.playing) {
-      this.props.receivePlay(false, true);
+    if (this.props.playing && song.id === this.props.currentSong.song.id) {
+      this.props.receivePlay(false, true, song.title);
     } else if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
-      this.props.receivePlay(true, false);
+      this.props.receivePlay(true, false, song.title);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
         this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
       }
       this.props.createCurrentlyVisited(this.props.currentUserId, this.props.artistId, 'artist', this.props.artist.name, null, this.props.artist.thumbImageUrl, null);
     } else if (this.props.currentPlayingPage.length === 0){
-      this.props.receivePlay(true, false);
+      this.props.receivePlay(true, false, song.title);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
         this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
       }
       this.props.createCurrentlyVisited(this.props.currentUserId, this.props.artistId, 'artist', this.props.artist.name, null, this.props.artist.thumbImageUrl, null);
     } else {
-      this.props.receivePlay(true, false);
+      this.props.receivePlay(true, false, song.title);
     }
   }
 
@@ -65,8 +65,7 @@ export default class ArtistShow extends React.Component {
       currentPlayingTable = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table;
       currentPlayingId = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table_id;
     }
-
-    if (currentPlayingTable && currentPlayingTable === 'artist' && currentPlayingId && currentPlayingId === this.props.artistId) {
+    if (currentPlayingTable && currentPlayingTable === 'artist' && currentPlayingId && currentPlayingId === parseInt(this.props.artistId)) {
       this.handlePlay(this.props.currentSong.song);
     } else {
       this.handlePlay(Object.values(this.props.songs)[0]);

@@ -38,7 +38,7 @@ const mapDispatchToProps = dispatch => {
     receiveCurrentSongLikeStatus: likeStatus => dispatch(receiveCurrentSongLikeStatus(likeStatus)),
     fetchAlbum: id => dispatch(fetchAlbum(id)),
     fetchCurrentSong: (currentUserId, id) => dispatch(fetchCurrentSong(currentUserId, id)),
-    receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause)),
+    receivePlay: (playing, pause, requestedSong) => dispatch(receivePlay(playing, pause, requestedSong)),
     receiveSongQueue: songQueue => dispatch(receiveSongQueue(songQueue)),
     receiveDropdownControl: pressed => dispatch(receiveDropdownControl(pressed)),
     fetchCurrentPlaylists: id => dispatch(fetchCurrentPlaylists(id)),

@@ -16,7 +16,7 @@ const msp = state => {
 const mdp = dispatch => {
   return {
     logout: () => dispatch(logout()),
-    receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause))
+    receivePlay: (playing, pause, requestedSong) => dispatch(receivePlay(playing, pause, requestedSong))
   };
 };
 

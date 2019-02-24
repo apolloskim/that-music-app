@@ -87,27 +87,44 @@ export default class AlbumShow extends React.Component {
   }
 
   handlePlay(song) {
-    if (this.props.playing) {
-      this.props.receivePlay(false, true);
-    } else if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
+    if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
-      this.props.receivePlay(true, false);
+      this.props.receivePlay(true, false, song.title);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
         this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
       }
       this.props.createCurrentlyVisited(this.props.currentUserId, this.props.albumId, 'album', this.props.album.title, null, null, this.props.album.imageUrl);
     } else if (this.props.currentPlayingPage.length === 0){
-      this.props.receivePlay(true, false);
+      this.props.receivePlay(true, false, song.title);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
         this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
       }
       this.props.createCurrentlyVisited(this.props.currentUserId, this.props.albumId, 'album', this.props.album.title, null, null, this.props.album.imageUrl);
     } else {
-      this.props.receivePlay(true, false);
+      this.props.receivePlay(true, false, song.title);
     }
 }
 
-
+handleButtonPlay(song) {
+  if (this.props.playing && song.id === this.props.currentSong.song.id) {
+    this.props.receivePlay(false, true, song.title);
+  } else if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
+    this.props.fetchCurrentSong(this.props.currentUserId, song.id);
+    this.props.receivePlay(true, false, song.title);
+    if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
+      this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
+    }
+    this.props.createCurrentlyVisited(this.props.currentUserId, this.props.albumId, 'album', this.props.album.title, null, null, this.props.album.imageUrl);
+  } else if (this.props.currentPlayingPage.length === 0){
+    this.props.receivePlay(true, false, song.title);
+    if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
+      this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
+    }
+    this.props.createCurrentlyVisited(this.props.currentUserId, this.props.albumId, 'album', this.props.album.title, null, null, this.props.album.imageUrl);
+  } else {
+    this.props.receivePlay(true, false, song.title);
+  }
+}
 
   handleButtonClick() {
     let currentPlayingTable;
@@ -116,11 +133,10 @@ export default class AlbumShow extends React.Component {
       currentPlayingTable = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table;
       currentPlayingId = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table_id;
     }
-
     if (currentPlayingTable && currentPlayingTable === 'album' && currentPlayingId && currentPlayingId.toString() === this.props.albumId) {
-      this.handlePlay(this.props.currentSong.song);
+      this.handleButtonPlay(this.props.currentSong.song);
     } else {
-      this.handlePlay(Object.values(this.props.songs)[0]);
+      this.handleButtonPlay(Object.values(this.props.songs)[0]);
     }
   }
 
@@ -516,7 +532,7 @@ export default class AlbumShow extends React.Component {
               <MenuItem data={{foo: 'Add to Playlist'}} onClick={this.handleContextMenuClick}>
                 Add to Playlist
               </MenuItem>
-              <MenuItem data={{foo: 'Save to your Favorite Songs'}} onClick={this.handleContextMenuClick}>
+              <MenuItem data={{foo: this.props.clickedSongId && this.props.currentUser.likeSongIds.includes(this.props.clickedSongId.id) ? '' : `Save to your Favorite Songs`}} onClick={this.handleContextMenuClick}>
                 Save to your Favorite Songs
               </MenuItem>
             </ContextMenu>

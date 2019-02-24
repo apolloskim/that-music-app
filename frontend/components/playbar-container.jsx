@@ -27,14 +27,15 @@ const mapStateToProps = (state, ownProps)=> {
     shuffle: state.playStatus.shuffle,
     repeat: state.playStatus.repeat,
     currentUser: state.entities.users[state.session.currentUserId],
-    currentSongLikeStatus: state.currentSong.likeStatus
+    currentSongLikeStatus: state.currentSong.likeStatus,
+    requestedSong: state.playStatus.requestedSong
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     receiveCurrentSong: song => dispatch(receiveCurrentSong(song)),
-    receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause)),
+    receivePlay: (playing, pause, requestedSong) => dispatch(receivePlay(playing, pause, requestedSong)),
     receiveShuffle: (shuffle) => dispatch(receiveShuffle(shuffle)),
     receiveRepeat: (repeat) => dispatch(receiveRepeat(repeat)),
     fetchCurrentSong: (currentUserId, id) => dispatch(fetchCurrentSong(currentUserId, id)),

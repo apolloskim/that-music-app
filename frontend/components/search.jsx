@@ -130,7 +130,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(searchSong(str, queue))
     },
     fetchCurrentSong: (userId, id) => dispatch(fetchCurrentSong(userId, id)),
-    receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause)),
+    receivePlay: (playing, pause, requestedSong) => dispatch(receivePlay(playing, pause, requestedSong)),
     fetchArtists: queries => dispatch(fetchArtists(queries)),
     fetchAlbums: queries => dispatch(fetchAlbums(queries)),
     fetchCurrentPlaylists: id => dispatch(fetchCurrentPlaylists(id)),

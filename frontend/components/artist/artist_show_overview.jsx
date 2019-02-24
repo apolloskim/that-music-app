@@ -66,17 +66,19 @@ class ArtistOverview extends React.Component {
   handleClick(song) {
     let that = this;
     return (e) => {
-      if (that.props.playing) {
-        that.props.receivePlay(false, true);
-      } else if (song.id !== that.props.currentSong.id) {
+      // if (that.props.playing) {
+      //   that.props.receivePlay(false, true);
+      // } else 
+      
+      if (song.id !== that.props.currentSong.id) {
         that.props.fetchCurrentSong(that.props.currentUserId, song.id);
-        that.props.receivePlay(true, false);
+        that.props.receivePlay(true, false, song.title);
         if (that.props.songQueue[0] !== Object.values(that.props.songs)[0]) {
           that.props.receiveSongQueue(Object.values(that.props.songs).map(song => song.id));
         }
         that.props.createCurrentlyVisited(that.props.currentUserId, that.props.artistId, 'artist', that.props.artist.name, null, that.props.artist.thumbImageUrl, null);
       } else {
-        that.props.receivePlay(true, false);
+        that.props.receivePlay(true, false, song.title);
       }
     };
   }
@@ -284,7 +286,7 @@ class ArtistOverview extends React.Component {
           <li key={idx}
             ref={songRow => this.songRow = songRow}
             className="track-list-row fewer-padding"
-            onClick={this.handleClick(song)}
+            onDoubleClick={this.handleClick(song)}
             onMouseEnter={this.handleMouseEnter(idx)}
             onMouseLeave={this.handleMouseLeave.bind(this)}>
 
@@ -355,7 +357,7 @@ class ArtistOverview extends React.Component {
             <MenuItem data={{foo: 'Add to Playlist'}} onClick={this.handleContextMenuClick.bind(this)}>
               Add to Playlist
             </MenuItem>
-            <MenuItem data={{foo: 'Save to your Favorite Songs'}} onClick={this.handleContextMenuClick.bind(this)}>
+            <MenuItem data={{foo: this.props.clickedSongId && this.props.currentUser.likeSongIds.includes(this.props.clickedSongId.id) ? '' : 'Save to your Favorite Songs'}} onClick={this.handleContextMenuClick.bind(this)}>
               Save to your Favorite Songs
             </MenuItem>
           </ContextMenu>
@@ -405,7 +407,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchArtist: id => dispatch(fetchArtist(id)),
     fetchCurrentSong: (currentUserId, id) => dispatch(fetchCurrentSong(currentUserId, id)),
-    receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause)),
+    receivePlay: (playing, pause, requestedSong) => dispatch(receivePlay(playing, pause, requestedSong)),
     receiveSongQueue: songQueue => dispatch(receiveSongQueue(songQueue)),
     receiveDropdownControl: pressed => dispatch(receiveDropdownControl(pressed)),
     fetchCurrentPlaylists: id => dispatch(fetchCurrentPlaylists(id)),

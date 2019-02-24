@@ -53,7 +53,7 @@ class CollectionFavoriteSongs extends React.Component {
     return (e) => {
       this.setState({ playing: !this.props.playing, pause: !this.props.pause});
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
-      this.props.receivePlay(true, false);
+      this.props.receivePlay(true, false, song.title);
     };
   }
 
@@ -80,7 +80,7 @@ class CollectionFavoriteSongs extends React.Component {
     return (e) => {
       this.setState({ playing: !this.props.playing, pause: !this.props.pause});
       this.props.fetchCurrentSong(this.props.currentUserId, song.id);
-      this.props.receivePlay(true, false);
+      this.props.receivePlay(true, false, song.title);
       if (this.props.songQueue[0] !== Object.values(this.props.songs)[0]) {
         this.props.receiveSongQueue(Object.values(this.props.songs).map(song => song.id));
       }
@@ -198,7 +198,7 @@ class CollectionFavoriteSongs extends React.Component {
           <li key={idx}
             ref={songRow => this.songRow = songRow}
             className="track-list-row"
-            onClick={this.handleClick(song)}
+            onDoubleClick={this.handleClick(song)}
             onMouseEnter={this.handleMouseEnter(idx)}
             onMouseLeave={this.handleMouseLeave.bind(this)}>
 
@@ -226,11 +226,11 @@ class CollectionFavoriteSongs extends React.Component {
                   <div className="display-flex">
                     {explicit}
                     <span className="ellipsis-one-line">
-                      <Link to={`/app/artist/${song.artistId}`}>{song.artist}</Link>
+                      <Link to={`/app/artist/${song.artistId}/overview`}>{song.artist}</Link>
                     </span>
                     <span className="second-line-separator">•</span>
                     <span className="ellipsis-one-line">
-                      <Link to={`/app/artist/${song.albumId}`}>{song.album}</Link>
+                      <Link to={`/app/album/${song.albumId}`}>{song.album}</Link>
                     </span>
                   </div>
               </div>
@@ -304,7 +304,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchLikeSongs: id => dispatch(fetchLikeSongs(id)),
     fetchCurrentSong: (userId, id) => dispatch(fetchCurrentSong(userId, id)),
-    receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause)),
+    receivePlay: (playing, pause, requestedSong) => dispatch(receivePlay(playing, pause, requestedSong)),
     fetchPlaylist: id => dispatch(fetchPlaylist(id)),
     fetchCurrentPlaylists: id => dispatch(fetchCurrentPlaylists(id)),
     receiveSongQueue: songQueue => dispatch(receiveSongQueue(songQueue)),

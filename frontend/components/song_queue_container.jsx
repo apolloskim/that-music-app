@@ -322,7 +322,7 @@ const mapDispatchToProps = dispatch => {
   return {
     searchSong: (str, queue) => dispatch(searchSong(str, queue)),
     fetchCurrentSong: (currentUserId, id) => dispatch(fetchCurrentSong(currentUserId, id)),
-    receivePlay: (playing, pause) => dispatch(receivePlay(playing, pause)),
+    receivePlay: (playing, pause, requestedSong) => dispatch(receivePlay(playing, pause, requestedSong)),
     receiveSongQueue: songQueue => dispatch(receiveSongQueue(songQueue)),
     receiveShuffleSongQueue: songQueue => dispatch(receiveShuffleSongQueue(songQueue)),
     fetchCurrentPlaylists: id => dispatch(fetchCurrentPlaylists(id)),

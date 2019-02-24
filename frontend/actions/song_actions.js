@@ -93,13 +93,14 @@ export const receiveCurrentSong = (song) => {
   };
 };
 
-export const receivePlay = (playing, pause) => {
+export const receivePlay = (playing, pause, requestedSong) => {
   return {
     type: RECEIVE_PLAY,
     playing,
-    pause
-  }
-}
+    pause,
+    requestedSong
+  };
+};
 
 export const receiveSongQueue = (songQueue)=> {
   return {

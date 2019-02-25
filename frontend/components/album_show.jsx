@@ -173,7 +173,9 @@ handleButtonPlay(song) {
 
     if(data.foo === 'Save to your Favorite Songs') {
       this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
-      this.props.receiveCurrentSongLikeStatus(true);
+      if (this.props.currentSong.song && this.props.clickedSongId.id === this.props.currentSong.song.id) {
+        this.props.receiveCurrentSongLikeStatus(true);
+      }
     } else if (data.foo === 'Save to Your Library') {
       this.props.createLikeAlbum(this.props.currentUserId, this.props.albumId).then( () => this.setState({included: true}));
     } else if (data.foo === 'Remove from Your Library') {

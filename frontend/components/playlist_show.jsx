@@ -140,7 +140,9 @@ export default class PlaylistShow extends React.Component {
     } else if (this.state.actionPlaylist === 'Save to your Favorite Songs') {
       this.setState({actionPlaylist: false});
       this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
-      this.props.receiveCurrentSongLikeStatus(true);
+      if (this.props.currentSong.song && this.props.clickedSongId.id === this.props.currentSong.song.id) {
+        this.props.receiveCurrentSongLikeStatus(true);
+      }
     } 
   }
 

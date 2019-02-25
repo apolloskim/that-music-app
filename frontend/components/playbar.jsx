@@ -69,7 +69,7 @@ export default class Playbar extends React.Component {
   }
 
   handleClick() {
-    // debugger
+    
     if (this.props.currentSong.song) {
       if(this.props.pause) {
         this.props.receivePlay(true, false, this.props.currentSong.song.title);
@@ -222,11 +222,12 @@ export default class Playbar extends React.Component {
   }
 
   playAudio() {
-    // debugger
+    
     let isPlaying = window.audio.currentTime > 0 && !audio.paused && !audio.ended && audio.readyState > 2;
     if (!isPlaying) {
       // this.props.receivePlay(true, false);
       window.audio.play().then( () => {
+        
         window.audio.addEventListener("timeupdate", this.handleAudioUpdate);
         if (this.props.pause) {
           this.pauseAudio();
@@ -248,8 +249,8 @@ export default class Playbar extends React.Component {
 
   componentDidMount() {
     window.audio = document.getElementById('root-audio');
-    // debugger
-    window.audio.src = Object.values(this.props.currentSong).length !== 1 ? this.props.currentSong.song.songUrl : "";
+    
+    window.audio.src = Object.values(this.props.currentSong).length > 1 ? this.props.currentSong.song.songUrl : "";
     if (this.props.currentSong.song && this.props.currentSong.song.id) {
       this.props.receiveSongQueue([this.props.currentSong.song.id]);
       this.props.receiveShuffleSongQueue([]);
@@ -268,6 +269,7 @@ export default class Playbar extends React.Component {
   }
 
   handleAudioUpdate() {
+     
     let ratio = window.audio.currentTime / window.audio.duration;
     let position = this.timeline.offsetWidth * ratio;
     let currentSecond = Math.round(window.audio.currentTime % 60).toString().length < 2 ? '0' + Math.round(window.audio.currentTime % 60).toString() : Math.round(window.audio.currentTime % 60).toString();

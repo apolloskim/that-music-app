@@ -105,8 +105,10 @@ class CollectionFavoriteSongs extends React.Component {
       let likeSongId = this.props.currentUser.likeSongs.filter(song => song.song_id === parseInt(this.props.clickedSongId.id))[0].id;
       this.setState({actionPlaylist: false});
       this.props.deleteLikeSong(likeSongId).then( () => {
-        this.props.fetchLikeSongs(this.props.currentUserId)
-        this.props.receiveCurrentSongLikeStatus(false);
+        this.props.fetchLikeSongs(this.props.currentUserId);
+        if (this.props.currentSong.song && this.props.currentSong.song.id === this.props.clickedSongId.id) {
+          this.props.receiveCurrentSongLikeStatus(false);
+        }
       });
     }
   }

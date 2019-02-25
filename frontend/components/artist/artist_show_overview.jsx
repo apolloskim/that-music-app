@@ -88,7 +88,9 @@ class ArtistOverview extends React.Component {
   componentDidUpdate() {
     if(this.state.actionPlaylist === 'Save to your Favorite Songs') {
       this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
-      this.props.receiveCurrentSongLikeStatus(true);
+      if (this.props.currentSong && this.props.clickedSongId.id === this.props.currentSong.id) {
+        this.props.receiveCurrentSongLikeStatus(true);
+      }
       this.setState({actionPlaylist: false});
     } 
   }

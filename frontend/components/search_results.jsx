@@ -6,7 +6,8 @@ import {
   fetchCurrentSong,
   receiveSongQueue,
   createLikeSong,
-  receivePlay } from '../actions/song_actions';
+  receivePlay,
+  receiveCurrentSongLikeStatus } from '../actions/song_actions';
 import { createCurrentlyVisited } from '../actions/session_actions';
 import { fetchCurrentPlaylists } from '../actions/playlist_actions';
 import { openModal, closeModal } from '../actions/modal_actions';
@@ -68,6 +69,9 @@ class SearchResults extends React.Component {
     if(this.state.actionPlaylist === 'Save to your Favorite Songs') {
       this.setState({actionPlaylist: false});
       this.props.createLikeSong(this.props.currentUserId, this.props.clickedSongId.id);
+      if (this.props.currentSong.song && this.props.clickedSongId.id === this.props.currentSong.song.id) {
+        this.props.receiveCurrentSongLikeStatus(true);
+      }
     }
   }
 
@@ -327,7 +331,7 @@ class SearchResults extends React.Component {
             <MenuItem data={{foo: 'Add to Playlist'}} onClick={this.handleContextMenuClick.bind(this)}>
               Add to Playlist
             </MenuItem>
-            <MenuItem data={{foo: 'Save to your Favorite Songs'}} onClick={this.handleContextMenuClick.bind(this)}>
+            <MenuItem data={{foo: this.props.clickedSongId && this.props.currentUser.likeSongIds.includes(this.props.clickedSongId.id) ? '' : `Save to your Favorite Songs`}} onClick={this.handleContextMenuClick.bind(this)}>
               Save to your Favorite Songs
             </MenuItem>
           </ContextMenu>
@@ -384,6 +388,7 @@ const mapStateToProps = (state, ownProps) => {
     queries: ownProps.queries,
     songQueue: state.songQueue,
     currentUserId: state.session.currentUserId,
+    currentUser: state.entities.users[state.session.currentUserId],
     currentPlaylists: state.currentPlaylists,
     clickedSongId: state.clickedSongId
   };
@@ -398,7 +403,8 @@ const mapDispatchToProps = dispatch => {
     receiveClickedSongId: id => dispatch(receiveClickedSongId(id)),
     createLikeSong: (userId, songId) => dispatch(createLikeSong(userId, songId)),
     openModal: () => dispatch(openModal()),
-    createCurrentlyVisited: (user_id, table_id, table, title, imageUrl, thumbImage, coverImage) => dispatch(createCurrentlyVisited(user_id, table_id, table, title, imageUrl, thumbImage, coverImage))
+    createCurrentlyVisited: (user_id, table_id, table, title, imageUrl, thumbImage, coverImage) => dispatch(createCurrentlyVisited(user_id, table_id, table, title, imageUrl, thumbImage, coverImage)),
+    receiveCurrentSongLikeStatus: likeStatus => dispatch(receiveCurrentSongLikeStatus(likeStatus))
   };
 };
 

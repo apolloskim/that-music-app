@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         users: { [window.currentUser.id]: window.currentUser }
       },
       session: { currentUserId: window.currentUser.id },
-      currentSong: Object.assign({}, window.currentSong, { likeStatus: window.currentUser.likeSongIds.includes(parseInt(window.currentSong.song.id)) }),
+      currentSong: Object.assign({}, window.currentSong, { likeStatus: window.currentSong.song ? window.currentUser.likeSongIds.includes(parseInt(window.currentSong.song.id)) : false}),
       playStatus: { playing: false, pause: true },
       songQueue: songQueueArr,
       currentPlayingPage: Object.values(window.recentlyVisited)

@@ -258,9 +258,9 @@ export default class PlaylistShow extends React.Component {
             {
               Object.values(this.props.currentSong).length !== 0
               ? (this.state.idxMouseOver === idx
-                ? (song.id === this.props.currentSong.song.id
+                ? (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                   ? renderPlayNeon : renderPlay)
-                  : (song.id === this.props.currentSong.song.id
+                  : (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                     ? renderNoteNeon
                     : renderNote))
               : (this.state.idxMouseOver === idx ? renderPlay : renderNote)
@@ -271,7 +271,7 @@ export default class PlaylistShow extends React.Component {
                 <div className=
                   {
                     Object.values(this.props.currentSong).length !== 0
-                    ? (song.id === this.props.currentSong.song.id
+                    ? (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                       ? "track-list-name-neon"
                       : "track-list-name")
                     : "track-list-name"
@@ -293,7 +293,7 @@ export default class PlaylistShow extends React.Component {
               <div className=
                 {
                   Object.values(this.props.currentSong).length !== 0
-                  ? (song.id === this.props.currentSong.song.id
+                  ? (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                     ? "track-list-duration-margin-top-neon"
                     : "track-list-duration-margin-top")
                   : "track-list-duration-margin-top"

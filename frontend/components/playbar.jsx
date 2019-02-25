@@ -70,10 +70,12 @@ export default class Playbar extends React.Component {
 
   handleClick() {
     // debugger
-    if(this.props.pause) {
-      this.props.receivePlay(true, false, this.props.currentSong.song.title);
-    } else if (this.props.playing) {
-      this.props.receivePlay(false, true, this.props.currentSong.song.title);
+    if (this.props.currentSong.song) {
+      if(this.props.pause) {
+        this.props.receivePlay(true, false, this.props.currentSong.song.title);
+      } else if (this.props.playing) {
+        this.props.receivePlay(false, true, this.props.currentSong.song.title);
+      }
     }
   }
 
@@ -200,11 +202,11 @@ export default class Playbar extends React.Component {
     //   this.pauseAudio();
     // }
 
-    if (this.props.playing && this.props.requestedSong === this.props.currentSong.song.title && !this.formerPlayStatus) {
+    if (this.props.currentSong.song && this.props.playing && this.props.requestedSong === this.props.currentSong.song.title && !this.formerPlayStatus) {
       
       this.formerPlayStatus = true;
       this.playAudio();
-    } else if (!this.props.playing && this.props.requestedSong === this.props.currentSong.song.title && this.formerPlayStatus) {
+    } else if (this.props.currentSong.song && !this.props.playing && this.props.requestedSong === this.props.currentSong.song.title && this.formerPlayStatus) {
       
       this.formerPlayStatus = false;
       this.pauseAudio();
@@ -246,7 +248,8 @@ export default class Playbar extends React.Component {
 
   componentDidMount() {
     window.audio = document.getElementById('root-audio');
-    window.audio.src = Object.values(this.props.currentSong).length !== 0 ? this.props.currentSong.song.songUrl: "";
+    // debugger
+    window.audio.src = Object.values(this.props.currentSong).length !== 1 ? this.props.currentSong.song.songUrl : "";
     if (this.props.currentSong.song && this.props.currentSong.song.id) {
       this.props.receiveSongQueue([this.props.currentSong.song.id]);
       this.props.receiveShuffleSongQueue([]);

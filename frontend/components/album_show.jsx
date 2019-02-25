@@ -106,7 +106,14 @@ export default class AlbumShow extends React.Component {
 }
 
 handleButtonPlay(song) {
-  if (this.props.playing && song.id === this.props.currentSong.song.id) {
+  let currentPlayingTable;
+  let currentPlayingId;
+  if (this.props.currentPlayingPage.length !== 0) {
+    currentPlayingTable = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table;
+    currentPlayingId = this.props.currentPlayingPage[this.props.currentPlayingPage.length - 1].table_id;
+  }
+
+  if (this.props.playing && song.id === this.props.currentSong.song.id && currentPlayingTable && currentPlayingTable === 'album' && currentPlayingId && currentPlayingId.toString() === this.props.albumId) {
     this.props.receivePlay(false, true, song.title);
   } else if (!this.props.currentSong.song || song.id !== this.props.currentSong.song.id) {
     this.props.fetchCurrentSong(this.props.currentUserId, song.id);
@@ -341,9 +348,9 @@ handleButtonPlay(song) {
             {
               Object.values(this.props.currentSong).length !== 0
               ? (this.state.idxMouseOver === idx
-                ? (song.id === this.props.currentSong.song.id
+                ? (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                   ? renderPlayNeon : renderPlay)
-                  : (song.id === this.props.currentSong.song.id
+                  : (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                     ? renderNoteNeon
                     : renderNote))
               : (this.state.idxMouseOver === idx ? renderPlay : renderNote)
@@ -354,7 +361,7 @@ handleButtonPlay(song) {
                 <div className=
                   {
                     Object.values(this.props.currentSong).length !== 0
-                    ? (song.id === this.props.currentSong.song.id
+                    ? (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                       ? "track-list-name-neon"
                       : "track-list-name")
                     : "track-list-name"
@@ -367,7 +374,7 @@ handleButtonPlay(song) {
               <div className=
                 {
                   Object.values(this.props.currentSong).length !== 0
-                  ? (song.id === this.props.currentSong.song.id
+                  ? (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                     ? "track-list-duration-margin-top-neon"
                     : "track-list-duration-margin-top")
                   : "track-list-duration-margin-top"

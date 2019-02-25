@@ -7,6 +7,7 @@ import {
   receiveSongQueue,
   createLikeSong,
   receivePlay } from '../actions/song_actions';
+import { createCurrentlyVisited } from '../actions/session_actions';
 import { fetchCurrentPlaylists } from '../actions/playlist_actions';
 import { openModal, closeModal } from '../actions/modal_actions';
 import { ContextMenu, MenuItem, ContextMenuTrigger, handleContextClick } from 'react-contextmenu';
@@ -55,7 +56,8 @@ class SearchResults extends React.Component {
       that.setState({ playing: !that.props.playing, pause: !that.props.pause});
 
       that.props.fetchCurrentSong(that.props.currentUserId, song.id);
-      that.props.receivePlay(true, false);
+      that.props.receivePlay(true, false, song.title);
+      that.props.createCurrentlyVisited(that.props.currentUserId, song.albumId, 'album', song.album, null, null, song.albumCover);
       if (that.props.songQueue[0] !== Object.values(that.props.songs)[0]) {
         that.props.receiveSongQueue(Object.values(that.props.songs).slice(0, 5).map(song => song.id));
       }
@@ -168,9 +170,9 @@ class SearchResults extends React.Component {
             {
               Object.values(this.props.currentSong).length !== 0
               ? (this.state.idxMouseOver === idx
-                ? (song.id === this.props.currentSong.song.id
+                ? (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                   ? renderPlayNeon : renderPlay)
-                  : (song.id === this.props.currentSong.song.id
+                  : (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                     ? renderNoteNeon
                     : renderNote))
               : (this.state.idxMouseOver === idx ? renderPlay : renderNote)
@@ -181,7 +183,7 @@ class SearchResults extends React.Component {
                 <div className=
                   {
                     Object.values(this.props.currentSong).length !== 0
-                    ? (song.id === this.props.currentSong.song.id
+                    ? (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                       ? "track-list-name-neon"
                       : "track-list-name")
                     : "track-list-name"
@@ -203,7 +205,7 @@ class SearchResults extends React.Component {
               <div className=
                 {
                   Object.values(this.props.currentSong).length !== 0
-                  ? (song.id === this.props.currentSong.song.id
+                  ? (this.props.currentSong.song && song.id === this.props.currentSong.song.id
                     ? "track-list-duration-margin-top-neon"
                     : "track-list-duration-margin-top")
                   : "track-list-duration-margin-top"
@@ -396,6 +398,7 @@ const mapDispatchToProps = dispatch => {
     receiveClickedSongId: id => dispatch(receiveClickedSongId(id)),
     createLikeSong: (userId, songId) => dispatch(createLikeSong(userId, songId)),
     openModal: () => dispatch(openModal()),
+    createCurrentlyVisited: (user_id, table_id, table, title, imageUrl, thumbImage, coverImage) => dispatch(createCurrentlyVisited(user_id, table_id, table, title, imageUrl, thumbImage, coverImage))
   };
 };
 

@@ -2346,14 +2346,14 @@ text-align: center;
   }
 
   .playlist-cover-img {
-    height: 30%;
+    /* height: 30%; */
     width: 30%;
     min-width: 157px;
     position: relative;
   }
 
   .wrapper {
-    height: 10%;
+    height: 100%;
     width: 10%;
     min-width: 157px;
     position: relative;

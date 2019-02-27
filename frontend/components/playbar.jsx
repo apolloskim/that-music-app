@@ -258,7 +258,6 @@ export default class Playbar extends React.Component {
   }
 
   componentWillUnmount() {
-    debugger
     this.pauseAudio();
     window.audio.removeEventListener('loadedmetadata', this.playAudio);
     window.audio.src = "";

@@ -11,7 +11,7 @@ const configureStore = (preloadedState = {}) => {
   // } else {
   //   newPreloadedState = merge({}, preloadedState);
   // }
-  return createStore(rootReducer, newPreloadedState, applyMiddleware(thunk));
+  return createStore(rootReducer, newPreloadedState, applyMiddleware(thunk, logger));
 };
 
 export default configureStore;

@@ -69,8 +69,8 @@ export default class Playbar extends React.Component {
   }
 
   handleClick() {
-    
     if (this.props.currentSong.song) {
+      
       if(this.props.pause) {
         this.props.receivePlay(true, false, this.props.currentSong.song.title);
       } else if (this.props.playing) {
@@ -207,7 +207,6 @@ export default class Playbar extends React.Component {
       this.formerPlayStatus = true;
       this.playAudio();
     } else if (this.props.currentSong.song && !this.props.playing && this.props.requestedSong === this.props.currentSong.song.title && this.formerPlayStatus) {
-      
       this.formerPlayStatus = false;
       this.pauseAudio();
     } 
@@ -226,13 +225,13 @@ export default class Playbar extends React.Component {
     let isPlaying = window.audio.currentTime > 0 && !audio.paused && !audio.ended && audio.readyState > 2;
     if (!isPlaying) {
       // this.props.receivePlay(true, false);
-      window.audio.play().then( () => {
-        
-        window.audio.addEventListener("timeupdate", this.handleAudioUpdate);
-        if (this.props.pause) {
-          this.pauseAudio();
-        }
-      });
+      let playPromise = window.audio.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          window.audio.addEventListener("timeupdate", this.handleAudioUpdate);
+        }).catch( err => console.log(err));
+      }
     }
   }
 
@@ -250,11 +249,12 @@ export default class Playbar extends React.Component {
   componentDidMount() {
     window.audio = document.getElementById('root-audio');
     
-    window.audio.src = Object.values(this.props.currentSong).length > 1 ? this.props.currentSong.song.songUrl : "";
     if (this.props.currentSong.song && this.props.currentSong.song.id) {
       this.props.receiveSongQueue([this.props.currentSong.song.id]);
       this.props.receiveShuffleSongQueue([]);
-    }
+      this.props.receiveCurrentSongLikeStatus(this.props.currentSong.song ? this.props.currentUser.likeSongIds.includes(parseInt(this.props.currentSong.song.id)) : false);
+      window.audio.src = this.props.currentSong.song.songUrl
+          }
   }
 
   handleSongQueue() {
@@ -269,7 +269,6 @@ export default class Playbar extends React.Component {
   }
 
   handleAudioUpdate() {
-     
     let ratio = window.audio.currentTime / window.audio.duration;
     let position = this.timeline.offsetWidth * ratio;
     let currentSecond = Math.round(window.audio.currentTime % 60).toString().length < 2 ? '0' + Math.round(window.audio.currentTime % 60).toString() : Math.round(window.audio.currentTime % 60).toString();

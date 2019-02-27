@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     store = configureStore();
   }
-
   const root = document.getElementById('root');
   window.createPlaylist = createPlaylist;
   window.fetchPlaylist = fetchPlaylist;

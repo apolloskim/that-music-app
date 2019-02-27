@@ -14,10 +14,13 @@ const Greeting = (props) => {
     logged_or_not = (
       <ul className="nav navbar-nav navbar-right nav-main">
         <li>
-          <a className="auth-link sidepanel-bold" href="https://github.com/apolloskim">Github</a>
+          <a className="auth-link sidepanel-bold" href="https://angel.co/apollos-kim?al_content=view+your+profile&al_source=transaction_feed%2Fnetwork_sidebar">AngelList</a>
         </li>
         <li>
           <a className="auth-link sidepanel-bold" href="https://www.linkedin.com/in/apollos-kim-2bb1a4171/">Linkedin</a>
+        </li>
+        <li>
+          <a className="auth-link sidepanel-bold" href="https://github.com/apolloskim">Github</a>
         </li>
         <li role="separator" className="divider sidepanel-divider"></li>
         <li>

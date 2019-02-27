@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import GreetingContainer from './greetings/greeting_container';
-import {Route, Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { login } from '../actions/session_actions';
 
 
-export default class Splash extends React.Component {
+
+class Splash extends React.Component {
 
   constructor() {
     super();
@@ -18,6 +21,11 @@ export default class Splash extends React.Component {
 
   handleClick() {
     this.setState({clicked: !this.state.clicked});
+  }
+
+  submitDemoForm(e) {
+    e.preventDefault();
+    this.props.login({username: "pikachu", password: "pikachu"});
   }
 
   render() {
@@ -37,7 +45,6 @@ export default class Splash extends React.Component {
       <div className="wrap">
         <header className="navbar navbar-fixed-top navbar-semi-transparent navbar-default">
           <div className="container">
-            {this.state.clicked ? backdrop : ""}
             <div className="navbar-header">
               <Link to="/" className="navbar-brand">
                 <img className="picture-logo" src={window.spotifyWhite} />
@@ -49,19 +56,42 @@ export default class Splash extends React.Component {
                 <span className='icon-bar'></span>
               </button>
             </div>
-            <nav className={this.state.clicked ? "navbar-sidepanel open" : "navbar-sidepanel close"}>
-              {this.state.clicked ? nav : ""}
+            <div className="greetings">
               <GreetingContainer/>
-            </nav>
+            </div>
           </div>
         </header>
 
         <section>
           <div className="hero hero-home simplified">
+            <div className="splash-cover"></div>
+            <nav className={this.state.clicked ? "navbar-sidepanel open" : "navbar-sidepanel close"}>
+              {this.state.clicked ? nav : ""}
+              <ul className="nav navbar-nav navbar-right nav-main larger-greeting larger-greeting">
+                <li>
+                  <a className="auth-link sidepanel-bold" href="https://angel.co/apollos-kim?al_content=view+your+profile&al_source=transaction_feed%2Fnetwork_sidebar">AngelList</a>
+                </li>
+                <li>
+                  <a className="auth-link sidepanel-bold" href="https://www.linkedin.com/in/apollos-kim-2bb1a4171/">Linkedin</a>
+                </li>
+                <li>
+                  <a className="auth-link sidepanel-bold" href="https://github.com/apolloskim">Github</a>
+                </li>
+                <li role="separator" className="divider sidepanel-divider"></li>
+                <li>
+                  <Link className="auth-link sidepanel-normal" to="/signup">Sign up</Link>
+                </li>
+                <li>
+                  <Link className="auth-link sidepanel-normal" to="/login">Log in</Link>
+                </li>
+              </ul>
+            </nav>
+            {this.state.clicked ? backdrop : ""}
             <div className="container container-simplified">
               <div className="row-simplified">
                 <h1>Music for everyone.</h1>
                 <h4>Hundreds of songs. No credit card needed.</h4>
+                <a href="#" onClick={this.submitDemoForm.bind(this)} className="demo-button">GET THAT MUSIC APP FREE</a>
               </div>
             </div>
           </div>
@@ -70,6 +100,15 @@ export default class Splash extends React.Component {
     );
   }
 }
+
+const mdp = dispatch => {
+  return {
+    login: user => dispatch(login(user))
+  };
+};
+
+
+export default connect(null, mdp)(Splash);
 // } () => {
 //   let background = `background: ${window.background}`;
 //   return (

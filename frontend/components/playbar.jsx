@@ -230,7 +230,7 @@ export default class Playbar extends React.Component {
       if (playPromise !== undefined) {
         playPromise.then(() => {
           window.audio.addEventListener("timeupdate", this.handleAudioUpdate);
-        }).catch( err => console.log(err));
+        }).catch( err => err);
       }
     }
   }

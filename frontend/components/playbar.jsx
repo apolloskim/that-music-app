@@ -254,7 +254,12 @@ export default class Playbar extends React.Component {
       this.props.receiveShuffleSongQueue([]);
       this.props.receiveCurrentSongLikeStatus(this.props.currentSong.song ? this.props.currentUser.likeSongIds.includes(parseInt(this.props.currentSong.song.id)) : false);
       window.audio.src = this.props.currentSong.song.songUrl
-          }
+    }
+  }
+
+  componentWillUnmount() {
+    this.pauseAudio();
+    window.audio.src = "";
   }
 
   handleSongQueue() {
